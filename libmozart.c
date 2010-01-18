@@ -33,7 +33,7 @@ int shuffled = 0;	/* Playlist shuffle state, 0 no, 1 yes */
 /*
  * Add a URI to the playlist.
  */
-static void mozart_add_to_playlist(char *uri)
+void mozart_add_to_playlist(char *uri)
 {
 	char *turi;
 
@@ -68,7 +68,7 @@ static void cb_eos(GMainLoop *loop)
  * This gets the ball rolling and is called once at startup and then 
  * whenever the end of the current track is nearing.
  */
-static void mozart_rock_and_roll()
+void mozart_rock_and_roll()
 {
 	if (track_index == nr_tracks)
 		track_index = 0;
@@ -83,7 +83,7 @@ static void mozart_rock_and_roll()
 /*
  * Reset playlist and player, ready for playing a new playlist.
  */
-static void mozart_quiesce()
+void mozart_quiesce()
 {
 	tracks = g_ptr_array_new();
 	nr_tracks = 0;
@@ -95,7 +95,7 @@ static void mozart_quiesce()
 /*
  * Make a copy of the playlist
  */
-static void mozart_copy_playlist()
+void mozart_copy_playlist()
 {
 	int i;
 	gchar *track;
