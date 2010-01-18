@@ -23,13 +23,19 @@
 
 GstElement *mozart_player;
 GstBus *mozart_bus;
+GstMessage *mozart_message;
 GPtrArray *tracks, *unshuffled_tracks;
 int track_length;
 int track_index;
 int nr_tracks;
 int shuffled = 0;	/* Playlist shuffle state, 0 no, 1 yes */
 
- 
+struct _mozart_tag_info {
+	char artist[61];
+	char album[61];
+	char title[61];
+} mozart_tag_info;
+
 /*
  * Add a URI to the playlist.
  */
@@ -63,6 +69,31 @@ static gboolean cb_get_position()
 static void cb_eos(GMainLoop *loop)
 {
 	g_main_loop_quit(loop);
+}
+
+static gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
+{
+	GstTagList *tags;
+	GValue *tag;
+
+	tags = gst_tag_list_new();
+
+	gst_message_parse_tag(mozart_message, &tags);
+	tag = (GValue *) gst_tag_list_get_value_index(tags, GST_TAG_ARTIST, 0);
+	if (tag)        	
+		strncpy(mozart_tag_info.artist, (char *) tag, 60);
+
+	tag = (GValue *) gst_tag_list_get_value_index(tags, GST_TAG_ALBUM, 0);
+	if (tag)
+		strncpy(mozart_tag_info.album, (char *) tag, 60);
+
+	tag = (GValue *) gst_tag_list_get_value_index(tags, GST_TAG_TITLE, 0);
+        if (tag)
+		strncpy(mozart_tag_info.title, (char *) tag, 60);
+	
+	gst_tag_list_free(tags);
+
+	return TRUE;
 }
 
 /*
@@ -123,9 +154,10 @@ void mozart_init(int argc, char *argv[])
 	mozart_player = gst_element_factory_make("playbin2", "mozart_player");
 	printf("DEBUG: player created.\n");
 
-        mozart_bus = gst_pipeline_get_bus(GST_PIPELINE(mozart_player));
-        gst_bus_add_signal_watch(mozart_bus);
-        g_signal_connect(mozart_bus, "message::eos", G_CALLBACK(cb_eos), loop);
+	mozart_bus = gst_pipeline_get_bus(GST_PIPELINE(mozart_player));
+	gst_bus_add_signal_watch(mozart_bus);
+	g_signal_connect(mozart_bus, "message::eos", G_CALLBACK(cb_eos), loop);
+	g_signal_connect(mozart_bus, "message::tag", G_CALLBACK(cb_tag), NULL);
 
 	/* 
  	 * Catch when the current track is about to finish and 

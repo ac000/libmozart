@@ -15,6 +15,7 @@
 void mozart_add_to_playlist(char *uri);
 static gboolean cb_get_position();
 static void cb_eos(GMainLoop *loop);
+static gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message);
 void mozart_rock_and_roll();
 void mozart_quiesce();
 void mozart_copy_playlist();
