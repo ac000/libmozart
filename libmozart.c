@@ -108,12 +108,11 @@ void mozart_copy_playlist()
 	}
 }
 
-static void mozart_init()
+void mozart_init()
 {
 	GMainLoop *loop;
 
 	gst_init(NULL, NULL);
-	loop = g_main_loop_new(NULL, TRUE);
 
 	g_print("Using (%s)\n", gst_version_string());
 
@@ -144,13 +143,5 @@ static void mozart_init()
 	/* Start up in a quiescent state, ready for receiving instructions */
 	mozart_quiesce();
 	printf("DEBUG: quiesced\n");
-		
-	g_main_loop_run(loop);
-
-	/* Cleanup */
-	g_main_loop_unref(loop);
-	gst_element_set_state(player, GST_STATE_NULL);
-	gst_object_unref(player);
-	gst_object_unref(bus);
 }
 
