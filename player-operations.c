@@ -18,14 +18,14 @@
 extern void mozart_play_pause()
 {
 	GstState state;
-	gst_element_get_state(player, &state, NULL, 100000);
+	gst_element_get_state(mozart_player, &state, NULL, 100000);
 
 	if (state == GST_STATE_PLAYING) {
 		g_print("Pausing\n");
-		gst_element_set_state(player, GST_STATE_PAUSED);
+		gst_element_set_state(mozart_player, GST_STATE_PAUSED);
 	} else {
 		g_print("Playing\n");
-		gst_element_set_state(player, GST_STATE_PLAYING);
+		gst_element_set_state(mozart_player, GST_STATE_PLAYING);
 	}
 }
 
@@ -39,8 +39,8 @@ extern void mozart_next_track()
 	if (track_index + 1 > nr_tracks)
 		track_index = 0;
 
-	gst_element_set_state(player, GST_STATE_READY);
-	g_signal_emit_by_name(player, "about-to-finish");
+	gst_element_set_state(mozart_player, GST_STATE_READY);
+	g_signal_emit_by_name(mozart_player, "about-to-finish");
 }
 
 /*
@@ -56,8 +56,8 @@ extern void mozart_prev_track()
 	else
 		track_index -= 2;
 
-	gst_element_set_state(player, GST_STATE_READY);
-	g_signal_emit_by_name(player, "about-to-finish");
+	gst_element_set_state(mozart_player, GST_STATE_READY);
+	g_signal_emit_by_name(mozart_player, "about-to-finish");
 }
 
 /*
@@ -66,7 +66,7 @@ extern void mozart_prev_track()
 extern void mozart_replay_track()
 {
 	g_print("Replaying Track\n");
-	gst_element_seek_simple(player, GST_FORMAT_TIME,
+	gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 			GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT, 0);
 }
 
@@ -78,17 +78,17 @@ extern void mozart_player_seek(char *seek)
 	GstFormat fmt = GST_FORMAT_TIME;
 	gint64 pos;
 
-	if (!gst_element_query_position(player, &fmt, &pos))
+	if (!gst_element_query_position(mozart_player, &fmt, &pos))
 		return;
 
 	if (strcmp(seek, "sseek-fwd") == 0) {
 		g_print("Short seek forward\n");
-		gst_element_seek_simple(player, GST_FORMAT_TIME,
+		gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 							pos + 10 * GST_SECOND);
 	} else if (strcmp(seek, "lseek-fwd") == 0) {
 		g_print("Long seek forward\n");
-		gst_element_seek_simple(player, GST_FORMAT_TIME,
+		gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 							pos + 60 * GST_SECOND);
 	} else if (strcmp(seek, "sseek-bwd") == 0) {
@@ -96,7 +96,7 @@ extern void mozart_player_seek(char *seek)
 		if (pos - 10 * GST_SECOND < 0)
 			mozart_prev_track();
 		else
-			gst_element_seek_simple(player, GST_FORMAT_TIME,
+			gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 							pos - 10 * GST_SECOND);
 	} else if (strcmp(seek, "lseek-bwd") == 0) {
@@ -104,7 +104,7 @@ extern void mozart_player_seek(char *seek)
 		if (pos - 60 * GST_SECOND < 0)
 			mozart_prev_track();
 		else
-			gst_element_seek_simple(player, GST_FORMAT_TIME,
+			gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 							pos - 60 * GST_SECOND);
 	}
