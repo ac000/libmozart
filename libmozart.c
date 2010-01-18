@@ -109,11 +109,11 @@ void mozart_copy_playlist()
 	}
 }
 
-void mozart_init()
+void mozart_init(int argc, char *argv[])
 {
 	static GMainLoop *loop;
 
-	gst_init(NULL, NULL);
+	gst_init(&argc, &argv);
 
 	g_print("Using (%s)\n", gst_version_string());
 
