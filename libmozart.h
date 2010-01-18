@@ -19,5 +19,6 @@ void mozart_rock_and_roll();
 void mozart_quiesce();
 void mozart_copy_playlist();
 void mozart_init();
+void mozart_destroy();
 
 #endif /* _LIBMOZART_H_ */

@@ -147,3 +147,10 @@ void mozart_init()
 	printf("DEBUG: quiesced\n");
 }
 
+void mozart_destroy()
+{
+	gst_element_set_state(mozart_player, GST_STATE_NULL);
+	gst_object_unref(mozart_player);
+	gst_object_unref(mozart_bus);
+}
+
