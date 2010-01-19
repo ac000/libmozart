@@ -19,6 +19,7 @@ static gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message);
 void mozart_rock_and_roll();
 void mozart_quiesce();
 void mozart_copy_playlist();
+GstState mozart_get_player_state();
 void mozart_init(int argc, char *argv[]);
 void mozart_destroy();
 

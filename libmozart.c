@@ -140,6 +140,18 @@ void mozart_copy_playlist()
 	}
 }
 
+/*
+ * Returns the  GstState of the player
+ */
+GstState mozart_get_player_state()
+{
+	GstState state;
+
+	gst_element_get_state(mozart_player, &state, NULL, 100000);
+
+	return state;
+}
+
 void mozart_init(int argc, char *argv[])
 {
 	static GMainLoop *loop;
