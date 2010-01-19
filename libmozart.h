@@ -1,7 +1,7 @@
 /*
  * libmozart.h - mozart API header 
  *
- * Copyright (C) 2009   Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (C) 2009-2010	Andrew Clayton <andrew@digital-domain.net>
  * Released under the GNU Lesser General Public License (LGPL) version 3. 
  * See COPYING
  */
