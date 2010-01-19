@@ -163,7 +163,7 @@ extern int mozart_get_stream_position_sec()
 	if (ns < 0)
 		return -1;
 
-	return ceil((double) ns / GST_SECOND);
+	return floor((double) ns / GST_SECOND);
 }
 
 /*
