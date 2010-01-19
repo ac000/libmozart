@@ -20,13 +20,11 @@ extern void mozart_play_pause()
 	GstState state;
 	gst_element_get_state(mozart_player, &state, NULL, 100000);
 
-	if (state == GST_STATE_PLAYING) {
-		g_print("Pausing\n");
+	if (state == GST_STATE_PLAYING)
 		gst_element_set_state(mozart_player, GST_STATE_PAUSED);
-	} else {
-		g_print("Playing\n");
+	else 
 		gst_element_set_state(mozart_player, GST_STATE_PLAYING);
-	}
+	
 }
 
 /*
