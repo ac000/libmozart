@@ -177,7 +177,7 @@ extern int mozart_get_stream_position_hms(int *hours, int *minutes,
 	secs = mozart_get_stream_position_sec();
 
 	if (secs < 0)
- 		return -1;
+		return -1;
 
 	if (secs < 60) {
 		*hours = 0;
