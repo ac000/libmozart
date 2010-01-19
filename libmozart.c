@@ -39,7 +39,7 @@ struct _mozart_tag_info {
 /*
  * Add a URI to the playlist.
  */
-void mozart_add_to_playlist(char *uri)
+extern void mozart_add_to_playlist(char *uri)
 {
 	char *turi;
 
@@ -143,7 +143,7 @@ void mozart_copy_playlist()
 /*
  * Returns the  GstState of the player
  */
-GstState mozart_get_player_state()
+extern GstState mozart_get_player_state()
 {
 	GstState state;
 
@@ -152,7 +152,7 @@ GstState mozart_get_player_state()
 	return state;
 }
 
-void mozart_init(int argc, char *argv[])
+extern void mozart_init(int argc, char *argv[])
 {
 	static GMainLoop *loop;
 
@@ -191,7 +191,7 @@ void mozart_init(int argc, char *argv[])
 	printf("DEBUG: quiesced\n");
 }
 
-void mozart_destroy()
+extern void mozart_destroy()
 {
 	gst_element_set_state(mozart_player, GST_STATE_NULL);
 	gst_object_unref(mozart_player);
