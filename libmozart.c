@@ -51,12 +51,12 @@ extern void mozart_add_to_playlist(char *uri)
 	mozart_rock_and_roll();
 }
 
-static void cb_eos(GMainLoop *loop)
+void cb_eos(GMainLoop *loop)
 {
 	g_main_loop_quit(loop);
 }
 
-static gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
+gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
 {
 	GstTagList *tags;
 	GValue *tag;
@@ -66,15 +66,15 @@ static gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
 	gst_message_parse_tag(mozart_message, &tags);
 	tag = (GValue *) gst_tag_list_get_value_index(tags, GST_TAG_ARTIST, 0);
 	if (tag)        	
-		strncpy(mozart_tag_info.artist, (char *) tag, 60);
+		strncpy(mozart_tag_info.artist, (char *)tag, 60);
 
 	tag = (GValue *) gst_tag_list_get_value_index(tags, GST_TAG_ALBUM, 0);
 	if (tag)
-		strncpy(mozart_tag_info.album, (char *) tag, 60);
+		strncpy(mozart_tag_info.album, (char *)tag, 60);
 
 	tag = (GValue *) gst_tag_list_get_value_index(tags, GST_TAG_TITLE, 0);
         if (tag)
-		strncpy(mozart_tag_info.title, (char *) tag, 60);
+		strncpy(mozart_tag_info.title, (char *)tag, 60);
 	
 	gst_tag_list_free(tags);
 
@@ -163,7 +163,7 @@ extern int mozart_get_stream_position_sec()
 	if (ns < 0)
 		return -1;
 
-	return floor((double) ns / GST_SECOND);
+	return floor((double)ns / GST_SECOND);
 }
 
 /*
@@ -172,10 +172,63 @@ extern int mozart_get_stream_position_sec()
 extern int mozart_get_stream_position_hms(int *hours, int *minutes, 
 								int *seconds)
 {
-	int secs;
+	int secs, ret;
 
 	secs = mozart_get_stream_position_sec();
+	ret = mozart_convert_seconds_to_hms(secs, hours, minutes, seconds);
 
+	return ret;
+}
+
+/*
+ * Get the duration of the stream in nanoseconds
+ */
+extern long int mozart_get_stream_duration_ns()
+{
+	GstFormat fmt = GST_FORMAT_TIME;
+	long int duration;
+
+	if (!(gst_element_query_duration(mozart_player, &fmt, &duration)))
+		return -1;
+	else
+		return duration;
+}
+
+/*
+ * Get the duration of the stream in seconds
+ */
+extern int mozart_get_stream_duration_sec()
+{
+	long int ns;
+
+	ns = mozart_get_stream_duration_ns();
+
+	if (ns < 0)
+		return -1;
+
+	return floor((double)ns / GST_SECOND);
+}
+
+/*
+ * Get the duration of the stream split up into hours, minutes and seconds
+ */
+extern int mozart_get_stream_duration_hms(int *hours, int *minutes,
+								int *seconds)
+{
+	int secs, ret;
+
+	secs = mozart_get_stream_duration_sec();
+	ret = mozart_convert_seconds_to_hms(secs, hours, minutes, seconds);
+
+	return ret;
+}
+
+/*
+ * Split a number of seconds up into hours, minutes and seconds
+ */
+extern int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes, 
+								int *seconds)
+{
 	if (secs < 0)
 		return -1;
 
