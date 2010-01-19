@@ -32,8 +32,6 @@ extern void mozart_play_pause()
  */
 extern void mozart_next_track()
 {
-	g_print("Next Track\n");
-
 	if (track_index + 1 > nr_tracks)
 		track_index = 0;
 
@@ -47,8 +45,6 @@ extern void mozart_next_track()
  */
 extern void mozart_prev_track()
 {
-	g_print("Previous Track\n");
-
 	if (track_index - 2 < 0)
 		track_index = nr_tracks - 1;
 	else
@@ -63,7 +59,6 @@ extern void mozart_prev_track()
  */
 extern void mozart_replay_track()
 {
-	g_print("Replaying Track\n");
 	gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 			GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT, 0);
 }
@@ -80,17 +75,14 @@ extern void mozart_player_seek(char *seek)
 		return;
 
 	if (strcmp(seek, "sseek-fwd") == 0) {
-		g_print("Short seek forward\n");
 		gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 							pos + 10 * GST_SECOND);
 	} else if (strcmp(seek, "lseek-fwd") == 0) {
-		g_print("Long seek forward\n");
 		gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 							pos + 60 * GST_SECOND);
 	} else if (strcmp(seek, "sseek-bwd") == 0) {
-		g_print("Short seek backward\n");
 		if (pos - 10 * GST_SECOND < 0)
 			mozart_prev_track();
 		else
@@ -98,7 +90,6 @@ extern void mozart_player_seek(char *seek)
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 							pos - 10 * GST_SECOND);
 	} else if (strcmp(seek, "lseek-bwd") == 0) {
-		g_print("Long seek backward\n");
 		if (pos - 60 * GST_SECOND < 0)
 			mozart_prev_track();
 		else
