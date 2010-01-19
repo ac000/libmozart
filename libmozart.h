@@ -13,13 +13,16 @@
 #define unlikely(x)     __builtin_expect (!!(x), 0)
 
 extern void mozart_add_to_playlist(char *uri);
-static gboolean cb_get_position();
 static void cb_eos(GMainLoop *loop);
 static gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message);
 void mozart_rock_and_roll();
 void mozart_quiesce();
 void mozart_copy_playlist();
 extern GstState mozart_get_player_state();
+extern long int mozart_get_stream_position_ns();
+extern int mozart_get_stream_position_sec();
+extern int mozart_get_stream_position_hms(int *hours, int *minutes, 
+								int *seconds);
 extern void mozart_init(int argc, char *argv[]);
 extern void mozart_destroy();
 

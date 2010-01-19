@@ -5,7 +5,7 @@ libmozart: libmozart.o player-operations.o nsleep.o
 	gcc -shared -Wl,-soname,libmozart.so.0 -o libmozart.so.0.0 libmozart.o player-operations.o nsleep.o -lc $(INCS) $(LIBS)
 
 libmozart.o: libmozart.h libmozart.c
-	gcc -fPIC -Wall -c libmozart.c $(INCS) $(LIBS)
+	gcc -fPIC -Wall -c libmozart.c -lm $(INCS) $(LIBS)
 
 player-operations.o: player-operations.h player-operations.c
 	gcc -fPIC -Wall -c player-operations.c $(INCS) $(LIBS)

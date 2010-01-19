@@ -13,6 +13,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <libgen.h>
+#include <math.h>
 
 #include <gst/gst.h>
 #include <glib.h>
@@ -48,22 +49,6 @@ extern void mozart_add_to_playlist(char *uri)
 	g_ptr_array_add(tracks, (gpointer) turi);
 	nr_tracks++;
 	mozart_rock_and_roll();
-}
-
-/*
- * Query the pipeline for its current position in nanoseconds.
- */
-static gboolean cb_get_position()
-{
-	GstFormat fmt = GST_FORMAT_TIME;
-	gint64 pos;
-
-	if (gst_element_query_position(mozart_player, &fmt, &pos)) {
-		printf("Stream position: \n");
-	}
-
-	/* Call this function again */
-	return TRUE;
 }
 
 static void cb_eos(GMainLoop *loop)
@@ -141,7 +126,7 @@ void mozart_copy_playlist()
 }
 
 /*
- * Returns the  GstState of the player
+ * Returns the GstState of the player
  */
 extern GstState mozart_get_player_state()
 {
@@ -152,6 +137,69 @@ extern GstState mozart_get_player_state()
 	return state;
 }
 
+/*
+ * Get the position of the stream in nanoseconds
+ */
+extern long int mozart_get_stream_position_ns()
+{
+	GstFormat fmt = GST_FORMAT_TIME;
+	long int pos;
+
+	if (gst_element_query_position(mozart_player, &fmt, &pos))
+		return pos;
+	else
+		return -1;
+}
+
+/*
+ * Get the position of the stream in seconds
+ */
+extern int mozart_get_stream_position_sec()
+{
+	long int ns;
+
+	ns = mozart_get_stream_position_ns();
+
+	if (ns < 0)
+		return -1;
+
+	return ceil((double) ns / GST_SECOND);
+}
+
+/*
+ * Get the position of the stream split up into hours, minutes and seconds
+ */
+extern int mozart_get_stream_position_hms(int *hours, int *minutes, 
+								int *seconds)
+{
+	int secs;
+
+	secs = mozart_get_stream_position_sec();
+
+	if (secs < 0)
+ 		return -1;
+
+	if (secs < 60) {
+		*hours = 0;
+		*minutes = 0;
+		*seconds = secs;
+	} else if (secs > 59 && secs < 3600) {
+		*hours = 0;
+		*minutes = secs / 60;
+		*seconds = secs - (*minutes * 60);
+	} else if (secs > 3599) {
+		*hours = secs / 3600;
+		*seconds = secs - (*hours * 3600);
+		*minutes = secs / 60;
+		*seconds = secs - (*minutes * 60);
+	}
+
+	return 0;
+}
+
+/*
+ * Initialize GStreamer stuff
+ */
 extern void mozart_init(int argc, char *argv[])
 {
 	static GMainLoop *loop;
