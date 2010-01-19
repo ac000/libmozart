@@ -227,18 +227,14 @@ extern void mozart_init(int argc, char *argv[])
 					G_CALLBACK(mozart_rock_and_roll), 
 								mozart_player);
 
-	/* 
- 	 * Add a timer callback to get track position information.
-	 */
-	g_timeout_add_seconds_full(G_PRIORITY_DEFAULT, 1,
-						(GSourceFunc) cb_get_position,
-							mozart_player, NULL);
-
 	/* Start up in a quiescent state, ready for receiving instructions */
 	mozart_quiesce();
 	printf("DEBUG: quiesced\n");
 }
 
+/*
+ * Clean up GStreamer stuff
+ */
 extern void mozart_destroy()
 {
 	gst_element_set_state(mozart_player, GST_STATE_NULL);
