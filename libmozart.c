@@ -257,16 +257,25 @@ extern int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes,
 	return 0;
 }
 
+/*
+ * Return the value of the artist tag
+ */
 extern char *mozart_get_tag_artist()
 {
 	return mozart_tag_artist;
 }
 
+/*
+ * Return the value of the album tag
+ */
 extern char *mozart_get_tag_album()
 {
 	return mozart_tag_album;
 }
 
+/*
+ * Return the value of the title tag
+ */
 extern char *mozart_get_tag_title()
 {
 	return mozart_tag_title;
