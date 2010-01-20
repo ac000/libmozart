@@ -29,6 +29,9 @@ extern int mozart_get_stream_duration_hms(int *hours, int *minutes,
 								int *seconds);
 extern int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes,
                                                                 int *seconds);
+extern char *mozart_get_tag_artist();
+extern char *mozart_get_tag_album();
+extern char *mozart_get_tag_title();
 extern void mozart_init(int argc, char *argv[]);
 extern void mozart_destroy();
 

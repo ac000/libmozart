@@ -31,11 +31,9 @@ int track_index;
 int nr_tracks;
 int shuffled = 0;	/* Playlist shuffle state, 0 no, 1 yes */
 
-struct _mozart_tag_info {
-	char artist[61];
-	char album[61];
-	char title[61];
-} mozart_tag_info;
+char *mozart_tag_artist;
+char *mozart_tag_album;
+char *mozart_tag_title;
 
 /*
  * Add a URI to the playlist.
@@ -64,18 +62,27 @@ gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
 	tags = gst_tag_list_new();
 
 	gst_message_parse_tag(mozart_message, &tags);
-	tag = (GValue *) gst_tag_list_get_value_index(tags, GST_TAG_ARTIST, 0);
-	if (tag)        	
-		strncpy(mozart_tag_info.artist, (char *)tag, 60);
-
-	tag = (GValue *) gst_tag_list_get_value_index(tags, GST_TAG_ALBUM, 0);
-	if (tag)
-		strncpy(mozart_tag_info.album, (char *)tag, 60);
-
-	tag = (GValue *) gst_tag_list_get_value_index(tags, GST_TAG_TITLE, 0);
-        if (tag)
-		strncpy(mozart_tag_info.title, (char *)tag, 60);
+	tag = (GValue *)gst_tag_list_get_value_index(tags, GST_TAG_ARTIST, 0);
+	if (tag) {
+		mozart_tag_artist = (char *)malloc(sizeof(char) * 
+					strlen(g_value_get_string(tag)));
+		strcpy(mozart_tag_artist, g_value_get_string(tag));
+	}
 	
+	tag = (GValue *)gst_tag_list_get_value_index(tags, GST_TAG_ALBUM, 0);
+	if (tag) {
+		mozart_tag_album = (char *)malloc(sizeof(char) *
+					strlen(g_value_get_string(tag)));
+		strcpy(mozart_tag_album, g_value_get_string(tag));
+	}
+
+	tag = (GValue *)gst_tag_list_get_value_index(tags, GST_TAG_TITLE, 0);
+        if (tag) {
+		mozart_tag_title = (char *)malloc(sizeof(char) *
+					strlen(g_value_get_string(tag)));
+		strcpy(mozart_tag_title, g_value_get_string(tag));
+	}
+
 	gst_tag_list_free(tags);
 
 	return TRUE;
@@ -248,6 +255,21 @@ extern int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes,
 	}
 
 	return 0;
+}
+
+extern char *mozart_get_tag_artist()
+{
+	return mozart_tag_artist;
+}
+
+extern char *mozart_get_tag_album()
+{
+	return mozart_tag_album;
+}
+
+extern char *mozart_get_tag_title()
+{
+	return mozart_tag_title;
 }
 
 /*
