@@ -15,7 +15,7 @@
 extern void mozart_add_to_playlist(char *uri);
 void cb_eos(GMainLoop *loop);
 gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message);
-void mozart_rock_and_roll();
+extern void mozart_rock_and_roll();
 void mozart_quiesce();
 void mozart_copy_playlist();
 extern GstState mozart_get_player_state();

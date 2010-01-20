@@ -43,10 +43,8 @@ extern void mozart_add_to_playlist(char *uri)
 	char *turi;
 
 	turi = g_strdup(uri);
-	mozart_quiesce();
-	g_ptr_array_add(tracks, (gpointer) turi);
+	g_ptr_array_add(tracks, (gpointer)turi);
 	nr_tracks++;
-	mozart_rock_and_roll();
 }
 
 void cb_eos(GMainLoop *loop)
@@ -92,7 +90,7 @@ gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
  * This gets the ball rolling and is called once at startup and then 
  * whenever the end of the current track is nearing.
  */
-void mozart_rock_and_roll()
+extern void mozart_rock_and_roll()
 {
 	if (track_index == nr_tracks)
 		track_index = 0;
