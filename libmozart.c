@@ -281,6 +281,16 @@ extern char *mozart_get_tag_title()
 	return mozart_tag_title;
 }
 
+extern int mozart_get_playlist_position()
+{
+	return track_index;
+}
+
+extern int mozart_get_playlist_size()
+{
+	return nr_tracks;
+}
+
 /*
  * Initialize GStreamer stuff
  */

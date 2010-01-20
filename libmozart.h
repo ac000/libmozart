@@ -32,6 +32,8 @@ extern int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes,
 extern char *mozart_get_tag_artist();
 extern char *mozart_get_tag_album();
 extern char *mozart_get_tag_title();
+extern int mozart_get_playlist_position();
+extern int mozart_get_playlist_size();
 extern void mozart_init(int argc, char *argv[]);
 extern void mozart_destroy();
 
