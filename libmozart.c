@@ -20,7 +20,6 @@
 
 #include "libmozart.h"
 #include "player-operations.h"
-#include "nsleep.h"
 
 GstElement *mozart_player;
 GstBus *mozart_bus;
