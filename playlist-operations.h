@@ -10,6 +10,7 @@
 #define _PLAYLISTOPERATIONS_H_
 
 extern void mozart_add_uri_to_playlist(char *uri);
+extern void mozart_add_m3u_to_playlist(char *m3u);
 void mozart_copy_playlist();
 extern int mozart_get_playlist_position();
 extern int mozart_get_playlist_size();
