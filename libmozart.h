@@ -34,6 +34,8 @@ extern char *mozart_get_tag_album();
 extern char *mozart_get_tag_title();
 extern int mozart_get_playlist_position();
 extern int mozart_get_playlist_size();
+extern int mozart_tags_updated();
+extern void mozart_set_got_tags();
 extern void mozart_init(int argc, char *argv[]);
 extern void mozart_destroy();
 

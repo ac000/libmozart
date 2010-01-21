@@ -14,6 +14,7 @@
 #include <string.h>
 #include <libgen.h>
 #include <math.h>
+#include <time.h>
 
 #include <gst/gst.h>
 #include <glib.h>
@@ -25,6 +26,7 @@ GstElement *mozart_player;
 GstBus *mozart_bus;
 GstMessage *mozart_message;
 GPtrArray *tracks, *unshuffled_tracks;
+int tags_updated = 0;
 int track_length;
 int track_index;
 int nr_tracks;
@@ -81,6 +83,8 @@ gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
 	}
 
 	gst_tag_list_free(tags);
+
+	tags_updated = 1;
 
 	return TRUE;
 }
@@ -278,14 +282,42 @@ extern char *mozart_get_tag_title()
 	return mozart_tag_title;
 }
 
+/*
+ * Return the current position in the playlist
+ */
 extern int mozart_get_playlist_position()
 {
 	return track_index;
 }
 
+/*
+ * Return the number of entries in the playlist
+ */
 extern int mozart_get_playlist_size()
 {
 	return nr_tracks;
+}
+
+/*
+ * Returns the value of tags_updated to indicate if
+ * the tag information has been updated
+ */
+extern int mozart_tags_updated()
+{
+	return tags_updated;
+}
+
+/*
+ * Resets tags_updated back to 0 to indicate the tag
+ * information hasn't changed
+ * tags_updated is set to 1 by cb_tag()
+ *
+ * This function is used by applications to indicate that
+ * they have recieved the updated tags
+ */
+extern void mozart_set_got_tags()
+{
+	tags_updated = 0;
 }
 
 /*
