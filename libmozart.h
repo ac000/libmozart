@@ -12,6 +12,10 @@
 #define likely(x)       __builtin_expect (!!(x), 1)
 #define unlikely(x)     __builtin_expect (!!(x), 0)
 
+#include "player-operations.h"
+#include "playlist-operations.h"
+
+
 extern void mozart_add_to_playlist(char *uri);
 void cb_eos(GMainLoop *loop);
 gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message);

@@ -21,6 +21,7 @@
 
 #include "libmozart.h"
 #include "player-operations.h"
+#include "playlist-operations.h"
 
 GstElement *mozart_player;
 GstBus *mozart_bus;
@@ -35,18 +36,6 @@ int shuffled = 0;	/* Playlist shuffle state, 0 no, 1 yes */
 char *mozart_tag_artist;
 char *mozart_tag_album;
 char *mozart_tag_title;
-
-/*
- * Add a URI to the playlist.
- */
-extern void mozart_add_to_playlist(char *uri)
-{
-	char *turi;
-
-	turi = g_strdup(uri);
-	g_ptr_array_add(tracks, (gpointer)turi);
-	nr_tracks++;
-}
 
 void cb_eos(GMainLoop *loop)
 {
@@ -115,22 +104,6 @@ void mozart_quiesce()
 	track_index = 0;
 
 	gst_element_set_state(mozart_player, GST_STATE_NULL);
-}
-
-/*
- * Make a copy of the playlist
- */
-void mozart_copy_playlist()
-{
-	int i;
-	gchar *track;
-
-	unshuffled_tracks = g_ptr_array_new();
-
-	for (i = 0; i < nr_tracks; i++) {
-		track = g_strdup(g_ptr_array_index(tracks, i));
-		g_ptr_array_add(unshuffled_tracks, track);
-	}
 }
 
 /*
@@ -280,22 +253,6 @@ extern char *mozart_get_tag_album()
 extern char *mozart_get_tag_title()
 {
 	return mozart_tag_title;
-}
-
-/*
- * Return the current position in the playlist
- */
-extern int mozart_get_playlist_position()
-{
-	return track_index;
-}
-
-/*
- * Return the number of entries in the playlist
- */
-extern int mozart_get_playlist_size()
-{
-	return nr_tracks;
 }
 
 /*
