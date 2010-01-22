@@ -162,6 +162,15 @@ extern int mozart_get_stream_position_hms(int *hours, int *minutes,
 }
 
 /*
+ * Returns the position on the stream as a percentage
+ */
+extern double mozart_get_stream_progress()
+{
+	return ((double)mozart_get_stream_position_sec() /
+		(double)mozart_get_stream_duration_sec()) * 100;
+}
+
+/*
  * Get the duration of the stream in nanoseconds
  */
 extern long int mozart_get_stream_duration_ns()
