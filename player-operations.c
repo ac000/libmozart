@@ -32,7 +32,7 @@ extern void mozart_play_pause()
  */
 extern void mozart_next_track()
 {
-	if (playlist_index + 1 > nr_tracks)
+	if (playlist_index + 1 > playlist_size)
 		playlist_index = 0;
 
 	gst_element_set_state(mozart_player, GST_STATE_READY);
@@ -46,7 +46,7 @@ extern void mozart_next_track()
 extern void mozart_prev_track()
 {
 	if (playlist_index - 2 < 0)
-		playlist_index = nr_tracks - 1;
+		playlist_index = playlist_size - 1;
 	else
 		playlist_index -= 2;
 
@@ -109,7 +109,7 @@ extern void mozart_fisher_yates_shuffle()
 	guint32 random;
 	gpointer tmp;
 
-	n  = nr_tracks;
+	n  = playlist_size;
 	while (n > 1) {
 		random = g_random_int() % n;
 		i = n - 1;
@@ -133,7 +133,7 @@ extern void mozart_unshuffle()
 
 	playlist = g_ptr_array_new();
 
-	for (i = 0; i < nr_tracks; i++) {
+	for (i = 0; i < playlist_size; i++) {
 		track = g_strdup(g_ptr_array_index(unshuffled_tracks, i));
 		g_ptr_array_add(playlist, track);
 	}

@@ -17,6 +17,6 @@ extern int mozart_get_playlist_size();
 
 extern GPtrArray *playlist, *unshuffled_tracks;
 extern int playlist_index;
-extern int nr_tracks;
+extern int playlist_size;
 
 #endif /* _PLAYLISTOPERATIONS_H_ */

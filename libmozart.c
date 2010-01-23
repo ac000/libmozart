@@ -29,7 +29,7 @@ GstMessage *mozart_message;
 GPtrArray *playlist, *unshuffled_tracks;
 int tags_updated = 0;
 int playlist_index;
-int nr_tracks;
+int playlist_size;
 int shuffled = 0;	/* Playlist shuffle state, 0 no, 1 yes */
 
 char *mozart_tag_artist;
@@ -83,7 +83,7 @@ gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
  */
 extern void mozart_rock_and_roll()
 {
-	if (playlist_index == nr_tracks)
+	if (playlist_index == playlist_size)
 		playlist_index = 0;
 	
 	g_object_set(G_OBJECT(mozart_player), "uri", 
@@ -100,7 +100,7 @@ extern void mozart_rock_and_roll()
 void mozart_quiesce()
 {
 	playlist = g_ptr_array_new();
-	nr_tracks = 0;
+	playlist_size = 0;
 	playlist_index = 0;
 
 	gst_element_set_state(mozart_player, GST_STATE_NULL);
