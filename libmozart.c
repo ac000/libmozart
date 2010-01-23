@@ -26,7 +26,7 @@
 GstElement *mozart_player;
 GstBus *mozart_bus;
 GstMessage *mozart_message;
-GPtrArray *tracks, *unshuffled_tracks;
+GPtrArray *playlist, *unshuffled_tracks;
 int tags_updated = 0;
 int track_index;
 int nr_tracks;
@@ -87,7 +87,7 @@ extern void mozart_rock_and_roll()
 		track_index = 0;
 	
 	g_object_set(G_OBJECT(mozart_player), "uri", 
-				g_ptr_array_index(tracks, track_index), NULL);
+				g_ptr_array_index(playlist, track_index), NULL);
 	gst_element_set_state(mozart_player, GST_STATE_PLAYING);
 
 	track_index++;
@@ -98,7 +98,7 @@ extern void mozart_rock_and_roll()
  */
 void mozart_quiesce()
 {
-	tracks = g_ptr_array_new();
+	playlist = g_ptr_array_new();
 	nr_tracks = 0;
 	track_index = 0;
 

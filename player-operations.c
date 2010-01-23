@@ -113,10 +113,10 @@ extern void mozart_fisher_yates_shuffle()
 	while (n > 1) {
 		random = g_random_int() % n;
 		i = n - 1;
-		tmp = g_ptr_array_index(tracks, i);
-		g_ptr_array_index(tracks, i) =
-					g_ptr_array_index(tracks, random);
-		g_ptr_array_index(tracks, random) = tmp;
+		tmp = g_ptr_array_index(playlist, i);
+		g_ptr_array_index(playlist, i) =
+					g_ptr_array_index(playlist, random);
+		g_ptr_array_index(playlist, random) = tmp;
 		n--;
 	}
 
@@ -131,13 +131,12 @@ extern void mozart_unshuffle()
 	int i;
 	gchar *track;
 
-	tracks = g_ptr_array_new();
+	playlist = g_ptr_array_new();
 
 	for (i = 0; i < nr_tracks; i++) {
 		track = g_strdup(g_ptr_array_index(unshuffled_tracks, i));
-		g_ptr_array_add(tracks, track);
+		g_ptr_array_add(playlist, track);
 	}
 
 	shuffled = 0;
 }
-

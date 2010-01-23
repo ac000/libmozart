@@ -22,7 +22,7 @@ extern void mozart_add_uri_to_playlist(char *uri)
 	char *turi;
 
 	turi = g_strdup(uri);
-	g_ptr_array_add(tracks, (gpointer)turi);
+	g_ptr_array_add(playlist, (gpointer)turi);
 	nr_tracks++;
 }
 
@@ -64,7 +64,7 @@ void mozart_copy_playlist()
 	unshuffled_tracks = g_ptr_array_new();
 
 	for (i = 0; i < nr_tracks; i++) {
-		track = g_strdup(g_ptr_array_index(tracks, i));
+		track = g_strdup(g_ptr_array_index(playlist, i));
 		g_ptr_array_add(unshuffled_tracks, track);
 	}
 }
@@ -84,5 +84,3 @@ extern int mozart_get_playlist_size()
 {
 	return nr_tracks;
 }
-
-
