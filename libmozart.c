@@ -28,7 +28,6 @@ GstBus *mozart_bus;
 GstMessage *mozart_message;
 GPtrArray *tracks, *unshuffled_tracks;
 int tags_updated = 0;
-int track_length;
 int track_index;
 int nr_tracks;
 int shuffled = 0;	/* Playlist shuffle state, 0 no, 1 yes */
