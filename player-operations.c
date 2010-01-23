@@ -32,8 +32,8 @@ extern void mozart_play_pause()
  */
 extern void mozart_next_track()
 {
-	if (track_index + 1 > nr_tracks)
-		track_index = 0;
+	if (playlist_index + 1 > nr_tracks)
+		playlist_index = 0;
 
 	gst_element_set_state(mozart_player, GST_STATE_READY);
 	g_signal_emit_by_name(mozart_player, "about-to-finish");
@@ -45,10 +45,10 @@ extern void mozart_next_track()
  */
 extern void mozart_prev_track()
 {
-	if (track_index - 2 < 0)
-		track_index = nr_tracks - 1;
+	if (playlist_index - 2 < 0)
+		playlist_index = nr_tracks - 1;
 	else
-		track_index -= 2;
+		playlist_index -= 2;
 
 	gst_element_set_state(mozart_player, GST_STATE_READY);
 	g_signal_emit_by_name(mozart_player, "about-to-finish");

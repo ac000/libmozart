@@ -74,7 +74,7 @@ void mozart_copy_playlist()
  */
 extern int mozart_get_playlist_position()
 {
-	return track_index;
+	return playlist_index;
 }
 
 /*
