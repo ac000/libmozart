@@ -26,7 +26,7 @@
 GstElement *mozart_player;
 GstBus *mozart_bus;
 GstMessage *mozart_message;
-GPtrArray *playlist, *unshuffled_tracks;
+GPtrArray *playlist, *unshuffled_playlist;
 int tags_updated = 0;
 int playlist_index;
 int playlist_size;
