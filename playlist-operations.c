@@ -93,7 +93,7 @@ extern int mozart_get_playlist_size()
  * 0 Unshuffled
  * 1 Shuffled
  */
-extern int mozart_get_playlist_shuffled_state()
+extern int mozart_playlist_shuffled()
 {
 	if (!playlist_shuffled)
 		return 0;
