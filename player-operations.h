@@ -15,6 +15,7 @@ extern void mozart_prev_track();
 extern void mozart_replay_track();
 extern void mozart_player_seek(char *seek);
 extern void mozart_fisher_yates_shuffle();
+extern void mozart_shuffle();
 extern void mozart_unshuffle();
 
 extern GstElement *mozart_player;

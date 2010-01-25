@@ -101,7 +101,7 @@ extern void mozart_player_seek(char *seek)
 }
 
 /*
- * Shuffle a list of tracks using the Fisher-Yates Algorithm.
+ * Shuffle a list of tracks using the Fisher-Yates Algorithm
  * Keep a copy of the unshuffled list.
  */
 extern void mozart_fisher_yates_shuffle()
@@ -125,6 +125,16 @@ extern void mozart_fisher_yates_shuffle()
 	}
 
 	playlist_shuffled = 1;
+}
+
+/*
+ * Shuffle the playlist, Currently just a wrapper around
+ * mozart_fisher_yates_shuffle() but could in future use
+ * different shuffling algorithms.
+ */
+extern void mozart_shuffle()
+{
+	mozart_fisher_yates_shuffle();
 }
 
 /* 
