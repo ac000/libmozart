@@ -134,7 +134,7 @@ extern void mozart_unshuffle()
 	playlist = g_ptr_array_new();
 
 	for (i = 0; i < playlist_size; i++) {
-		track = g_strdup(g_ptr_array_index(playlist_unshuffled, i));
+		track = g_strdup(g_ptr_array_index(unshuffled_playlist, i));
 		g_ptr_array_add(playlist, track);
 	}
 

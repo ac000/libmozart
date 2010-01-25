@@ -64,11 +64,11 @@ void mozart_copy_playlist()
 	int i;
 	gchar *track;
 
-	playlist_unshuffled = g_ptr_array_new();
+	unshuffled_playlist = g_ptr_array_new();
 
 	for (i = 0; i < playlist_size; i++) {
 		track = g_strdup(g_ptr_array_index(playlist, i));
-		g_ptr_array_add(playlist_unshuffled, track);
+		g_ptr_array_add(unshuffled_playlist, track);
 	}
 }
 

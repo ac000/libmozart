@@ -16,7 +16,7 @@ extern int mozart_get_playlist_position();
 extern int mozart_get_playlist_size();
 extern int mozart_get_playlist_shuffled_state();
 
-extern GPtrArray *playlist, *playlist_unshuffled;
+extern GPtrArray *playlist, *unshuffled_playlist;
 extern int playlist_index;
 extern int playlist_size;
 extern int playlist_shuffled;
