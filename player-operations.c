@@ -120,7 +120,7 @@ extern void mozart_fisher_yates_shuffle()
 		n--;
 	}
 
-	shuffled = 1;
+	playlist_shuffled = 1;
 }
 
 /* 
@@ -134,9 +134,9 @@ extern void mozart_unshuffle()
 	playlist = g_ptr_array_new();
 
 	for (i = 0; i < playlist_size; i++) {
-		track = g_strdup(g_ptr_array_index(unshuffled_tracks, i));
+		track = g_strdup(g_ptr_array_index(playlist_unshuffled, i));
 		g_ptr_array_add(playlist, track);
 	}
 
-	shuffled = 0;
+	playlist_shuffled = 0;
 }
