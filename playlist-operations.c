@@ -87,7 +87,7 @@ extern int mozart_get_playlist_size()
 
 /*
  * Returns the shuffled state of the playlist
- * 0 Unshiffled
+ * 0 Unshuffled
  * 1 Shuffled
  */
 extern int mozart_get_playlist_shuffled_state()
