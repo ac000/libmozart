@@ -14,9 +14,11 @@ extern void mozart_add_m3u_to_playlist(char *m3u);
 void mozart_copy_playlist();
 extern int mozart_get_playlist_position();
 extern int mozart_get_playlist_size();
+extern int mozart_get_playlist_shuffled_state();
 
 extern GPtrArray *playlist, *unshuffled_tracks;
 extern int playlist_index;
 extern int playlist_size;
+extern int playlist_shuffled;
 
 #endif /* _PLAYLISTOPERATIONS_H_ */

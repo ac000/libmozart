@@ -30,7 +30,7 @@ GPtrArray *playlist, *unshuffled_tracks;
 int tags_updated = 0;
 int playlist_index;
 int playlist_size;
-int shuffled = 0;	/* Playlist shuffle state, 0 no, 1 yes */
+int playlist_shuffled = 0;	/* Playlist shuffle state, 0 no, 1 yes */
 
 char *mozart_tag_artist;
 char *mozart_tag_album;
