@@ -10,6 +10,7 @@
 #include <gst/gst.h>
 
 #include "player-operations.h"
+#include "playlist-operations.h"
 
 
 /* 
