@@ -9,3 +9,7 @@ Then to run your program against it.
 
 $ LD_LIBRARY_PATH=/path/to/library ./program [arguments]
 
+
+*** NOTE ***
+The interface should be considered UNSTABLE and subject to change.
+
