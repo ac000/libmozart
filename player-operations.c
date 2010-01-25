@@ -109,7 +109,7 @@ extern void mozart_fisher_yates_shuffle()
 	guint32 random;
 	gpointer tmp;
 
-	n  = playlist_size;
+	n = playlist_size;
 	while (n > 1) {
 		random = g_random_int() % n;
 		i = n - 1;
