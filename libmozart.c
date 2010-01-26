@@ -97,7 +97,7 @@ extern void mozart_rock_and_roll()
 /*
  * Reset playlist and player, ready for playing a new playlist.
  */
-void mozart_quiesce()
+extern void mozart_quiesce()
 {
 	playlist = g_ptr_array_new();
 	playlist_size = 0;
