@@ -110,9 +110,6 @@ extern void mozart_fisher_yates_shuffle()
 	guint32 random;
 	gpointer tmp;
 
-	if (!playlist_shuffled)
-		mozart_copy_playlist();
-
 	n = playlist_size;
 	while (n > 1) {
 		random = g_random_int() % n;
@@ -134,6 +131,9 @@ extern void mozart_fisher_yates_shuffle()
  */
 extern void mozart_shuffle()
 {
+	if (!playlist_shuffled)
+		mozart_copy_playlist();
+
 	mozart_fisher_yates_shuffle();
 }
 
