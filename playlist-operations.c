@@ -43,6 +43,12 @@ extern void mozart_add_m3u_to_playlist(char *m3u)
 	strncpy(playlist_d, dirname(m3u), PATH_MAX);
 
 	while (fgets(buf, PATH_MAX - strlen(path), fp)) {
+		/*
+		 * Catch any blank lines at the end of the file
+		 */
+		if (strcmp(buf, "\n") == 0)
+			continue;
+
 		strcpy(path, "file://");
 		strncat(path, playlist_d, PATH_MAX - strlen(path) - 2);
 		strcat(path, "/");
