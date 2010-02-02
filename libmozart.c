@@ -31,10 +31,12 @@ int tags_updated = 0;
 int playlist_index;
 int playlist_size;
 int playlist_shuffled = 0;	/* Playlist shuffle state, 0 no, 1 yes */
+int debug_level = 0;
 
 char *mozart_tag_artist;
 char *mozart_tag_album;
 char *mozart_tag_title;
+
 
 void cb_eos(GMainLoop *loop)
 {
@@ -292,16 +294,20 @@ extern void mozart_set_got_tags()
 extern void mozart_init(int argc, char *argv[])
 {
 	static GMainLoop *loop;
+	const gchar *debug;
 
 	gst_init(&argc, &argv);
 
-	g_print("Using (%s)\n", gst_version_string());
+	if ((debug = g_getenv("LIBMOZART_DEBUG")))
+		debug_level = atoi(debug);
+
+	if (debug_level > 0)
+		g_print("Using %s\n", gst_version_string());
 
 	/* Set PulseAudio stream tag */
 	g_setenv("PULSE_PROP_media.role", "music", TRUE);
 	
 	mozart_player = gst_element_factory_make("playbin2", "mozart_player");
-	printf("DEBUG: player created.\n");
 
 	mozart_bus = gst_pipeline_get_bus(GST_PIPELINE(mozart_player));
 	gst_bus_add_signal_watch(mozart_bus);
@@ -318,7 +324,6 @@ extern void mozart_init(int argc, char *argv[])
 
 	/* Start up in a quiescent state, ready for receiving instructions */
 	mozart_quiesce();
-	printf("DEBUG: quiesced\n");
 }
 
 /*
