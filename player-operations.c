@@ -142,6 +142,9 @@ extern void mozart_shuffle()
  */
 extern void mozart_unshuffle()
 {
+	if (!playlist_shuffled)
+		return;
+
 	int i;
 	gchar *track;
 
