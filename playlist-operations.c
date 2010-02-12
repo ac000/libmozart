@@ -19,10 +19,7 @@
  */
 extern void mozart_add_uri_to_playlist(char *uri)
 {
-	char *turi;
-
-	turi = g_strdup(uri);
-	g_ptr_array_add(playlist, (gpointer)turi);
+	g_ptr_array_add(playlist, (gpointer)g_strdup(uri));
 	playlist_size++;
 }
 
