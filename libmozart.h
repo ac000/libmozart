@@ -12,6 +12,7 @@
 #include "player-operations.h"
 #include "playlist-operations.h"
 
+#define TAG_LENGTH	80
 
 extern void mozart_add_to_playlist(char *uri);
 void cb_eos(GMainLoop *loop);

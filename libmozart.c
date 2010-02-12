@@ -33,9 +33,9 @@ int playlist_size;
 int playlist_shuffled = 0;	/* Playlist shuffle state, 0 no, 1 yes */
 int debug_level = 0;
 
-char *mozart_tag_artist;
-char *mozart_tag_album;
-char *mozart_tag_title;
+char mozart_tag_artist[TAG_LENGTH + 1];
+char mozart_tag_album[TAG_LENGTH + 1];
+char mozart_tag_title[TAG_LENGTH + 1];
 
 
 void cb_eos(GMainLoop *loop)
@@ -53,25 +53,22 @@ gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
 	gst_message_parse_tag(mozart_message, &tags);
 	tag = (GValue *)gst_tag_list_get_value_index(tags, GST_TAG_ARTIST, 0);
 	if (tag) {
-		mozart_tag_artist = (char *)malloc(sizeof(char) * 
-					strlen(g_value_get_string(tag)));
-		strcpy(mozart_tag_artist, g_value_get_string(tag));
+		strncpy(mozart_tag_artist, (char *)g_value_get_string(tag),
+								TAG_LENGTH);
+		mozart_tag_artist[strlen(mozart_tag_artist)] = '\0';
 	}
-	
 	tag = (GValue *)gst_tag_list_get_value_index(tags, GST_TAG_ALBUM, 0);
 	if (tag) {
-		mozart_tag_album = (char *)malloc(sizeof(char) *
-					strlen(g_value_get_string(tag)));
-		strcpy(mozart_tag_album, g_value_get_string(tag));
+		strncpy(mozart_tag_album, (char *)g_value_get_string(tag),
+								TAG_LENGTH);
+		mozart_tag_album[strlen(mozart_tag_album)] = '\0';
 	}
-
 	tag = (GValue *)gst_tag_list_get_value_index(tags, GST_TAG_TITLE, 0);
-        if (tag) {
-		mozart_tag_title = (char *)malloc(sizeof(char) *
-					strlen(g_value_get_string(tag)));
-		strcpy(mozart_tag_title, g_value_get_string(tag));
+	if (tag) {
+		strncpy(mozart_tag_title, (char *)g_value_get_string(tag),
+								TAG_LENGTH);
+		mozart_tag_title[strlen(mozart_tag_title)] = '\0';
 	}
-
 	gst_tag_list_free(tags);
 
 	tags_updated = 1;
