@@ -120,10 +120,10 @@ extern GstState mozart_get_player_state()
 /*
  * Get the position of the stream in nanoseconds
  */
-extern long int mozart_get_stream_position_ns()
+extern gint64 mozart_get_stream_position_ns()
 {
 	GstFormat fmt = GST_FORMAT_TIME;
-	long int pos;
+	gint64 pos;
 
 	if (gst_element_query_position(mozart_player, &fmt, &pos))
 		return pos;
@@ -136,7 +136,7 @@ extern long int mozart_get_stream_position_ns()
  */
 extern int mozart_get_stream_position_sec()
 {
-	long int ns;
+	gint64 ns;
 
 	ns = mozart_get_stream_position_ns();
 
@@ -172,10 +172,10 @@ extern double mozart_get_stream_progress()
 /*
  * Get the duration of the stream in nanoseconds
  */
-extern long int mozart_get_stream_duration_ns()
+extern gint64 mozart_get_stream_duration_ns()
 {
 	GstFormat fmt = GST_FORMAT_TIME;
-	long int duration;
+	gint64 duration;
 
 	if (!(gst_element_query_duration(mozart_player, &fmt, &duration)))
 		return -1;
@@ -188,7 +188,7 @@ extern long int mozart_get_stream_duration_ns()
  */
 extern int mozart_get_stream_duration_sec()
 {
-	long int ns;
+	gint64 ns;
 
 	ns = mozart_get_stream_duration_ns();
 

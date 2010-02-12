@@ -21,12 +21,12 @@ extern void mozart_rock_and_roll();
 extern void mozart_quiesce();
 void mozart_copy_playlist();
 extern GstState mozart_get_player_state();
-extern long int mozart_get_stream_position_ns();
+extern gint64 mozart_get_stream_position_ns();
 extern int mozart_get_stream_position_sec();
 extern int mozart_get_stream_position_hms(int *hours, int *minutes, 
 								int *seconds);
 extern double mozart_get_stream_progress();
-extern long int mozart_get_stream_duration_ns();
+extern gint64 mozart_get_stream_duration_ns();
 extern int mozart_get_stream_duration_sec();
 extern int mozart_get_stream_duration_hms(int *hours, int *minutes,
 								int *seconds);
