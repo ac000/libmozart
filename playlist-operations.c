@@ -22,18 +22,18 @@
  */
 extern int mozart_init_playlist(char *playlist)
 {
-	struct list_info_data *tli;
+	struct list_info_data *list_info;
 
 	if (find_list(playlist) > -1)
 		return 1;
 
-	tli = malloc(sizeof(struct list_info_data));
-	tli->tracks = g_ptr_array_new();
-	tli->nr_tracks = 0;
-	tli->name = malloc(strlen(playlist) + 1);
-	strcpy(tli->name, playlist);
+	list_info = malloc(sizeof(struct list_info_data));
+	list_info->tracks = g_ptr_array_new();
+	list_info->nr_tracks = 0;
+	list_info->name = malloc(strlen(playlist) + 1);
+	strcpy(list_info->name, playlist);
 
-	mozart_playlists = g_list_append(mozart_playlists, tli);
+	mozart_playlists = g_list_append(mozart_playlists, list_info);
 
 	return 0;
 }
@@ -60,13 +60,13 @@ int mozart_set_active_playlist(char *playlist)
  */
 int find_list(char *playlist)
 {
-	struct list_info_data *tli;
+	struct list_info_data *list_info;
 	int list_len, i;
 
 	list_len = g_list_length(mozart_playlists);
 	for (i = 0; i < list_len; i++) {
-		tli = g_list_nth_data(mozart_playlists, i);
-		if (strcmp(tli->name, playlist) == 0)
+		list_info = g_list_nth_data(mozart_playlists, i);
+		if (strcmp(list_info->name, playlist) == 0)
 			return i;
 	}
 
