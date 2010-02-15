@@ -7,6 +7,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <libgen.h>
 #include <glib.h>
@@ -15,21 +16,89 @@
 
 
 /*
+ * Function to initialise a new playlist.
+ * Return 1 if there is already a playlist of the given name.
+ * Return 0 is successful.
+ */
+extern int mozart_init_playlist(char *playlist)
+{
+	struct list_info_data *tli;
+
+	if (find_list(playlist) > -1)
+		return 1;
+
+	tli = malloc(sizeof(struct list_info_data));
+	tli->tracks = g_ptr_array_new();
+	tli->nr_tracks = 0;
+	tli->name = malloc(strlen(playlist) + 1);
+	strcpy(tli->name, playlist);
+
+	mozart_playlists = g_list_append(mozart_playlists, tli);
+
+	return 0;
+}
+
+/*
+ * Sets the currently active playlist
+ */
+int mozart_set_active_playlist(char *playlist)
+{
+	if (find_list(playlist) < 0)
+		return 1;
+
+	active_playlist = malloc(strlen(playlist) + 1);
+	strcpy(active_playlist, playlist);
+
+	return 0;
+}
+
+/*
+ * See if there is a playlist already of a given name.
+ * Return an integer >= 0 if there is a playlist, this integer
+ * specifies the position on the list of the playlist.
+ * Return -1 if no list of the gien name is found.
+ */
+int find_list(char *playlist)
+{
+	struct list_info_data *tli;
+	int list_len, i;
+
+	list_len = g_list_length(mozart_playlists);
+	for (i = 0; i < list_len; i++) {
+		tli = g_list_nth_data(mozart_playlists, i);
+		if (strcmp(tli->name, playlist) == 0)
+			return i;
+	}
+
+	return -1;
+}
+
+/*
  * Add a URI to the playlist.
  */
-extern void mozart_add_uri_to_playlist(char *uri)
+extern void mozart_add_uri_to_playlist(char *uri, char *playlist)
 {
-	g_ptr_array_add(playlist, (gpointer)g_strdup(uri));
-	playlist_size++;
+	struct list_info_data *list_info;
+
+	if (!playlist)
+		playlist = "default";
+
+	list_info = g_list_nth_data(mozart_playlists, find_list(playlist));
+
+	g_ptr_array_add(list_info->tracks, (gpointer)g_strdup(uri));
+	list_info->nr_tracks++;
 }
 
 /*
  * Adds a playlist in m3u format to the playlist
  */
-extern void mozart_add_m3u_to_playlist(char *m3u)
+extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist)
 {
 	char buf[PATH_MAX + 1], path[PATH_MAX + 1], playlist_d[PATH_MAX + 1];
 	static FILE *fp;
+
+	if (!playlist)
+		playlist = "default";
 
 	fp = fopen(m3u, "r");
 
@@ -50,9 +119,8 @@ extern void mozart_add_m3u_to_playlist(char *m3u)
 		strncat(path, playlist_d, PATH_MAX - strlen(path) - 2);
 		strcat(path, "/");
 		strncat(path, g_strchomp(buf), PATH_MAX - strlen(path));
-		mozart_add_uri_to_playlist(path);
+		mozart_add_uri_to_playlist(path, playlist);
 	}
-
 	fclose(fp);
 }
 
@@ -61,13 +129,16 @@ extern void mozart_add_m3u_to_playlist(char *m3u)
  */
 void mozart_copy_playlist()
 {
+	struct list_info_data *list_info;
 	int i;
 	gchar *track;
 
+	list_info = g_list_nth_data(mozart_playlists,
+						find_list(active_playlist));
 	unshuffled_playlist = g_ptr_array_new();
 
-	for (i = 0; i < playlist_size; i++) {
-		track = g_strdup(g_ptr_array_index(playlist, i));
+	for (i = 0; i < list_info->nr_tracks; i++) {
+		track = g_strdup(g_ptr_array_index(list_info->tracks, i));
 		g_ptr_array_add(unshuffled_playlist, track);
 	}
 }
@@ -77,7 +148,7 @@ void mozart_copy_playlist()
  */
 extern int mozart_get_playlist_position()
 {
-	return playlist_index;
+	return active_playlist_index;
 }
 
 /*
@@ -85,7 +156,12 @@ extern int mozart_get_playlist_position()
  */
 extern int mozart_get_playlist_size()
 {
-	return playlist_size;
+	struct list_info_data *list_info;
+
+	list_info = g_list_nth_data(mozart_playlists,
+						find_list(active_playlist));
+
+	return list_info->nr_tracks;
 }
 
 /*

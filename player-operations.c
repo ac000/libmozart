@@ -33,8 +33,8 @@ extern void mozart_play_pause()
  */
 extern void mozart_next_track()
 {
-	if (playlist_index + 1 > playlist_size)
-		playlist_index = 0;
+	if (active_playlist_index + 1 > mozart_get_playlist_size())
+		active_playlist_index = 0;
 
 	gst_element_set_state(mozart_player, GST_STATE_READY);
 	g_signal_emit_by_name(mozart_player, "about-to-finish");
@@ -46,10 +46,10 @@ extern void mozart_next_track()
  */
 extern void mozart_prev_track()
 {
-	if (playlist_index - 2 < 0)
-		playlist_index = playlist_size - 1;
+	if (active_playlist_index - 2 < 0)
+		active_playlist_index = mozart_get_playlist_size() - 1;
 	else
-		playlist_index -= 2;
+		active_playlist_index -= 2;
 
 	gst_element_set_state(mozart_player, GST_STATE_READY);
 	g_signal_emit_by_name(mozart_player, "about-to-finish");
@@ -106,18 +106,22 @@ extern void mozart_player_seek(char *seek)
  */
 void mozart_fisher_yates_shuffle()
 {
+	struct list_info_data *list_info;
 	int n, i;
 	guint32 random;
 	gpointer tmp;
 
-	n = playlist_size;
+	list_info = g_list_nth_data(mozart_playlists,
+						find_list(active_playlist));
+	n = mozart_get_playlist_size();
 	while (n > 1) {
 		random = g_random_int() % n;
 		i = n - 1;
-		tmp = g_ptr_array_index(playlist, i);
-		g_ptr_array_index(playlist, i) =
-					g_ptr_array_index(playlist, random);
-		g_ptr_array_index(playlist, random) = tmp;
+		tmp = g_ptr_array_index(list_info->tracks, i);
+		g_ptr_array_index(list_info->tracks, i) =
+					g_ptr_array_index(list_info->tracks,
+									random);
+		g_ptr_array_index(list_info->tracks, random) = tmp;
 		n--;
 	}
 }
@@ -142,17 +146,18 @@ extern void mozart_shuffle()
  */
 extern void mozart_unshuffle()
 {
-	if (!playlist_shuffled)
-		return;
-
-	int i;
+	struct list_info_data *list_info;
+	int i, s;
 	gchar *track;
 
-	playlist = g_ptr_array_new();
+	list_info = g_list_nth_data(mozart_playlists,
+						find_list(active_playlist));
+	list_info->tracks = g_ptr_array_new();
 
-	for (i = 0; i < playlist_size; i++) {
+	s = mozart_get_playlist_size();
+	for (i = 0; i < s; i++) {
 		track = g_strdup(g_ptr_array_index(unshuffled_playlist, i));
-		g_ptr_array_add(playlist, track);
+		g_ptr_array_add(list_info->tracks, track);
 	}
 
 	playlist_shuffled = 0;

@@ -9,16 +9,26 @@
 #ifndef _PLAYLISTOPERATIONS_H_
 #define _PLAYLISTOPERATIONS_H_
 
-extern void mozart_add_uri_to_playlist(char *uri);
-extern void mozart_add_m3u_to_playlist(char *m3u);
+extern int mozart_init_playlist(char *playlist);
+int mozart_set_active_playlist(char *playlist);
+extern int find_list(char *playlist);
+extern void mozart_add_uri_to_playlist(char *uri, char *playlist);
+extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist);
 void mozart_copy_playlist();
 extern int mozart_get_playlist_position();
 extern int mozart_get_playlist_size();
 extern int mozart_playlist_shuffled();
 
-extern GPtrArray *playlist, *unshuffled_playlist;
-extern int playlist_index;
-extern int playlist_size;
+extern GPtrArray *unshuffled_playlist;
+extern GList *mozart_playlists;
+extern char *active_playlist;
+extern int active_playlist_index;
 extern int playlist_shuffled;
+
+struct list_info_data {
+	GPtrArray *tracks;
+	int nr_tracks;
+	char *name;
+};
 
 #endif /* _PLAYLISTOPERATIONS_H_ */

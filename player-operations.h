@@ -19,9 +19,8 @@ extern void mozart_shuffle();
 extern void mozart_unshuffle();
 
 extern GstElement *mozart_player;
-extern GPtrArray *playlist, *unshuffled_playlist;
-extern int playlist_index;
-extern int playlist_size;
+extern GPtrArray *unshuffled_playlist;
+extern int active_playlist_index;
 extern int playlist_shuffled;
 
 #endif /* _PLAYEROPERATIONS_H_ */

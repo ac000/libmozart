@@ -27,9 +27,11 @@ GstElement *mozart_player;
 GstBus *mozart_bus;
 GstMessage *mozart_message;
 GPtrArray *playlist, *unshuffled_playlist;
+GList *mozart_playlists;
+char *active_playlist = NULL;
+struct list_info_data list_info;
 int tags_updated = 0;
-int playlist_index;
-int playlist_size;
+int active_playlist_index;
 int playlist_shuffled = 0;	/* Playlist shuffle state, 0 no, 1 yes */
 int debug_level = 0;
 
@@ -82,15 +84,23 @@ gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
  */
 extern void mozart_rock_and_roll()
 {
-	if (playlist_index == playlist_size)
-		playlist_index = 0;
-	
-	g_object_set(G_OBJECT(mozart_player), "uri", 
-				g_ptr_array_index(playlist, playlist_index),
-									NULL);
+	struct list_info_data *list_info;
+
+	if (active_playlist == NULL)
+		list_info = g_list_nth_data(mozart_playlists, 0);
+	else
+		list_info = g_list_nth_data(mozart_playlists,
+						find_list(active_playlist));
+
+	if (active_playlist_index == list_info->nr_tracks)
+		active_playlist_index = 0;
+
+	g_object_set(G_OBJECT(mozart_player), "uri",
+				g_ptr_array_index(list_info->tracks,
+						active_playlist_index), NULL);
 	gst_element_set_state(mozart_player, GST_STATE_PLAYING);
 
-	playlist_index++;
+	active_playlist_index++;
 }
 
 /*
@@ -98,10 +108,10 @@ extern void mozart_rock_and_roll()
  */
 extern void mozart_quiesce()
 {
-	playlist = g_ptr_array_new();
-	playlist_size = 0;
-	playlist_index = 0;
-
+	mozart_playlists = NULL;
+	active_playlist_index = 0;
+	mozart_init_playlist("default");
+	mozart_set_active_playlist("default");
 	gst_element_set_state(mozart_player, GST_STATE_NULL);
 }
 
