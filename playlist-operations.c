@@ -170,6 +170,14 @@ extern int mozart_get_playlist_size()
 }
 
 /*
+ * Return the name of the active playlist
+ */
+extern char *mozart_get_active_playlist_name()
+{
+	return active_playlist;
+}
+
+/*
  * Returns the shuffled state of the playlist
  * 0 Unshuffled
  * 1 Shuffled
