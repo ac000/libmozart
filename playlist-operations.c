@@ -178,6 +178,14 @@ extern char *mozart_get_active_playlist_name()
 }
 
 /*
+ * Returns the number of playlists
+ */
+extern int mozart_get_number_of_playlists()
+{
+	return g_list_length(mozart_playlists);
+}
+
+/*
  * Returns the shuffled state of the playlist
  * 0 Unshuffled
  * 1 Shuffled
@@ -198,21 +206,26 @@ extern int mozart_playlist_shuffled()
 extern int mozart_remove_playlist(char *playlist)
 {
 	struct list_info_data *list_info;
-
-	if (find_list(playlist) < 0)
-                return 0;
+	GList *node;
+	int pos;
 
 	/* Don't try to remove the active playlist */
 	if (strcmp(playlist, active_playlist) == 0)
 		return 0;
 
-	list_info = g_list_nth_data(mozart_playlists, find_list(playlist));
+	pos = find_list(playlist);
+	if (pos < 0)
+		return 0;
+
+	list_info = g_list_nth_data(mozart_playlists, pos);
 
 	g_ptr_array_foreach(list_info->tracks, (GFunc)g_free,
 				g_ptr_array_index(list_info->tracks, 0));
 	g_ptr_array_free(list_info->tracks, TRUE);
 	free(list_info->name);
 	free(list_info);
+	node = g_list_nth(mozart_playlists, pos);
+	mozart_playlists = g_list_delete_link(mozart_playlists, node);
 
 	return 1;
 }
