@@ -10,9 +10,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <libgen.h>
-#include <glib.h>
+#include <gst/gst.h>
 
 #include "playlist-operations.h"
+#include "player-operations.h"
 
 
 /*
@@ -41,13 +42,17 @@ extern int mozart_init_playlist(char *playlist)
 /*
  * Sets the currently active playlist
  */
-int mozart_set_active_playlist(char *playlist)
+extern int mozart_switch_playlist(char *playlist)
 {
 	if (find_list(playlist) < 0)
 		return 1;
 
 	active_playlist = malloc(strlen(playlist) + 1);
 	strcpy(active_playlist, playlist);
+	active_playlist_index = 0;
+
+	gst_element_set_state(mozart_player, GST_STATE_READY);
+	g_signal_emit_by_name(mozart_player, "about-to-finish");
 
 	return 0;
 }

@@ -111,7 +111,7 @@ extern void mozart_quiesce()
 	mozart_playlists = NULL;
 	active_playlist_index = 0;
 	mozart_init_playlist("default");
-	mozart_set_active_playlist("default");
+	active_playlist = "default";
 	gst_element_set_state(mozart_player, GST_STATE_NULL);
 }
 
