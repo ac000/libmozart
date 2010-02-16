@@ -105,7 +105,11 @@ extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist)
 	if (!playlist)
 		playlist = "default";
 
-	fp = fopen(m3u, "r");
+	if (!(fp = fopen(m3u, "r"))) {
+		fprintf(stderr, "libmozart %s: Can't open file %s\n",
+							__FUNCTION__, m3u);
+		return;
+	}
 
 	/*
 	 * dirname() modifies the string passed to it, so make
