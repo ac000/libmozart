@@ -181,3 +181,27 @@ extern int mozart_playlist_shuffled()
 	else
 		return 1;
 }
+
+/*
+ * Remove a given playlist.
+ * Return 0 if specified playlist is not found
+ * Return 1 on success.
+ */
+extern int mozart_remove_playlist(char *playlist)
+{
+	struct list_info_data *list_info;
+
+	if (find_list(playlist) < 0)
+                return 0;
+
+	list_info = g_list_nth_data(mozart_playlists,
+						find_list(active_playlist));
+
+	g_ptr_array_foreach(list_info->tracks, (GFunc)g_free,
+				g_ptr_array_index(list_info->tracks, 0));
+	g_ptr_array_free(list_info->tracks, TRUE);
+	free(list_info->name);
+	free(list_info);
+
+	return 1;
+}

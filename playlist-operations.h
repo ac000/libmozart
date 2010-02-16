@@ -18,6 +18,7 @@ void mozart_copy_playlist();
 extern int mozart_get_playlist_position();
 extern int mozart_get_playlist_size();
 extern int mozart_playlist_shuffled();
+extern int mozart_remove_playlist(char *playlist);
 
 extern GPtrArray *unshuffled_playlist;
 extern GList *mozart_playlists;
