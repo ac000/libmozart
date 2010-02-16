@@ -202,8 +202,11 @@ extern int mozart_remove_playlist(char *playlist)
 	if (find_list(playlist) < 0)
                 return 0;
 
-	list_info = g_list_nth_data(mozart_playlists,
-						find_list(active_playlist));
+	/* Don't try to remove the active playlist */
+	if (strcmp(playlist, active_playlist) == 0)
+		return 0;
+
+	list_info = g_list_nth_data(mozart_playlists, find_list(playlist));
 
 	g_ptr_array_foreach(list_info->tracks, (GFunc)g_free,
 				g_ptr_array_index(list_info->tracks, 0));
