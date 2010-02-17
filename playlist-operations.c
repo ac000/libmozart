@@ -223,8 +223,11 @@ extern int mozart_remove_playlist(char *playlist)
 
 	list_info = g_list_nth_data(mozart_playlists, pos);
 
-	g_ptr_array_foreach(list_info->tracks, (GFunc)g_free,
+	/* Don't try to free non-existent array entries */
+	if (list_info->nr_tracks > 0)
+		g_ptr_array_foreach(list_info->tracks, (GFunc)g_free,
 				g_ptr_array_index(list_info->tracks, 0));
+
 	g_ptr_array_free(list_info->tracks, TRUE);
 	free(list_info->name);
 	free(list_info);
