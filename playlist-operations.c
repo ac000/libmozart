@@ -72,7 +72,7 @@ sleep:
 	strcpy(active_playlist, playlist);
 	active_playlist_index = 0;
 
-	gst_element_set_state(mozart_player, GST_STATE_READY);
+	gst_element_set_state(mozart_player, GST_STATE_NULL);
 	g_signal_emit_by_name(mozart_player, "about-to-finish");
 
 	return 0;
