@@ -110,6 +110,8 @@ extern void mozart_add_uri_to_playlist(char *uri, char *playlist)
 		playlist = "default";
 
 	list_info = g_list_nth_data(mozart_playlists, find_list(playlist));
+	if (!list_info)
+		return;
 
 	g_ptr_array_add(list_info->tracks, (gpointer)g_strdup(uri));
 	list_info->nr_tracks++;
