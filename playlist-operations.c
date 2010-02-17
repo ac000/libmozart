@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <string.h>
 #include <libgen.h>
 #include <gst/gst.h>
@@ -48,6 +49,9 @@ extern int mozart_switch_playlist(char *playlist)
 {
 	struct list_info_data *list_info;
 	int i;
+	struct timespec req = { .tv_sec = 0, .tv_nsec = 50000000 };
+	struct timespec rem;
+	int ret;
 
 	if ((i = find_list(playlist)) < 0)
 		return 1;
@@ -55,6 +59,14 @@ extern int mozart_switch_playlist(char *playlist)
 	list_info = g_list_nth_data(mozart_playlists, i);
 	if (list_info->nr_tracks == 0)
 		return 1;
+
+sleep:
+	ret = nanosleep(&req, &rem);
+	if (ret) {
+		req.tv_sec = rem.tv_sec;
+		req.tv_nsec = rem.tv_nsec;
+		goto sleep;
+	}
 
 	active_playlist = malloc(strlen(playlist) + 1);
 	strcpy(active_playlist, playlist);
