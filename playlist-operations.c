@@ -40,11 +40,20 @@ extern int mozart_init_playlist(char *playlist)
 }
 
 /*
- * Sets the currently active playlist
+ * Switch to a new playlist
+ * Return 1 on failure
+ * Return 0 on success
  */
 extern int mozart_switch_playlist(char *playlist)
 {
-	if (find_list(playlist) < 0)
+	struct list_info_data *list_info;
+	int i;
+
+	if ((i = find_list(playlist)) < 0)
+		return 1;
+
+	list_info = g_list_nth_data(mozart_playlists, i);
+	if (list_info->nr_tracks == 0)
 		return 1;
 
 	active_playlist = malloc(strlen(playlist) + 1);
