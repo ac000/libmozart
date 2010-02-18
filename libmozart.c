@@ -19,6 +19,7 @@
 #include <gst/gst.h>
 #include <glib.h>
 
+#include "debug.h"
 #include "libmozart.h"
 #include "player-operations.h"
 #include "playlist-operations.h"
@@ -301,15 +302,10 @@ extern void mozart_set_got_tags()
 extern void mozart_init(int argc, char *argv[])
 {
 	static GMainLoop *loop;
-	const gchar *debug;
 
 	gst_init(&argc, &argv);
 
-	if ((debug = g_getenv("LIBMOZART_DEBUG")))
-		debug_level = atoi(debug);
-
-	if (debug_level > 0)
-		g_print("Using %s\n", gst_version_string());
+	d_printf(1, "Using %s\n", gst_version_string());
 
 	/* Set PulseAudio stream tag */
 	g_setenv("PULSE_PROP_media.role", "music", TRUE);
