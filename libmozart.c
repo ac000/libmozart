@@ -334,12 +334,29 @@ extern void mozart_init(int argc, char *argv[])
 }
 
 /*
+ * Free the playlists
+ */
+void free_playlists(struct list_info_data *list_info)
+{
+	g_ptr_array_foreach(list_info->tracks, (GFunc)g_free,
+				g_ptr_array_index(list_info->tracks, 0));
+
+	g_ptr_array_free(list_info->tracks, TRUE);
+	free(list_info->name);
+	free(list_info);
+}
+
+/*
  * Clean up GStreamer stuff
  */
 extern void mozart_destroy()
 {
+	struct list_info_data *list_info;
+
 	gst_element_set_state(mozart_player, GST_STATE_NULL);
 	gst_object_unref(mozart_player);
 	gst_object_unref(mozart_bus);
-}
 
+	g_list_foreach(mozart_playlists, (GFunc)free_playlists, &list_info);
+	g_list_free(mozart_playlists);
+}
