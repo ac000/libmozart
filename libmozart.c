@@ -27,7 +27,7 @@
 GstElement *mozart_player;
 GstBus *mozart_bus;
 GstMessage *mozart_message;
-GPtrArray *playlist, *unshuffled_playlist;
+GPtrArray *unshuffled_playlist;
 GList *mozart_playlists;
 char *active_playlist = NULL;
 struct list_info_data list_info;
