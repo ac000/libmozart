@@ -17,7 +17,7 @@ extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist);
 void mozart_copy_playlist();
 extern int mozart_get_playlist_position();
 extern int mozart_get_playlist_size();
-extern char *mozart_current_uri();
+extern char *mozart_get_current_uri();
 extern int mozart_get_number_of_playlists();
 extern char *mozart_get_active_playlist_name();
 extern int mozart_playlist_shuffled();
