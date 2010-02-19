@@ -186,27 +186,16 @@ extern int mozart_get_playlist_size()
 
 /*
  * Returns the URI of the currently playing track.
- *
- * Returns NULL if the active playlist is empty.
  */
-extern char *mozart_current_uri()
+extern char *mozart_get_current_uri()
 {
 	struct list_info_data *list_info;
-	int size, index;
-
-	size = mozart_get_playlist_size();
-
-	if (size == 0)
-		return NULL;
 
 	list_info = g_list_nth_data(mozart_playlists,
 						find_list(active_playlist));
-	if (active_playlist_index == 0)
-		index = size - 1;
-	else
-		index = active_playlist_index - 1;
 
-	return (char *)g_ptr_array_index(list_info->tracks, index);
+	return (char *)g_ptr_array_index(list_info->tracks,
+						active_playlist_index - 1);
 }
 
 /*

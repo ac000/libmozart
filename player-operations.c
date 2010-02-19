@@ -9,6 +9,7 @@
 #include <string.h>
 #include <gst/gst.h>
 
+#include "debug.h"
 #include "player-operations.h"
 #include "playlist-operations.h"
 
@@ -122,6 +123,8 @@ void mozart_fisher_yates_shuffle()
 									random);
 		g_ptr_array_index(list_info->tracks, random) = tmp;
 		n--;
+		d_printf(7, "libmozart %s: %s\n", __FUNCTION__,
+			(char *)g_ptr_array_index(list_info->tracks, i));
 	}
 }
 
@@ -163,6 +166,8 @@ extern void mozart_unshuffle()
 	for (i = 0; i < s; i++) {
 		track = g_strdup(g_ptr_array_index(unshuffled_playlist, i));
 		g_ptr_array_add(list_info->tracks, track);
+		d_printf(7, "libmozart %s: %s\n", __FUNCTION__,
+			(char *)g_ptr_array_index(list_info->tracks, i));
 	}
 
 	active_playlist_index = find_uri_index(current_uri);
