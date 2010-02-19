@@ -137,7 +137,7 @@ extern void mozart_shuffle()
 {
 	char *current_uri;
 
-	current_uri = mozart_current_uri();
+	current_uri = mozart_get_current_uri();
 	if (!playlist_shuffled)
 		mozart_copy_playlist();
 
@@ -157,7 +157,7 @@ extern void mozart_unshuffle()
 	int i, s;
 	gchar *track;
 
-	current_uri = mozart_current_uri();
+	current_uri = mozart_get_current_uri();
 	list_info = g_list_nth_data(mozart_playlists,
 						find_list(active_playlist));
 	list_info->tracks = g_ptr_array_new();
@@ -176,7 +176,6 @@ extern void mozart_unshuffle()
 
 /*
  * Returns the active playlist index of the passed URI.
- *
  * Returns -1 if the URI is not found.
  */
 int find_uri_index(char *uri)
