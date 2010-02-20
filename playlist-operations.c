@@ -88,6 +88,27 @@ int find_list(char *playlist)
 }
 
 /*
+ * Returns the active playlist index of the passed URI.
+ * Returns -1 if the URI is not found.
+ */
+int find_uri_index(char *uri)
+{
+        struct list_info_data *list_info;
+        int list_len, i;
+
+        list_info = g_list_nth_data(mozart_playlists,
+                                                find_list(active_playlist));
+
+        list_len = mozart_get_playlist_size();
+        for (i = 0; i < list_len; i++) {
+                if (strcmp(g_ptr_array_index(list_info->tracks, i), uri) == 0)
+                        return i + 1;
+        }
+
+	return -1;
+}
+
+/*
  * Add a URI to the playlist.
  */
 extern void mozart_add_uri_to_playlist(char *uri, char *playlist)

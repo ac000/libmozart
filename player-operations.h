@@ -15,7 +15,6 @@ extern void mozart_prev_track();
 extern void mozart_replay_track();
 extern void mozart_player_seek(char *seek);
 void mozart_fisher_yates_shuffle();
-int find_uri_index(char *uri);
 extern void mozart_shuffle();
 extern void mozart_unshuffle();
 

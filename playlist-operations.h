@@ -12,6 +12,7 @@
 extern int mozart_init_playlist(char *playlist);
 extern int mozart_switch_playlist(char *playlist);
 int find_list(char *playlist);
+int find_uri_index(char *uri);
 extern void mozart_add_uri_to_playlist(char *uri, char *playlist);
 extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist);
 void mozart_copy_playlist();
