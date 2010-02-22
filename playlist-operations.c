@@ -65,6 +65,8 @@ extern int mozart_switch_playlist(char *playlist)
 	 * Avoid a lockup here, waiting on a futex, when switching
 	 * playlists too quickly.
 	 *
+	 * Seems to be stuck at setting the player state to NULL
+	 *
 	 * Hiding some other bug?
 	 */
 sleep:
