@@ -13,6 +13,7 @@
 #include <libgen.h>
 #include <gst/gst.h>
 
+#include "debug.h"
 #include "playlist-operations.h"
 #include "player-operations.h"
 
@@ -100,6 +101,27 @@ int find_list(char *playlist)
 }
 
 /*
+ * Returns the active playlist index of the passed URI.
+ * Returns -1 if the URI is not found.
+ */
+int find_uri_index(char *uri)
+{
+        struct list_info_data *list_info;
+        int list_len, i;
+
+        list_info = g_list_nth_data(mozart_playlists,
+                                                find_list(active_playlist));
+
+        list_len = mozart_get_playlist_size();
+        for (i = 0; i < list_len; i++) {
+                if (strcmp(g_ptr_array_index(list_info->tracks, i), uri) == 0)
+                        return i + 1;
+        }
+
+	return -1;
+}
+
+/*
  * Add a URI to the playlist.
  */
 extern void mozart_add_uri_to_playlist(char *uri, char *playlist)
@@ -115,6 +137,9 @@ extern void mozart_add_uri_to_playlist(char *uri, char *playlist)
 
 	g_ptr_array_add(list_info->tracks, (gpointer)g_strdup(uri));
 	list_info->nr_tracks++;
+
+	d_printf(7, "libmozart %s: Adding %s to %s\n",
+						__FUNCTION__, uri, playlist);
 }
 
 /*
@@ -134,6 +159,8 @@ extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist)
 		return;
 	}
 
+	d_printf(7, "libmozart %s: Adding %s to %s\n",
+						__FUNCTION__, m3u, playlist);
 	/*
 	 * dirname() modifies the string passed to it, so make
 	 * a copy of it first.
