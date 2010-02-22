@@ -61,6 +61,12 @@ extern int mozart_switch_playlist(char *playlist)
 	if (list_info->nr_tracks == 0)
 		return 1;
 
+	/*
+	 * Avoid a lockup here, waiting on a futex, when switching
+	 * playlists too quickly.
+	 *
+	 * Hiding some other bug?
+	 */
 sleep:
 	ret = nanosleep(&req, &rem);
 	if (ret) {
