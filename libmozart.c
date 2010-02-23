@@ -303,6 +303,8 @@ extern void mozart_init(int argc, char *argv[])
 
 	gst_init(&argc, &argv);
 
+	debug_level = atoi(getenv("LIBMOZART_DEBUG"));
+
 	d_printf(1, "Using %s\n", gst_version_string());
 
 	/* Set PulseAudio stream tag */

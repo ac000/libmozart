@@ -10,17 +10,13 @@
 #define _DEBUG_H_
 
 #include <stdio.h>
-#include <stdlib.h>
+
+extern int debug_level;
 
 #define d_printf(level, fmt, ...) \
 	do { \
-		int debug_level; \
-		char *debug; \
-		if ((debug = getenv("LIBMOZART_DEBUG"))) { \
-			debug_level = atoi(debug); \
-			if (level <= debug_level) \
-				printf(fmt, ##__VA_ARGS__); \
-		} \
+		if (level <= debug_level) \
+			printf(fmt, ##__VA_ARGS__); \
 	} while (0)
 
 #endif /* _DEBUG_H_ */
