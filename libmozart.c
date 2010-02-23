@@ -300,10 +300,12 @@ extern void mozart_set_got_tags()
 extern void mozart_init(int argc, char *argv[])
 {
 	static GMainLoop *loop;
+	char *debug;
 
 	gst_init(&argc, &argv);
 
-	debug_level = atoi(getenv("LIBMOZART_DEBUG"));
+	if ((debug = getenv("LIBMOZART_DEBUG")))
+		debug_level = atoi(debug);
 
 	d_printf(1, "Using %s\n", gst_version_string());
 
