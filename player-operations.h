@@ -14,13 +14,11 @@ extern void mozart_next_track();
 extern void mozart_prev_track();
 extern void mozart_replay_track();
 extern void mozart_player_seek(char *seek);
-void mozart_fisher_yates_shuffle();
-extern void mozart_shuffle();
-extern void mozart_unshuffle();
+void mozart_fisher_yates_shuffle(char *playlist);
+extern void mozart_shuffle(char *playlist);
+extern void mozart_unshuffle(char *playlist);
 
 extern GstElement *mozart_player;
-extern GPtrArray *unshuffled_playlist;
 extern int active_playlist_index;
-extern int playlist_shuffled;
 
 #endif /* _PLAYEROPERATIONS_H_ */

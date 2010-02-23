@@ -194,7 +194,7 @@ extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist)
 /*
  * Make a copy of the playlist
  */
-void mozart_copy_playlist()
+void mozart_copy_playlist(char *playlist)
 {
 	struct list_info_data *list_info;
 	int i;
@@ -202,11 +202,10 @@ void mozart_copy_playlist()
 
 	list_info = g_list_nth_data(mozart_playlists,
 						find_list(active_playlist));
-	unshuffled_playlist = g_ptr_array_new();
 
 	for (i = 0; i < list_info->nr_tracks; i++) {
 		track = g_strdup(g_ptr_array_index(list_info->tracks, i));
-		g_ptr_array_add(unshuffled_playlist, track);
+		mozart_add_uri_to_playlist(track, playlist);
 	}
 }
 
@@ -266,9 +265,20 @@ extern int mozart_get_number_of_playlists()
  * 0 Unshuffled
  * 1 Shuffled
  */
-extern int mozart_playlist_shuffled()
+extern int mozart_playlist_shuffled(char *playlist)
 {
-	if (!playlist_shuffled)
+	struct list_info_data *list_info;
+	char *uname;
+
+	if (!playlist)
+		playlist = active_playlist;
+
+	uname = malloc(strlen(playlist) + 4);
+	sprintf(uname, "%s/ul", playlist);
+	list_info = g_list_nth_data(mozart_playlists, find_list(uname));
+	free(uname);
+
+	if (!list_info)
 		return 0;
 	else
 		return 1;
