@@ -27,13 +27,11 @@
 GstElement *mozart_player;
 GstBus *mozart_bus;
 GstMessage *mozart_message;
-GPtrArray *unshuffled_playlist;
 GList *mozart_playlists;
 char *active_playlist = NULL;
 struct list_info_data list_info;
 int tags_updated = 0;
 int active_playlist_index;
-int playlist_shuffled = 0;	/* Playlist shuffle state, 0 no, 1 yes */
 int debug_level = 0;
 
 char mozart_tag_artist[TAG_LENGTH + 1];

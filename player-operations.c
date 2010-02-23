@@ -104,15 +104,15 @@ extern void mozart_player_seek(char *seek)
  * Shuffle a list of tracks using the Fisher-Yates Algorithm
  * Keep a copy of the unshuffled list.
  */
-void mozart_fisher_yates_shuffle()
+void mozart_fisher_yates_shuffle(char *playlist)
 {
 	struct list_info_data *list_info;
 	int n, i;
 	guint32 random;
 	gpointer tmp;
 
-	list_info = g_list_nth_data(mozart_playlists,
-						find_list(active_playlist));
+	list_info = g_list_nth_data(mozart_playlists, find_list(playlist));
+
 	n = mozart_get_playlist_size();
 	while (n > 1) {
 		random = g_random_int() % n;
@@ -133,43 +133,62 @@ void mozart_fisher_yates_shuffle()
  * mozart_fisher_yates_shuffle() but could in future use
  * different shuffling algorithms.
  */
-extern void mozart_shuffle()
+extern void mozart_shuffle(char *playlist)
 {
-	char *current_uri;
+	char *current_uri, *uname;
+
+	if (!playlist)
+		playlist = active_playlist;
 
 	current_uri = mozart_get_current_uri();
-	if (!playlist_shuffled)
-		mozart_copy_playlist();
 
-	mozart_fisher_yates_shuffle();
+	if (!mozart_playlist_shuffled(playlist)) {
+		uname = malloc(strlen(playlist) + 4);
+		sprintf(uname, "%s/ul", playlist);
+		mozart_init_playlist(uname);
+		mozart_copy_playlist(uname);
+		free(uname);
+	}
+
+	mozart_fisher_yates_shuffle(playlist);
 	active_playlist_index = find_uri_index(current_uri);
-
-	playlist_shuffled = 1;
 }
 
 /* 
  * Restore the playlist to its unshuffled state.
  */
-extern void mozart_unshuffle()
+extern void mozart_unshuffle(char *playlist)
 {
-	char *current_uri;
-	struct list_info_data *list_info;
+	char *current_uri, *uname;
+	struct list_info_data *list_info, *u_list_info;
 	int i, s;
 	gchar *track;
 
+	if (!playlist)
+		playlist = active_playlist;
+
 	current_uri = mozart_get_current_uri();
-	list_info = g_list_nth_data(mozart_playlists,
-						find_list(active_playlist));
+
+	uname = malloc(strlen(playlist) + 4);
+	sprintf(uname, "%s/ul", playlist);
+	u_list_info = g_list_nth_data(mozart_playlists, find_list(uname));
+	if (!u_list_info)
+		goto out;
+
+	list_info = g_list_nth_data(mozart_playlists, find_list(playlist));
 	list_info->tracks = g_ptr_array_new();
 
 	s = mozart_get_playlist_size();
 	for (i = 0; i < s; i++) {
-		track = g_strdup(g_ptr_array_index(unshuffled_playlist, i));
+		track = g_strdup(g_ptr_array_index(u_list_info->tracks, i));
 		g_ptr_array_add(list_info->tracks, track);
 		d_printf(7, "libmozart %s: %s\n", __FUNCTION__,
 			(char *)g_ptr_array_index(list_info->tracks, i));
 	}
 
 	active_playlist_index = find_uri_index(current_uri);
-	playlist_shuffled = 0;
+	mozart_remove_playlist(uname);
+
+out:
+	free(uname);
 }
