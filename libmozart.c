@@ -93,8 +93,18 @@ extern void mozart_rock_and_roll()
 		list_info = g_list_nth_data(mozart_playlists,
 						find_list(active_playlist));
 
-	if (active_playlist_index == list_info->nr_tracks)
+	if (mozart_repeat_single) {
+		if (active_playlist_index)
+			active_playlist_index--;
+	}
+
+	if (active_playlist_index == list_info->nr_tracks) {
 		active_playlist_index = 0;
+		if (!mozart_repeat_all) {
+			gst_element_set_state(mozart_player, GST_STATE_PAUSED);
+			return;
+		}
+	}
 
 	g_object_set(G_OBJECT(mozart_player), "uri",
 				g_ptr_array_index(list_info->tracks,
