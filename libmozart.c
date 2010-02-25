@@ -32,6 +32,8 @@ char *active_playlist = NULL;
 struct list_info_data list_info;
 int tags_updated = 0;
 int active_playlist_index;
+gboolean mozart_repeat_single = FALSE;
+gboolean mozart_repeat_all = TRUE;
 int debug_level = 0;
 
 char mozart_tag_artist[TAG_LENGTH + 1];

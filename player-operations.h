@@ -17,8 +17,14 @@ extern void mozart_player_seek(char *seek);
 void mozart_fisher_yates_shuffle(char *playlist);
 extern void mozart_shuffle(char *playlist);
 extern void mozart_unshuffle(char *playlist);
+extern void mozart_toggle_repeat_single();
+extern void mozart_toggle_repeat_all();
+extern gboolean mozart_get_repeat_single();
+extern gboolean mozart_get_repeat_all();
 
 extern GstElement *mozart_player;
 extern int active_playlist_index;
+extern gboolean mozart_repeat_single;
+extern gboolean mozart_repeat_all;
 
 #endif /* _PLAYEROPERATIONS_H_ */

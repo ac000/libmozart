@@ -198,3 +198,45 @@ extern void mozart_unshuffle(char *playlist)
 out:
 	free(uname);
 }
+
+/*
+ * Set/unset the repeat single track flag
+ */
+extern void mozart_toggle_repeat_single()
+{
+	if (!mozart_repeat_single)
+		mozart_repeat_single = TRUE;
+	else
+		mozart_repeat_single = FALSE;
+}
+
+/*
+ * Set/unset the repeat all track flag
+ */
+extern void mozart_toggle_repeat_all()
+{
+        if (!mozart_repeat_all)
+                mozart_repeat_all = TRUE;
+        else
+                mozart_repeat_all = FALSE;
+}
+
+/*
+ * Retrieve the status of repeat single
+ * Return TRUE for repeat single is set
+ * Return FALSE for repwat single is unset
+ */
+extern gboolean mozart_get_repeat_single()
+{
+	return mozart_repeat_single;
+}
+
+/*
+ * Retrieve the status of repeat all
+ * Return TRUE for repeat all is set
+ * Return FALSE for repwat all is unset
+ */
+extern gboolean mozart_get_repeat_all()
+{
+	return mozart_repeat_all;
+}
