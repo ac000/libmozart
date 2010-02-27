@@ -14,7 +14,6 @@
 
 #define TAG_LENGTH	80
 
-extern void mozart_add_to_playlist(char *uri);
 void cb_eos(GMainLoop *loop);
 void nsleep(gint64 period);
 gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message);
