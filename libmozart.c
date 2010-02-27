@@ -87,6 +87,8 @@ extern void mozart_rock_and_roll()
 {
 	struct list_info_data *list_info;
 
+	active_playlist_index++;
+
 	if (active_playlist == NULL)
 		list_info = g_list_nth_data(mozart_playlists, 0);
 	else
@@ -110,8 +112,6 @@ extern void mozart_rock_and_roll()
 				g_ptr_array_index(list_info->tracks,
 						active_playlist_index), NULL);
 	gst_element_set_state(mozart_player, GST_STATE_PLAYING);
-
-	active_playlist_index++;
 }
 
 /*
@@ -120,7 +120,7 @@ extern void mozart_rock_and_roll()
 extern void mozart_quiesce()
 {
 	mozart_playlists = NULL;
-	active_playlist_index = 0;
+	active_playlist_index = -1;
 	mozart_init_playlist("default");
 	active_playlist = "default";
 	gst_element_set_state(mozart_player, GST_STATE_NULL);

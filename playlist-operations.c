@@ -79,7 +79,7 @@ sleep:
 
 	active_playlist = malloc(strlen(playlist) + 1);
 	strcpy(active_playlist, playlist);
-	active_playlist_index = 0;
+	active_playlist_index = -1;
 
 	gst_element_set_state(mozart_player, GST_STATE_NULL);
 	g_signal_emit_by_name(mozart_player, "about-to-finish");
@@ -110,6 +110,7 @@ int find_list(char *playlist)
 
 /*
  * Returns the active playlist index of the passed URI.
+ * Range: -1..nr_tracks - 1
  * Returns -1 if the URI is not found.
  */
 int find_uri_index(char *uri)
@@ -123,7 +124,7 @@ int find_uri_index(char *uri)
         list_len = mozart_get_playlist_size();
         for (i = 0; i < list_len; i++) {
                 if (strcmp(g_ptr_array_index(list_info->tracks, i), uri) == 0)
-                        return i + 1;
+                        return i;
         }
 
 	return -1;
@@ -211,10 +212,11 @@ void mozart_copy_playlist(char *playlist)
 
 /*
  * Return the current position in the playlist
+ * Range: 1..nr_tracks
  */
 extern int mozart_get_playlist_position()
 {
-	return active_playlist_index;
+	return active_playlist_index + 1;
 }
 
 /*
@@ -240,8 +242,7 @@ extern char *mozart_get_current_uri()
 	list_info = g_list_nth_data(mozart_playlists,
 						find_list(active_playlist));
 
-	return (char *)g_ptr_array_index(list_info->tracks,
-						active_playlist_index - 1);
+	return g_ptr_array_index(list_info->tracks, active_playlist_index);
 }
 
 /*

@@ -33,8 +33,8 @@ extern void mozart_play_pause()
  */
 extern void mozart_next_track()
 {
-	if (active_playlist_index + 1 > mozart_get_playlist_size())
-		active_playlist_index = 0;
+	if (active_playlist_index + 1 == mozart_get_playlist_size())
+		active_playlist_index = -1;
 
 	if (mozart_repeat_single)
 		mozart_toggle_repeat_single();
@@ -49,8 +49,12 @@ extern void mozart_next_track()
  */
 extern void mozart_prev_track()
 {
-	if (active_playlist_index - 2 < 0)
-		active_playlist_index = mozart_get_playlist_size() - 1;
+	/*
+	 * We decrement the index by 2 here because active_playlist_index
+	 * is ++'d first thing in mozart_rock_and_roll.
+	 */
+	if (active_playlist_index == 0)
+		active_playlist_index = mozart_get_playlist_size() - 2;
 	else
 		active_playlist_index -= 2;
 
