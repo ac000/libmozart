@@ -14,6 +14,7 @@
 #include <gst/gst.h>
 
 #include "debug.h"
+#include "libmozart.h"
 #include "playlist-operations.h"
 #include "player-operations.h"
 
@@ -50,9 +51,6 @@ extern int mozart_switch_playlist(char *playlist)
 {
 	struct list_info_data *list_info;
 	int i;
-	struct timespec req = { .tv_sec = 0, .tv_nsec = 50000000 };
-	struct timespec rem;
-	int ret;
 
 	if ((i = find_list(playlist)) < 0)
 		return 1;
@@ -69,13 +67,7 @@ extern int mozart_switch_playlist(char *playlist)
 	 *
 	 * Hiding some other bug?
 	 */
-sleep:
-	ret = nanosleep(&req, &rem);
-	if (ret) {
-		req.tv_sec = rem.tv_sec;
-		req.tv_nsec = rem.tv_nsec;
-		goto sleep;
-	}
+	nsleep(50000000);
 
 	active_playlist = malloc(strlen(playlist) + 1);
 	strcpy(active_playlist, playlist);

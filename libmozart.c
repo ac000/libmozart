@@ -46,6 +46,25 @@ void cb_eos(GMainLoop *loop)
 	g_main_loop_quit(loop);
 }
 
+/*
+ * A wrapper around nanosleep()
+ * Takes a number of nanoseconds to sleep for.
+ */
+void nsleep(gint64 period)
+{
+	struct timespec req = { .tv_sec = 0, .tv_nsec = period};
+	struct timespec rem;
+	int ret;
+
+sleep:
+	ret = nanosleep(&req, &rem);
+	if (ret) {
+		req.tv_sec = rem.tv_sec;
+		req.tv_nsec = rem.tv_nsec;
+		goto sleep;
+	}
+}
+
 gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
 {
 	GstTagList *tags;
