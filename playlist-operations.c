@@ -145,7 +145,33 @@ extern void mozart_play_index_at_pos(int index, gint64 pos)
 	nsleep(50000000);
 	gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
-									pos)
+									pos);
+	active_playlist_index = index;
+}
+
+extern void mozart_play_uri_at_pos(char *uri, gint64 pos)
+{
+	struct list_info_data *list_info;
+	int index;
+
+	if (active_playlist == NULL)
+		list_info = g_list_nth_data(mozart_playlists, 0);
+	else
+		list_info = g_list_nth_data(mozart_playlists,
+						find_list(active_playlist));
+
+	index = find_uri_index(uri);
+
+	gst_element_set_state(mozart_player, GST_STATE_NULL);
+	g_object_set(G_OBJECT(mozart_player), "uri",
+					g_ptr_array_index(list_info->tracks,
+								index), NULL);
+	gst_element_set_state(mozart_player, GST_STATE_PLAYING);
+	/* Sleep needed here to prevent the seek from failing */
+	nsleep(50000000);
+	gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
+				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
+									pos);
 	active_playlist_index = index;
 }
 
