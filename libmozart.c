@@ -235,7 +235,7 @@ extern int mozart_get_stream_duration_sec()
 	if (ns < 0)
 		return -1;
 
-	return floor((float)ns / GST_SECOND);
+	return ns / GST_SECOND;
 }
 
 /*
