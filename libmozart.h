@@ -25,7 +25,7 @@ extern gint64 mozart_get_stream_position_ns();
 extern int mozart_get_stream_position_sec();
 extern int mozart_get_stream_position_hms(int *hours, int *minutes, 
 								int *seconds);
-extern double mozart_get_stream_progress();
+extern float mozart_get_stream_progress();
 extern gint64 mozart_get_stream_duration_ns();
 extern int mozart_get_stream_duration_sec();
 extern int mozart_get_stream_duration_hms(int *hours, int *minutes,

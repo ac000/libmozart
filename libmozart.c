@@ -183,7 +183,7 @@ extern int mozart_get_stream_position_sec()
 	if (ns < 0)
 		return -1;
 
-	return floor((double)ns / GST_SECOND);
+	return floor((float)ns / GST_SECOND);
 }
 
 /*
@@ -203,10 +203,10 @@ extern int mozart_get_stream_position_hms(int *hours, int *minutes,
 /*
  * Returns the position of the stream as a percentage
  */
-extern double mozart_get_stream_progress()
+extern float mozart_get_stream_progress()
 {
-	return ((double)mozart_get_stream_position_sec() /
-		(double)mozart_get_stream_duration_sec()) * 100;
+	return ((float)mozart_get_stream_position_sec() /
+		(float)mozart_get_stream_duration_sec()) * 100;
 }
 
 /*
@@ -235,7 +235,7 @@ extern int mozart_get_stream_duration_sec()
 	if (ns < 0)
 		return -1;
 
-	return floor((double)ns / GST_SECOND);
+	return floor((float)ns / GST_SECOND);
 }
 
 /*
