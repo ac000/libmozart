@@ -52,9 +52,12 @@ void cb_eos(GMainLoop *loop)
  */
 void nsleep(gint64 period)
 {
-	struct timespec req = { .tv_sec = 0, .tv_nsec = period};
+	struct timespec req;
 	struct timespec rem;
 	int ret;
+
+	req.tv_sec = 0;
+	req.tv_nsec = period;
 
 sleep:
 	ret = nanosleep(&req, &rem);
