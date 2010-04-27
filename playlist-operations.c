@@ -105,7 +105,7 @@ int find_list(char *playlist)
  * Range: -1..nr_tracks - 1
  * Returns -1 if the URI is not found.
  */
-int find_uri_index(char *uri)
+int mozart_find_uri_index(char *uri)
 {
 	struct mozart_list_info_data *list_info;
 	int list_len, i;
@@ -160,7 +160,7 @@ extern void mozart_play_uri_at_pos(char *uri, gint64 pos)
 		list_info = g_list_nth_data(mozart_playlists,
 					find_list(mozart_active_playlist));
 
-	index = find_uri_index(uri);
+	index = mozart_find_uri_index(uri);
 
 	gst_element_set_state(mozart_player, GST_STATE_NULL);
 	g_object_set(G_OBJECT(mozart_player), "uri",

@@ -205,7 +205,7 @@ extern void mozart_shuffle(char *playlist)
 	}
 
 	mozart_fisher_yates_shuffle(playlist);
-	mozart_active_playlist_index = find_uri_index(current_uri);
+	mozart_active_playlist_index = mozart_find_uri_index(current_uri);
 }
 
 /* 
@@ -240,7 +240,7 @@ extern void mozart_unshuffle(char *playlist)
 			(char *)g_ptr_array_index(list_info->tracks, i));
 	}
 
-	mozart_active_playlist_index = find_uri_index(current_uri);
+	mozart_active_playlist_index = mozart_find_uri_index(current_uri);
 	mozart_remove_playlist(uname);
 
 out:
