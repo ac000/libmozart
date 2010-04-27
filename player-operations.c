@@ -159,7 +159,8 @@ void mozart_fisher_yates_shuffle(char *playlist)
 	guint32 random;
 	gpointer tmp;
 
-	list_info = g_list_nth_data(mozart_playlists, find_list(playlist));
+	list_info = g_list_nth_data(mozart_playlists,
+						mozart_find_list(playlist));
 
 	n = mozart_get_playlist_size();
 	while (n > 1) {
@@ -225,11 +226,13 @@ extern void mozart_unshuffle(char *playlist)
 
 	uname = malloc(strlen(playlist) + 4);
 	sprintf(uname, "%s/ul", playlist);
-	u_list_info = g_list_nth_data(mozart_playlists, find_list(uname));
+	u_list_info = g_list_nth_data(mozart_playlists,
+						mozart_find_list(uname));
 	if (!u_list_info)
 		goto out;
 
-	list_info = g_list_nth_data(mozart_playlists, find_list(playlist));
+	list_info = g_list_nth_data(mozart_playlists,
+						mozart_find_list(playlist));
 	list_info->tracks = g_ptr_array_new();
 
 	s = mozart_get_playlist_size();
