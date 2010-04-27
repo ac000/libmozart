@@ -29,7 +29,6 @@ GstBus *mozart_bus;
 GstMessage *mozart_message;
 GList *mozart_playlists;
 char *mozart_active_playlist = NULL;
-struct mozart_list_info_data list_info;
 int mozart_updated_tags = 0;
 int mozart_active_playlist_index;
 gboolean mozart_repeat_single = FALSE;
