@@ -172,7 +172,7 @@ void mozart_fisher_yates_shuffle(char *playlist)
 		n--;
 	}
 
-	if (debug_level == 7) {
+	if (mozart_debug_level == 7) {
 		n = mozart_get_playlist_size();
 		for (i = 0; i < n; i++)
 			d_printf(7, "libmozart %s: %s\n", __FUNCTION__,

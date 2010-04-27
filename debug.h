@@ -11,11 +11,11 @@
 
 #include <stdio.h>
 
-extern int debug_level;
+extern int mozart_debug_level;
 
 #define d_printf(level, fmt, ...) \
 	do { \
-		if (level <= debug_level) \
+		if (level <= mozart_debug_level) \
 			printf(fmt, ##__VA_ARGS__); \
 	} while (0)
 

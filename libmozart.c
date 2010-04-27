@@ -34,7 +34,7 @@ int tags_updated = 0;
 int active_playlist_index;
 gboolean mozart_repeat_single = FALSE;
 gboolean mozart_repeat_all = TRUE;
-int debug_level = 0;
+int mozart_debug_level = 0;
 
 char mozart_tag_artist[TAG_LENGTH + 1];
 char mozart_tag_album[TAG_LENGTH + 1];
@@ -335,12 +335,12 @@ extern void mozart_set_got_tags()
 extern void mozart_init(int argc, char *argv[])
 {
 	static GMainLoop *loop;
-	char *debug;
+	char *mozart_debug;
 
 	gst_init(&argc, &argv);
 
-	if ((debug = getenv("LIBMOZART_DEBUG")))
-		debug_level = atoi(debug);
+	if ((mozart_debug = getenv("LIBMOZART_DEBUG")))
+		mozart_debug_level = atoi(mozart_debug);
 
 	d_printf(1, "Using %s\n", gst_version_string());
 
