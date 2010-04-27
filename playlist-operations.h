@@ -26,7 +26,6 @@ extern char *mozart_get_active_playlist_name();
 extern int mozart_playlist_shuffled(char *playlist);
 extern int mozart_remove_playlist(char *playlist);
 
-extern GPtrArray *unshuffled_playlist;
 extern GList *mozart_playlists;
 extern char *mozart_active_playlist;
 extern int mozart_active_playlist_index;
