@@ -34,7 +34,6 @@ int mozart_active_playlist_index;
 gboolean mozart_repeat_single = FALSE;
 gboolean mozart_repeat_all = TRUE;
 int mozart_debug_level = 0;
-
 char mozart_tag_artist[TAG_LENGTH + 1];
 char mozart_tag_album[TAG_LENGTH + 1];
 char mozart_tag_title[TAG_LENGTH + 1];
