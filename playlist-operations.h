@@ -28,8 +28,8 @@ extern int mozart_remove_playlist(char *playlist);
 
 extern GPtrArray *unshuffled_playlist;
 extern GList *mozart_playlists;
-extern char *active_playlist;
-extern int active_playlist_index;
+extern char *mozart_active_playlist;
+extern int mozart_active_playlist_index;
 
 struct list_info_data {
 	GPtrArray *tracks;

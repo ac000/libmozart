@@ -34,8 +34,8 @@ extern void mozart_play_pause()
  */
 extern void mozart_next_track()
 {
-	if (active_playlist_index + 1 == mozart_get_playlist_size())
-		active_playlist_index = -1;
+	if (mozart_active_playlist_index + 1 == mozart_get_playlist_size())
+		mozart_active_playlist_index = -1;
 
 	if (mozart_repeat_single)
 		mozart_toggle_repeat_single();
@@ -51,13 +51,14 @@ extern void mozart_next_track()
 extern void mozart_prev_track()
 {
 	/*
-	 * We decrement the index by 2 here because active_playlist_index
-	 * is ++'d first thing in mozart_rock_and_roll.
+	 * We decrement the index by 2 here because
+	 * mozart_active_playlist_index is ++'d first thing in
+	 * mozart_rock_and_roll.
 	 */
-	if (active_playlist_index == 0)
-		active_playlist_index = mozart_get_playlist_size() - 2;
+	if (mozart_active_playlist_index == 0)
+		mozart_active_playlist_index = mozart_get_playlist_size() - 2;
 	else
-		active_playlist_index -= 2;
+		mozart_active_playlist_index -= 2;
 
 	if (mozart_repeat_single)
 		mozart_toggle_repeat_single();
@@ -191,7 +192,7 @@ extern void mozart_shuffle(char *playlist)
 	char *current_uri, *uname;
 
 	if (!playlist)
-		playlist = active_playlist;
+		playlist = mozart_active_playlist;
 
 	current_uri = mozart_get_current_uri();
 
@@ -204,7 +205,7 @@ extern void mozart_shuffle(char *playlist)
 	}
 
 	mozart_fisher_yates_shuffle(playlist);
-	active_playlist_index = find_uri_index(current_uri);
+	mozart_active_playlist_index = find_uri_index(current_uri);
 }
 
 /* 
@@ -218,7 +219,7 @@ extern void mozart_unshuffle(char *playlist)
 	gchar *track;
 
 	if (!playlist)
-		playlist = active_playlist;
+		playlist = mozart_active_playlist;
 
 	current_uri = mozart_get_current_uri();
 
@@ -239,7 +240,7 @@ extern void mozart_unshuffle(char *playlist)
 			(char *)g_ptr_array_index(list_info->tracks, i));
 	}
 
-	active_playlist_index = find_uri_index(current_uri);
+	mozart_active_playlist_index = find_uri_index(current_uri);
 	mozart_remove_playlist(uname);
 
 out:

@@ -69,9 +69,9 @@ extern int mozart_switch_playlist(char *playlist)
 	 */
 	nsleep(50000000);
 
-	active_playlist = malloc(strlen(playlist) + 1);
-	strcpy(active_playlist, playlist);
-	active_playlist_index = -1;
+	mozart_active_playlist = malloc(strlen(playlist) + 1);
+	strcpy(mozart_active_playlist, playlist);
+	mozart_active_playlist_index = -1;
 
 	gst_element_set_state(mozart_player, GST_STATE_NULL);
 	g_signal_emit_by_name(mozart_player, "about-to-finish");
@@ -107,17 +107,17 @@ int find_list(char *playlist)
  */
 int find_uri_index(char *uri)
 {
-        struct list_info_data *list_info;
-        int list_len, i;
+	struct list_info_data *list_info;
+	int list_len, i;
 
-        list_info = g_list_nth_data(mozart_playlists,
-                                                find_list(active_playlist));
+	list_info = g_list_nth_data(mozart_playlists,
+					find_list(mozart_active_playlist));
 
-        list_len = mozart_get_playlist_size();
-        for (i = 0; i < list_len; i++) {
-                if (strcmp(g_ptr_array_index(list_info->tracks, i), uri) == 0)
-                        return i;
-        }
+	list_len = mozart_get_playlist_size();
+	for (i = 0; i < list_len; i++) {
+		if (strcmp(g_ptr_array_index(list_info->tracks, i), uri) == 0)
+			return i;
+	}
 
 	return -1;
 }
@@ -130,11 +130,11 @@ extern void mozart_play_index_at_pos(int index, gint64 pos)
 {
 	struct list_info_data *list_info;
 
-	if (active_playlist == NULL)
+	if (mozart_active_playlist == NULL)
 		list_info = g_list_nth_data(mozart_playlists, 0);
 	else
 		list_info = g_list_nth_data(mozart_playlists,
-						find_list(active_playlist));
+					find_list(mozart_active_playlist));
 
 	gst_element_set_state(mozart_player, GST_STATE_NULL);
 	g_object_set(G_OBJECT(mozart_player), "uri",
@@ -146,7 +146,7 @@ extern void mozart_play_index_at_pos(int index, gint64 pos)
 	gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 									pos);
-	active_playlist_index = index;
+	mozart_active_playlist_index = index;
 }
 
 extern void mozart_play_uri_at_pos(char *uri, gint64 pos)
@@ -154,11 +154,11 @@ extern void mozart_play_uri_at_pos(char *uri, gint64 pos)
 	struct list_info_data *list_info;
 	int index;
 
-	if (active_playlist == NULL)
+	if (mozart_active_playlist == NULL)
 		list_info = g_list_nth_data(mozart_playlists, 0);
 	else
 		list_info = g_list_nth_data(mozart_playlists,
-						find_list(active_playlist));
+					find_list(mozart_active_playlist));
 
 	index = find_uri_index(uri);
 
@@ -172,7 +172,7 @@ extern void mozart_play_uri_at_pos(char *uri, gint64 pos)
 	gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 									pos);
-	active_playlist_index = index;
+	mozart_active_playlist_index = index;
 }
 
 /*
@@ -247,7 +247,7 @@ void mozart_copy_playlist(char *playlist)
 	gchar *track;
 
 	list_info = g_list_nth_data(mozart_playlists,
-						find_list(active_playlist));
+					find_list(mozart_active_playlist));
 
 	for (i = 0; i < list_info->nr_tracks; i++) {
 		track = g_strdup(g_ptr_array_index(list_info->tracks, i));
@@ -261,7 +261,7 @@ void mozart_copy_playlist(char *playlist)
  */
 extern int mozart_get_playlist_position()
 {
-	return active_playlist_index + 1;
+	return mozart_active_playlist_index + 1;
 }
 
 /*
@@ -272,7 +272,7 @@ extern int mozart_get_playlist_size()
 	struct list_info_data *list_info;
 
 	list_info = g_list_nth_data(mozart_playlists,
-						find_list(active_playlist));
+					find_list(mozart_active_playlist));
 
 	return list_info->nr_tracks;
 }
@@ -285,9 +285,10 @@ extern char *mozart_get_current_uri()
 	struct list_info_data *list_info;
 
 	list_info = g_list_nth_data(mozart_playlists,
-						find_list(active_playlist));
+					find_list(mozart_active_playlist));
 
-	return g_ptr_array_index(list_info->tracks, active_playlist_index);
+	return g_ptr_array_index(list_info->tracks,
+						mozart_active_playlist_index);
 }
 
 /*
@@ -295,7 +296,7 @@ extern char *mozart_get_current_uri()
  */
 extern char *mozart_get_active_playlist_name()
 {
-	return active_playlist;
+	return mozart_active_playlist;
 }
 
 /*
@@ -317,7 +318,7 @@ extern int mozart_playlist_shuffled(char *playlist)
 	char *uname;
 
 	if (!playlist)
-		playlist = active_playlist;
+		playlist = mozart_active_playlist;
 
 	uname = malloc(strlen(playlist) + 4);
 	sprintf(uname, "%s/ul", playlist);
@@ -342,7 +343,7 @@ extern int mozart_remove_playlist(char *playlist)
 	int pos;
 
 	/* Don't try to remove the active playlist */
-	if (strcmp(playlist, active_playlist) == 0)
+	if (strcmp(playlist, mozart_active_playlist) == 0)
 		return 0;
 
 	pos = find_list(playlist);

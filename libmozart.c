@@ -28,10 +28,10 @@ GstElement *mozart_player;
 GstBus *mozart_bus;
 GstMessage *mozart_message;
 GList *mozart_playlists;
-char *active_playlist = NULL;
+char *mozart_active_playlist = NULL;
 struct list_info_data list_info;
 int mozart_updated_tags = 0;
-int active_playlist_index;
+int mozart_active_playlist_index;
 gboolean mozart_repeat_single = FALSE;
 gboolean mozart_repeat_all = TRUE;
 int mozart_debug_level = 0;
@@ -109,21 +109,21 @@ extern void mozart_rock_and_roll()
 {
 	struct list_info_data *list_info;
 
-	active_playlist_index++;
+	mozart_active_playlist_index++;
 
-	if (active_playlist == NULL)
+	if (mozart_active_playlist == NULL)
 		list_info = g_list_nth_data(mozart_playlists, 0);
 	else
 		list_info = g_list_nth_data(mozart_playlists,
-						find_list(active_playlist));
+					find_list(mozart_active_playlist));
 
 	if (mozart_repeat_single) {
-		if (active_playlist_index)
-			active_playlist_index--;
+		if (mozart_active_playlist_index)
+			mozart_active_playlist_index--;
 	}
 
-	if (active_playlist_index == list_info->nr_tracks) {
-		active_playlist_index = 0;
+	if (mozart_active_playlist_index == list_info->nr_tracks) {
+		mozart_active_playlist_index = 0;
 		if (!mozart_repeat_all) {
 			gst_element_set_state(mozart_player, GST_STATE_PAUSED);
 			return;
@@ -132,7 +132,7 @@ extern void mozart_rock_and_roll()
 
 	g_object_set(G_OBJECT(mozart_player), "uri",
 				g_ptr_array_index(list_info->tracks,
-						active_playlist_index), NULL);
+					mozart_active_playlist_index), NULL);
 	gst_element_set_state(mozart_player, GST_STATE_PLAYING);
 }
 
@@ -142,9 +142,9 @@ extern void mozart_rock_and_roll()
 extern void mozart_quiesce()
 {
 	mozart_playlists = NULL;
-	active_playlist_index = -1;
+	mozart_active_playlist_index = -1;
 	mozart_init_playlist("default");
-	active_playlist = "default";
+	mozart_active_playlist = "default";
 	gst_element_set_state(mozart_player, GST_STATE_NULL);
 }
 
