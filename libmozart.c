@@ -30,7 +30,7 @@ GstMessage *mozart_message;
 GList *mozart_playlists;
 char *active_playlist = NULL;
 struct list_info_data list_info;
-int tags_updated = 0;
+int mozart_updated_tags = 0;
 int active_playlist_index;
 gboolean mozart_repeat_single = FALSE;
 gboolean mozart_repeat_all = TRUE;
@@ -68,7 +68,7 @@ sleep:
 	}
 }
 
-gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
+gboolean mozart_cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
 {
 	GstTagList *tags;
 	GValue *tag;
@@ -96,7 +96,7 @@ gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
 	}
 	gst_tag_list_free(tags);
 
-	tags_updated = 1;
+	mozart_updated_tags = 1;
 
 	return TRUE;
 }
@@ -313,20 +313,20 @@ extern char *mozart_get_tag_title()
  */
 extern int mozart_tags_updated()
 {
-	return tags_updated;
+	return mozart_updated_tags;
 }
 
 /*
  * Resets tags_updated back to 0 to indicate the tag
  * information hasn't changed
- * tags_updated is set to 1 by cb_tag()
+ * tags_updated is set to 1 by mozart_cb_tag()
  *
  * This function is used by applications to indicate that
  * they have recieved the updated tags
  */
 extern void mozart_set_got_tags()
 {
-	tags_updated = 0;
+	mozart_updated_tags = 0;
 }
 
 /*
@@ -352,7 +352,8 @@ extern void mozart_init(int argc, char *argv[])
 	mozart_bus = gst_pipeline_get_bus(GST_PIPELINE(mozart_player));
 	gst_bus_add_signal_watch(mozart_bus);
 	g_signal_connect(mozart_bus, "message::eos", G_CALLBACK(cb_eos), loop);
-	g_signal_connect(mozart_bus, "message::tag", G_CALLBACK(cb_tag), NULL);
+	g_signal_connect(mozart_bus, "message::tag", G_CALLBACK(mozart_cb_tag),
+									NULL);
 
 	/* 
  	 * Catch when the current track is about to finish and 
@@ -369,6 +370,7 @@ extern void mozart_init(int argc, char *argv[])
 /*
  * Free the playlists
  */
+
 void free_playlists(struct list_info_data *list_info)
 {
 	g_ptr_array_foreach(list_info->tracks, (GFunc)g_free,

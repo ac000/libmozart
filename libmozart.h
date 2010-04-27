@@ -16,7 +16,7 @@
 
 void cb_eos(GMainLoop *loop);
 void nsleep(gint64 period);
-gboolean cb_tag(GstBus *mozart_bus, GstMessage *mozart_message);
+gboolean mozart_cb_tag(GstBus *mozart_bus, GstMessage *mozart_message);
 extern void mozart_rock_and_roll();
 extern void mozart_quiesce();
 void mozart_copy_playlist();
