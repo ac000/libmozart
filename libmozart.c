@@ -29,7 +29,7 @@ GstBus *mozart_bus;
 GstMessage *mozart_message;
 GList *mozart_playlists;
 char *mozart_active_playlist = NULL;
-struct list_info_data list_info;
+struct mozart_list_info_data list_info;
 int mozart_updated_tags = 0;
 int mozart_active_playlist_index;
 gboolean mozart_repeat_single = FALSE;
@@ -107,7 +107,7 @@ gboolean mozart_cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
  */
 extern void mozart_rock_and_roll()
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 
 	mozart_active_playlist_index++;
 
@@ -371,7 +371,7 @@ extern void mozart_init(int argc, char *argv[])
  * Free the playlists
  */
 
-void free_playlists(struct list_info_data *list_info)
+void free_playlists(struct mozart_list_info_data *list_info)
 {
 	g_ptr_array_foreach(list_info->tracks, (GFunc)g_free,
 				g_ptr_array_index(list_info->tracks, 0));
@@ -386,7 +386,7 @@ void free_playlists(struct list_info_data *list_info)
  */
 extern void mozart_destroy()
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 
 	gst_element_set_state(mozart_player, GST_STATE_NULL);
 	gst_object_unref(mozart_player);

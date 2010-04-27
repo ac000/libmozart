@@ -31,7 +31,7 @@ extern GList *mozart_playlists;
 extern char *mozart_active_playlist;
 extern int mozart_active_playlist_index;
 
-struct list_info_data {
+struct mozart_list_info_data {
 	GPtrArray *tracks;
 	int nr_tracks;
 	char *name;

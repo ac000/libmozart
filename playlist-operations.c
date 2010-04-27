@@ -26,12 +26,12 @@
  */
 extern int mozart_init_playlist(char *playlist)
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 
 	if (find_list(playlist) > -1)
 		return 1;
 
-	list_info = malloc(sizeof(struct list_info_data));
+	list_info = malloc(sizeof(struct mozart_list_info_data));
 	list_info->tracks = g_ptr_array_new();
 	list_info->nr_tracks = 0;
 	list_info->name = malloc(strlen(playlist) + 1);
@@ -49,7 +49,7 @@ extern int mozart_init_playlist(char *playlist)
  */
 extern int mozart_switch_playlist(char *playlist)
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 	int i;
 
 	if ((i = find_list(playlist)) < 0)
@@ -87,7 +87,7 @@ extern int mozart_switch_playlist(char *playlist)
  */
 int find_list(char *playlist)
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 	int list_len, i;
 
 	list_len = g_list_length(mozart_playlists);
@@ -107,7 +107,7 @@ int find_list(char *playlist)
  */
 int find_uri_index(char *uri)
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 	int list_len, i;
 
 	list_info = g_list_nth_data(mozart_playlists,
@@ -128,7 +128,7 @@ int find_uri_index(char *uri)
  */
 extern void mozart_play_index_at_pos(int index, gint64 pos)
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 
 	if (mozart_active_playlist == NULL)
 		list_info = g_list_nth_data(mozart_playlists, 0);
@@ -151,7 +151,7 @@ extern void mozart_play_index_at_pos(int index, gint64 pos)
 
 extern void mozart_play_uri_at_pos(char *uri, gint64 pos)
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 	int index;
 
 	if (mozart_active_playlist == NULL)
@@ -180,7 +180,7 @@ extern void mozart_play_uri_at_pos(char *uri, gint64 pos)
  */
 extern void mozart_add_uri_to_playlist(char *uri, char *playlist)
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 
 	if (!playlist)
 		playlist = "default";
@@ -242,7 +242,7 @@ extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist)
  */
 void mozart_copy_playlist(char *playlist)
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 	int i;
 	gchar *track;
 
@@ -269,7 +269,7 @@ extern int mozart_get_playlist_position()
  */
 extern int mozart_get_playlist_size()
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 
 	list_info = g_list_nth_data(mozart_playlists,
 					find_list(mozart_active_playlist));
@@ -282,7 +282,7 @@ extern int mozart_get_playlist_size()
  */
 extern char *mozart_get_current_uri()
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 
 	list_info = g_list_nth_data(mozart_playlists,
 					find_list(mozart_active_playlist));
@@ -314,7 +314,7 @@ extern int mozart_get_number_of_playlists()
  */
 extern int mozart_playlist_shuffled(char *playlist)
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 	char *uname;
 
 	if (!playlist)
@@ -338,7 +338,7 @@ extern int mozart_playlist_shuffled(char *playlist)
  */
 extern int mozart_remove_playlist(char *playlist)
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 	GList *node;
 	int pos;
 

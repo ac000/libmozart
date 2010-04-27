@@ -154,7 +154,7 @@ extern void mozart_player_seek(char *seek)
  */
 void mozart_fisher_yates_shuffle(char *playlist)
 {
-	struct list_info_data *list_info;
+	struct mozart_list_info_data *list_info;
 	int n, i;
 	guint32 random;
 	gpointer tmp;
@@ -214,7 +214,7 @@ extern void mozart_shuffle(char *playlist)
 extern void mozart_unshuffle(char *playlist)
 {
 	char *current_uri, *uname;
-	struct list_info_data *list_info, *u_list_info;
+	struct mozart_list_info_data *list_info, *u_list_info;
 	int i, s;
 	gchar *track;
 
