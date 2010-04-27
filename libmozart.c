@@ -49,7 +49,7 @@ void mozart_cb_eos(GMainLoop *loop)
  * A wrapper around nanosleep()
  * Takes a number of nanoseconds to sleep for.
  */
-void nsleep(gint64 period)
+void mozart_nsleep(gint64 period)
 {
 	struct timespec req;
 	struct timespec rem;

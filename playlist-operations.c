@@ -67,7 +67,7 @@ extern int mozart_switch_playlist(char *playlist)
 	 *
 	 * Hiding some other bug?
 	 */
-	nsleep(50000000);
+	mozart_nsleep(50000000);
 
 	mozart_active_playlist = malloc(strlen(playlist) + 1);
 	strcpy(mozart_active_playlist, playlist);
@@ -142,7 +142,7 @@ extern void mozart_play_index_at_pos(int index, gint64 pos)
 								index), NULL);
 	gst_element_set_state(mozart_player, GST_STATE_PLAYING);
 	/* Sleep needed here to prevent the seek from failing */
-	nsleep(50000000);
+	mozart_nsleep(50000000);
 	gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 									pos);
@@ -168,7 +168,7 @@ extern void mozart_play_uri_at_pos(char *uri, gint64 pos)
 								index), NULL);
 	gst_element_set_state(mozart_player, GST_STATE_PLAYING);
 	/* Sleep needed here to prevent the seek from failing */
-	nsleep(50000000);
+	mozart_nsleep(50000000);
 	gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 									pos);

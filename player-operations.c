@@ -94,7 +94,7 @@ extern void mozart_player_seek(char *seek)
 		if ((pos + 10 * GST_SECOND) > duration) {
 			excess = pos + 10 * GST_SECOND - duration;
 			mozart_next_track();
-			nsleep(50000000);
+			mozart_nsleep(50000000);
 			gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 									excess);
@@ -108,7 +108,7 @@ extern void mozart_player_seek(char *seek)
 		if ((pos + 60 * GST_SECOND) > duration) {
 			excess = pos + 60 * GST_SECOND - duration;
 			mozart_next_track();
-			nsleep(50000000);
+			mozart_nsleep(50000000);
 			gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 									excess);
@@ -120,7 +120,7 @@ extern void mozart_player_seek(char *seek)
 	} else if (strcmp(seek, "sseek-bwd") == 0) {
 		if (pos - 10 * GST_SECOND < 0) {
 			mozart_prev_track();
-			nsleep(50000000);
+			mozart_nsleep(50000000);
 			excess = pos - 10 * GST_SECOND;
 			duration = mozart_get_stream_duration_ns();
 			gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
@@ -134,7 +134,7 @@ extern void mozart_player_seek(char *seek)
 	} else if (strcmp(seek, "lseek-bwd") == 0) {
 		if (pos - 60 * GST_SECOND < 0) {
 			mozart_prev_track();
-			nsleep(50000000);
+			mozart_nsleep(50000000);
 			excess = pos - 60 * GST_SECOND;
 			duration = mozart_get_stream_duration_ns();
 			gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
