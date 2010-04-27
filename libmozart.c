@@ -370,7 +370,7 @@ extern void mozart_init(int argc, char *argv[])
  * Free the playlists
  */
 
-void free_playlists(struct mozart_list_info_data *list_info)
+void mozart_free_playlists(struct mozart_list_info_data *list_info)
 {
 	g_ptr_array_foreach(list_info->tracks, (GFunc)g_free,
 				g_ptr_array_index(list_info->tracks, 0));
@@ -391,6 +391,7 @@ extern void mozart_destroy()
 	gst_object_unref(mozart_player);
 	gst_object_unref(mozart_bus);
 
-	g_list_foreach(mozart_playlists, (GFunc)free_playlists, &list_info);
+	g_list_foreach(mozart_playlists, (GFunc)mozart_free_playlists,
+								&list_info);
 	g_list_free(mozart_playlists);
 }
