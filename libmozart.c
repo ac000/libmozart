@@ -40,7 +40,7 @@ char mozart_tag_album[TAG_LENGTH + 1];
 char mozart_tag_title[TAG_LENGTH + 1];
 
 
-void cb_eos(GMainLoop *loop)
+void mozart_cb_eos(GMainLoop *loop)
 {
 	g_main_loop_quit(loop);
 }
@@ -350,7 +350,8 @@ extern void mozart_init(int argc, char *argv[])
 
 	mozart_bus = gst_pipeline_get_bus(GST_PIPELINE(mozart_player));
 	gst_bus_add_signal_watch(mozart_bus);
-	g_signal_connect(mozart_bus, "message::eos", G_CALLBACK(cb_eos), loop);
+	g_signal_connect(mozart_bus, "message::eos", G_CALLBACK(mozart_cb_eos),
+									loop);
 	g_signal_connect(mozart_bus, "message::tag", G_CALLBACK(mozart_cb_tag),
 									NULL);
 

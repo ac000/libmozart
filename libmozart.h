@@ -14,7 +14,7 @@
 
 #define TAG_LENGTH	80
 
-void cb_eos(GMainLoop *loop);
+void mozart_cb_eos(GMainLoop *loop);
 void nsleep(gint64 period);
 gboolean mozart_cb_tag(GstBus *mozart_bus, GstMessage *mozart_message);
 extern void mozart_rock_and_roll();
