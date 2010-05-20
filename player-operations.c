@@ -103,7 +103,8 @@ extern void mozart_player_seek(char *seek)
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 							pos + 10 * GST_SECOND);
 		}
-	} else if (strcmp(seek, "lseek-fwd") == 0) {
+	} else if (strcmp(seek, "lseek-fwd") == 0 ||
+						strcmp(seek, "seek-fwd") == 0) {
 		duration = mozart_get_stream_duration_ns();
 		if ((pos + 60 * GST_SECOND) > duration) {
 			excess = pos + 60 * GST_SECOND - duration;
@@ -117,7 +118,8 @@ extern void mozart_player_seek(char *seek)
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 							pos + 60 * GST_SECOND);
 		}
-	} else if (strcmp(seek, "sseek-bwd") == 0) {
+	} else if (strcmp(seek, "sseek-bwd") == 0 ||
+						strcmp(seek, "seek-bwd") == 0) {
 		if (pos - 10 * GST_SECOND < 0) {
 			mozart_prev_track();
 			mozart_nsleep(50000000);
