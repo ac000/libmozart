@@ -77,7 +77,7 @@ extern void mozart_replay_track()
 }
 
 /*
- * Control forward/backward seeking in the current track.
+ * Control forward/backward seeking
  */
 extern void mozart_player_seek(char *seek)
 {
