@@ -77,11 +77,7 @@ extern void mozart_replay_track()
 }
 
 /*
- * Control forward/backward seeking.
- * We go 60 seconds forwards and 10 seconds back.
- *
- * The reason for the length difference is to make it easier
- * to get to a specific point.
+ * Control forward/backward seeking in the current track.
  */
 extern void mozart_player_seek(char *seek)
 {
@@ -93,7 +89,21 @@ extern void mozart_player_seek(char *seek)
 	if (!gst_element_query_position(mozart_player, &fmt, &pos))
 		return;
 
-	if (strcmp(seek, "seek-fwd") == 0) {
+	if (strcmp(seek, "sseek-fwd") == 0) {
+		duration = mozart_get_stream_duration_ns();
+		if ((pos + 10 * GST_SECOND) > duration) {
+			excess = pos + 10 * GST_SECOND - duration;
+			mozart_next_track();
+			mozart_nsleep(50000000);
+			gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
+				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
+									excess);
+		} else {
+			gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
+				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
+							pos + 10 * GST_SECOND);
+		}
+	} else if (strcmp(seek, "lseek-fwd") == 0) {
 		duration = mozart_get_stream_duration_ns();
 		if ((pos + 60 * GST_SECOND) > duration) {
 			excess = pos + 60 * GST_SECOND - duration;
@@ -107,7 +117,7 @@ extern void mozart_player_seek(char *seek)
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 							pos + 60 * GST_SECOND);
 		}
-	} else if (strcmp(seek, "seek-bwd") == 0) {
+	} else if (strcmp(seek, "sseek-bwd") == 0) {
 		if (pos - 10 * GST_SECOND < 0) {
 			mozart_prev_track();
 			mozart_nsleep(50000000);
@@ -120,6 +130,20 @@ extern void mozart_player_seek(char *seek)
 			gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
 							pos - 10 * GST_SECOND);
+		}
+	} else if (strcmp(seek, "lseek-bwd") == 0) {
+		if (pos - 60 * GST_SECOND < 0) {
+			mozart_prev_track();
+			mozart_nsleep(50000000);
+			excess = pos - 60 * GST_SECOND;
+			duration = mozart_get_stream_duration_ns();
+			gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
+				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
+							duration + excess);
+		} else {
+			gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
+				GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
+							pos - 60 * GST_SECOND);
 		}
 	}
 }
