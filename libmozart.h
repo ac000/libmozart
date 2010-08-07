@@ -43,4 +43,6 @@ extern void mozart_init(int argc, char *argv[]);
 void mozart_free_playlists(struct mozart_list_info_data *list_info);
 extern void mozart_destroy();
 
+extern GstBus *mozart_bus;
+
 #endif /* _LIBMOZART_H_ */
