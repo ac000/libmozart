@@ -39,9 +39,10 @@ char mozart_tag_album[TAG_LENGTH + 1];
 char mozart_tag_title[TAG_LENGTH + 1];
 
 
-void mozart_cb_eos(GMainLoop *loop)
+void mozart_cb_eos(GstBus *mozart_bus, gpointer user_data,
+						GstElement *mozart_player)
 {
-	g_main_loop_quit(loop);
+	gst_element_set_state(mozart_player, GST_STATE_PAUSED);
 }
 
 /*
@@ -121,11 +122,11 @@ extern void mozart_rock_and_roll()
 	}
 
 	if (mozart_active_playlist_index == list_info->nr_tracks) {
-		mozart_active_playlist_index = 0;
-		if (!mozart_repeat_all) {
-			gst_element_set_state(mozart_player, GST_STATE_PAUSED);
+		mozart_active_playlist_index--;
+		if (!mozart_repeat_all)
 			return;
-		}
+
+		mozart_active_playlist_index = 0;
 	}
 
 	g_object_set(G_OBJECT(mozart_player), "uri",
@@ -332,7 +333,6 @@ extern void mozart_set_got_tags()
  */
 extern void mozart_init(int argc, char *argv[])
 {
-	static GMainLoop *loop;
 	char *mozart_debug;
 
 	gst_init(&argc, &argv);
@@ -350,7 +350,7 @@ extern void mozart_init(int argc, char *argv[])
 	mozart_bus = gst_pipeline_get_bus(GST_PIPELINE(mozart_player));
 	gst_bus_add_signal_watch(mozart_bus);
 	g_signal_connect(mozart_bus, "message::eos", G_CALLBACK(mozart_cb_eos),
-									loop);
+								mozart_player);
 	g_signal_connect(mozart_bus, "message::tag", G_CALLBACK(mozart_cb_tag),
 									NULL);
 
