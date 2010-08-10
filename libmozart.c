@@ -372,7 +372,12 @@ extern void mozart_init(int argc, char *argv[])
 
 void mozart_free_playlists(struct mozart_list_info_data *list_info)
 {
-	g_ptr_array_foreach(list_info->tracks, (GFunc)g_free,
+	/*
+	 * Avoid a sigsev by only freeing tracks if there _are_ some.
+	 * e.g the _default_ playlist is empty.
+	 */
+	if (list_info->nr_tracks > 0)
+		g_ptr_array_foreach(list_info->tracks, (GFunc)g_free,
 				g_ptr_array_index(list_info->tracks, 0));
 
 	g_ptr_array_free(list_info->tracks, TRUE);
