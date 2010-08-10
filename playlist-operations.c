@@ -140,6 +140,12 @@ extern void mozart_play_index_at_pos(int index, gint64 pos)
 	g_object_set(G_OBJECT(mozart_player), "uri",
 				g_ptr_array_index(list_info->tracks,
 								index), NULL);
+	/*
+	 * Pause the stream and sleep here or a call to
+	 * gst_element_query_duration() can fail.
+	 */
+	gst_element_set_state(mozart_player, GST_STATE_PAUSED);
+	mozart_nsleep(50000000);
 	gst_element_set_state(mozart_player, GST_STATE_PLAYING);
 	/* Sleep needed here to prevent the seek from failing */
 	mozart_nsleep(50000000);
@@ -166,6 +172,12 @@ extern void mozart_play_uri_at_pos(char *uri, gint64 pos)
 	g_object_set(G_OBJECT(mozart_player), "uri",
 					g_ptr_array_index(list_info->tracks,
 								index), NULL);
+	/*
+	 * Pause the stream and sleep here or a call to
+	 * gst_element_query_duration() can fail.
+	 */
+	gst_element_set_state(mozart_player, GST_STATE_PAUSED);
+	mozart_nsleep(50000000);
 	gst_element_set_state(mozart_player, GST_STATE_PLAYING);
 	/* Sleep needed here to prevent the seek from failing */
 	mozart_nsleep(50000000);
