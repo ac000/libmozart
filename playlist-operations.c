@@ -83,7 +83,7 @@ extern int mozart_switch_playlist(char *playlist)
  * See if there is a playlist already of a given name.
  * Return an integer >= 0 if there is a playlist, this integer
  * specifies the position on the list of the playlist.
- * Return -1 if no list of the gien name is found.
+ * Return -1 if no list of the given name is found.
  */
 int mozart_find_list(char *playlist)
 {
