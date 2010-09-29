@@ -26,10 +26,17 @@ extern char *mozart_get_active_playlist_name();
 extern int mozart_playlist_shuffled(char *playlist);
 extern int mozart_remove_playlist(char *playlist);
 
-extern GList *mozart_playlists;
+
+extern GList *mozart_playlists;	/* A list of struct mozart_list_info_data's */
 extern char *mozart_active_playlist;
 extern int mozart_active_playlist_index;
 
+/**
+ * struct mozart_list_info_data - The playlist structure
+ * @tracks - An array of tracks
+ * @nr_tracks - Number of tracks in the playlist
+ * @name - The name of the playlist
+ */
 struct mozart_list_info_data {
 	GPtrArray *tracks;
 	int nr_tracks;
