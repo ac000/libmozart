@@ -45,9 +45,9 @@ void mozart_cb_eos(GstBus *mozart_bus, gpointer user_data,
 	gst_element_set_state(mozart_player, GST_STATE_PAUSED);
 }
 
-/*
- * A wrapper around nanosleep()
- * Takes a number of nanoseconds to sleep for.
+/**
+ * mozart_nsleep - A wrapper around nanosleep()
+ * @period: The number of nanoseconds to sleep for
  */
 void mozart_nsleep(gint64 period)
 {
@@ -147,8 +147,11 @@ extern void mozart_quiesce()
 	gst_element_set_state(mozart_player, GST_STATE_NULL);
 }
 
-/*
- * Returns the GstState of the player
+/**
+ * mozart_get_player_state - Returns the GstState of the player
+ *
+ * Returns one of; GST_STATE_VOID_PENDING, GST_STATE_NULL, GST_STATE_READY,
+ * 					GST_STATE_PAUSED, GST_STATE_PLAYING
  */
 extern GstState mozart_get_player_state()
 {
@@ -159,8 +162,10 @@ extern GstState mozart_get_player_state()
 	return state;
 }
 
-/*
- * Get the position of the stream in nanoseconds
+/**
+ * mozart_get_stream_position_ns - Get the position of the stream in nanoseconds
+ *
+ * Returns >= 0 on success or -1 on failure
  */
 extern gint64 mozart_get_stream_position_ns()
 {
@@ -173,8 +178,10 @@ extern gint64 mozart_get_stream_position_ns()
 		return -1;
 }
 
-/*
- * Get the position of the stream in seconds
+/**
+ * mozart_get_stream_position_sec - Get the position of the stream in seconds
+ *
+ * Returns >= 0 on success or -1 on failure
  */
 extern int mozart_get_stream_position_sec()
 {
@@ -188,8 +195,14 @@ extern int mozart_get_stream_position_sec()
 	return ns / GST_SECOND;
 }
 
-/*
- * Get the position of the stream split up into hours, minutes and seconds
+/**
+ * mozart_get_stream_position_hms - Get the position of the stream split up
+ * 						into hours, minutes and seconds
+ * @hours: Variable to hold the hours
+ * @minutes: Variable to hold the minutes
+ * @seconds: Variable to hold the seconds
+ *
+ * Returns 0 on success or -1 on failure
  */
 extern int mozart_get_stream_position_hms(int *hours, int *minutes, 
 								int *seconds)
@@ -203,8 +216,11 @@ extern int mozart_get_stream_position_hms(int *hours, int *minutes,
 	return ret;
 }
 
-/*
- * Returns the position of the stream as a percentage
+/**
+ * mozart_get_stream_progress - Returns the position of the stream as a
+ * 								percentage
+ *
+ * Returns a value between 0.0 and 100.0
  */
 extern float mozart_get_stream_progress()
 {
@@ -212,8 +228,10 @@ extern float mozart_get_stream_progress()
 		(float)mozart_get_stream_duration_sec()) * 100;
 }
 
-/*
- * Get the duration of the stream in nanoseconds
+/**
+ * mozart_get_stream_duration_ns - Get the duration of the stream in nanoseconds
+ *
+ * Returns >= 0 on success or -1 on failure
  */
 extern gint64 mozart_get_stream_duration_ns()
 {
@@ -226,8 +244,10 @@ extern gint64 mozart_get_stream_duration_ns()
 		return duration;
 }
 
-/*
- * Get the duration of the stream in seconds
+/**
+ * mozart_get_stream_duration_sec - Get the duration of the stream in seconds
+ *
+ * Returns >= 0 on success or -1 on failure
  */
 extern int mozart_get_stream_duration_sec()
 {
@@ -240,8 +260,14 @@ extern int mozart_get_stream_duration_sec()
 	return ns / GST_SECOND;
 }
 
-/*
- * Get the duration of the stream split up into hours, minutes and seconds
+/**
+ * mozart_get_stream_duration_hms - Get the duration of the stream split up
+ * 						into hours, minutes and seconds
+ * @hours: Variable to hold the number of hours
+ * @minutes: variable to hold the number of minutes
+ * @seconds: Variable to hold the number of seconds
+ *
+ * Returns 0 on success or -1 on failure
  */
 extern int mozart_get_stream_duration_hms(int *hours, int *minutes,
 								int *seconds)
@@ -255,8 +281,15 @@ extern int mozart_get_stream_duration_hms(int *hours, int *minutes,
 	return ret;
 }
 
-/*
- * Split a number of seconds up into hours, minutes and seconds
+/**
+ * mozart_convert_seconds_to_hms - Split a number of seconds up into hours,
+ * 							minutes and seconds
+ * @secs: Number of seconds to split up
+ * @hours: Variable to hold the number of hours
+ * @minutes: Variable to hold the number of minutes
+ * @seconds: Variable to hold the number of seconds
+ *
+ * Returns 0 on success or -1 on failure
  */
 extern int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes, 
 								int *seconds)
@@ -367,8 +400,9 @@ extern void mozart_init(int argc, char *argv[])
 	mozart_quiesce();
 }
 
-/*
- * Free the playlists
+/**
+ * mozart_free_playlists - Free the playlists
+ * @list_info: playlist to free
  */
 
 void mozart_free_playlists(struct mozart_list_info_data *list_info)
