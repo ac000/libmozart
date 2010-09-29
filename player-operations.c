@@ -279,8 +279,9 @@ extern void mozart_toggle_repeat_all()
                 mozart_repeat_all = FALSE;
 }
 
-/*
- * Retrieve the status of repeat single
+/**
+ * mozart_get_repeat_single - Check if repeat single is set
+ *
  * Return TRUE for repeat single is set
  * Return FALSE for repwat single is unset
  */
@@ -289,8 +290,9 @@ extern gboolean mozart_get_repeat_single()
 	return mozart_repeat_single;
 }
 
-/*
- * Retrieve the status of repeat all
+/**
+ * mozart_get_repeat_all - Check if repeat all is set
+ *
  * Return TRUE for repeat all is set
  * Return FALSE for repwat all is unset
  */
