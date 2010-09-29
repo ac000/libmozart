@@ -234,7 +234,6 @@ extern int mozart_get_stream_duration_sec()
 	gint64 ns;
 
 	ns = mozart_get_stream_duration_ns();
-
 	if (ns < 0)
 		return -1;
 

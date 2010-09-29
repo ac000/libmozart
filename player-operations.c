@@ -20,8 +20,8 @@
 extern void mozart_play_pause()
 {
 	GstState state;
-	gst_element_get_state(mozart_player, &state, NULL, 100000);
 
+	gst_element_get_state(mozart_player, &state, NULL, 100000);
 	if (state == GST_STATE_PLAYING)
 		gst_element_set_state(mozart_player, GST_STATE_PAUSED);
 	else 
@@ -157,7 +157,8 @@ extern void mozart_player_seek(char *seek)
 void mozart_fisher_yates_shuffle(char *playlist)
 {
 	struct mozart_list_info_data *list_info;
-	int n, i;
+	int n;
+	int i;
 	guint32 random;
 	gpointer tmp;
 
@@ -192,7 +193,8 @@ void mozart_fisher_yates_shuffle(char *playlist)
  */
 extern void mozart_shuffle(char *playlist)
 {
-	char *current_uri, *uname;
+	char *current_uri;
+	char *uname;
 
 	if (!playlist)
 		playlist = mozart_active_playlist;
@@ -216,9 +218,12 @@ extern void mozart_shuffle(char *playlist)
  */
 extern void mozart_unshuffle(char *playlist)
 {
-	char *current_uri, *uname;
-	struct mozart_list_info_data *list_info, *u_list_info;
-	int i, s;
+	char *current_uri;
+	char *uname;
+	struct mozart_list_info_data *list_info;
+	struct mozart_list_info_data *u_list_info;
+	int i;
+	int s;
 	gchar *track;
 
 	if (!playlist)

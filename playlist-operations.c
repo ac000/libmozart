@@ -88,7 +88,8 @@ extern int mozart_switch_playlist(char *playlist)
 int mozart_find_list(char *playlist)
 {
 	struct mozart_list_info_data *list_info;
-	int list_len, i;
+	int list_len;
+	int i;
 
 	list_len = g_list_length(mozart_playlists);
 	for (i = 0; i < list_len; i++) {
@@ -108,7 +109,8 @@ int mozart_find_list(char *playlist)
 int mozart_find_uri_index(char *uri)
 {
 	struct mozart_list_info_data *list_info;
-	int list_len, i;
+	int list_len;
+	int i;
 
 	list_info = g_list_nth_data(mozart_playlists,
 				mozart_find_list(mozart_active_playlist));
@@ -214,7 +216,9 @@ extern void mozart_add_uri_to_playlist(char *uri, char *playlist)
  */
 extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist)
 {
-	char buf[PATH_MAX + 1], path[PATH_MAX + 1], playlist_d[PATH_MAX + 1];
+	char buf[PATH_MAX + 1];
+	char path[PATH_MAX + 1];
+	char playlist_d[PATH_MAX + 1];
 	static FILE *fp;
 
 	if (!playlist)
