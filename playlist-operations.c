@@ -19,10 +19,11 @@
 #include "player-operations.h"
 
 
-/*
- * Function to initialise a new playlist.
- * Return -1 if there is already a playlist of the given name.
- * Return 0 is successful.
+/**
+ * mozart_init_playlist - Initialise a new playlist
+ * @playlist: The name of new playlist
+ *.
+ * Returns 0 on success or -1 on failure
  */
 extern int mozart_init_playlist(char *playlist)
 {
@@ -42,10 +43,11 @@ extern int mozart_init_playlist(char *playlist)
 	return 0;
 }
 
-/*
- * Switch to a new playlist
- * Return -1 on failure
- * Return 0 on success
+/**
+ * mozart_switch_playlist - Switch to a given playlist
+ * @playlist: The name of the playlist to switch to
+ *
+ * Returns 0 on success or -1 on failure
  */
 extern int mozart_switch_playlist(char *playlist)
 {
@@ -79,10 +81,13 @@ extern int mozart_switch_playlist(char *playlist)
 	return 0;
 }
 
-/*
- * See if there is a playlist already of a given name.
- * Return an integer >= 0 if there is a playlist, this integer
- * specifies the position on the list of the playlist.
+/**
+ * mozart_find_list - Find a playlist
+ * @playlist: The name of the playlist to find
+ *
+ * Returns >= 0 on success, this integer designates the position
+ * in the list of playlists of this playlist
+ *
  * Return -1 if no list of the given name is found.
  */
 int mozart_find_list(char *playlist)
@@ -101,10 +106,11 @@ int mozart_find_list(char *playlist)
 	return -1;
 }
 
-/*
- * Returns the active playlist index of the passed URI.
- * Range: -1..nr_tracks - 1
- * Returns -1 if the URI is not found.
+/**
+ * mozart_find_uri_index - Find the active playlist index of the passed URI
+ * @uri: The URI to find in the active playlist
+ *
+ * Returns 0..nr_tracks - 1 on success or -1 on failure
  */
 int mozart_find_uri_index(char *uri)
 {
@@ -124,9 +130,10 @@ int mozart_find_uri_index(char *uri)
 	return -1;
 }
 
-/*
- * Play a track referenced by its index at a certain position
- * in the stream.
+/**
+ * mozart_play_index_at_pos - Play a track at a certain position in the stream
+ * @index: The position of the track in the array to play
+ * @pos: The position in ns to start at
  */
 extern void mozart_play_index_at_pos(int index, gint64 pos)
 {
@@ -189,8 +196,10 @@ extern void mozart_play_uri_at_pos(char *uri, gint64 pos)
 	mozart_active_playlist_index = index;
 }
 
-/*
- * Add a URI to the playlist.
+/**
+ * mozart_add_uri_to_playlist - Add a URI to a playlist
+ * @uri: The URI to add
+ * @playlist: The name of the playlist to add it to
  */
 extern void mozart_add_uri_to_playlist(char *uri, char *playlist)
 {
@@ -211,8 +220,10 @@ extern void mozart_add_uri_to_playlist(char *uri, char *playlist)
 						__FUNCTION__, uri, playlist);
 }
 
-/*
- * Adds a playlist in m3u format to the playlist
+/**
+ * mozart_add_m3u_to_playlist - Add m3u playlist to a playlist
+ * @m3u: The m3u to add
+ * @playlist: The name of the playlist to add it to
  */
 extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist)
 {
@@ -254,8 +265,9 @@ extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist)
 	fclose(fp);
 }
 
-/*
- * Make a copy of the playlist
+/**
+ * mozart_copy_playlist - Make a copy of the active playlist
+ * @playlist: The name of the new playlist
  */
 void mozart_copy_playlist(char *playlist)
 {
@@ -272,17 +284,20 @@ void mozart_copy_playlist(char *playlist)
 	}
 }
 
-/*
- * Return the current position in the playlist
- * Range: 1..nr_tracks
+/**
+ * mozart_get_playlist_position - Get the track number in the active playlist
+ *
+ * Returns 1..nr_tracks
  */
 extern int mozart_get_playlist_position()
 {
 	return mozart_active_playlist_index + 1;
 }
 
-/*
- * Return the number of entries in the playlist
+/**
+ * mozart_get_playlist_size - Get the number of entries in the active playlist
+ *
+ * Returns the number of entries in the playlist
  */
 extern int mozart_get_playlist_size()
 {
@@ -294,7 +309,9 @@ extern int mozart_get_playlist_size()
 	return list_info->nr_tracks;
 }
 
-/*
+/**
+ * mozart_get_current_uri - Get the URI of the current track
+ *
  * Returns the URI of the currently playing track.
  */
 extern char *mozart_get_current_uri()
@@ -308,15 +325,19 @@ extern char *mozart_get_current_uri()
 						mozart_active_playlist_index);
 }
 
-/*
- * Return the name of the active playlist
+/**
+ * mozart_get_active_playlist_name - Get the name of the active playlist
+ *
+ * Returns the name of the active playlist
  */
 extern char *mozart_get_active_playlist_name()
 {
 	return mozart_active_playlist;
 }
 
-/*
+/**
+ * mozart_get_number_of_playlists - Get the number of playlists
+ *
  * Returns the number of playlists
  */
 extern int mozart_get_number_of_playlists()
@@ -324,10 +345,11 @@ extern int mozart_get_number_of_playlists()
 	return g_list_length(mozart_playlists);
 }
 
-/*
- * Returns the shuffled state of the playlist
- * 0 Unshuffled
- * 1 Shuffled
+/**
+ * mozart_playlist_shuffled - Get the shuffled status of a playlist
+ * @playlist: The name of the playlist to check
+ *
+ * Returns 0 for unshuffled or 1 for shuffled
  */
 extern int mozart_playlist_shuffled(char *playlist)
 {
@@ -348,10 +370,10 @@ extern int mozart_playlist_shuffled(char *playlist)
 		return 1;
 }
 
-/*
- * Remove a given playlist.
- * Return 0 on success
- * Return -1 on failure.
+/** mozart_remove_playlist - Remove a specified playlist
+ * @playlist: The playlist to remove
+ *
+ * Returns 0 on success or -1 on failure.
  */
 extern int mozart_remove_playlist(char *playlist)
 {
