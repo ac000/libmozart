@@ -21,7 +21,7 @@
 
 /*
  * Function to initialise a new playlist.
- * Return 1 if there is already a playlist of the given name.
+ * Return -1 if there is already a playlist of the given name.
  * Return 0 is successful.
  */
 extern int mozart_init_playlist(char *playlist)
@@ -29,7 +29,7 @@ extern int mozart_init_playlist(char *playlist)
 	struct mozart_list_info_data *list_info;
 
 	if (mozart_find_list(playlist) > -1)
-		return 1;
+		return -1;
 
 	list_info = malloc(sizeof(struct mozart_list_info_data));
 	list_info->tracks = g_ptr_array_new();
@@ -44,7 +44,7 @@ extern int mozart_init_playlist(char *playlist)
 
 /*
  * Switch to a new playlist
- * Return 1 on failure
+ * Return -1 on failure
  * Return 0 on success
  */
 extern int mozart_switch_playlist(char *playlist)
@@ -53,11 +53,11 @@ extern int mozart_switch_playlist(char *playlist)
 	int i;
 
 	if ((i = mozart_find_list(playlist)) < 0)
-		return 1;
+		return -1;
 
 	list_info = g_list_nth_data(mozart_playlists, i);
 	if (list_info->nr_tracks == 0)
-		return 1;
+		return -1;
 
 	/*
 	 * Avoid a lockup here, waiting on a futex, when switching
@@ -350,8 +350,8 @@ extern int mozart_playlist_shuffled(char *playlist)
 
 /*
  * Remove a given playlist.
- * Return 0 if specified playlist is not found
- * Return 1 on success.
+ * Return 0 on success
+ * Return -1 on failure.
  */
 extern int mozart_remove_playlist(char *playlist)
 {
@@ -361,11 +361,11 @@ extern int mozart_remove_playlist(char *playlist)
 
 	/* Don't try to remove the active playlist */
 	if (strcmp(playlist, mozart_active_playlist) == 0)
-		return 0;
+		return -1;
 
 	pos = mozart_find_list(playlist);
 	if (pos < 0)
-		return 0;
+		return -1;
 
 	list_info = g_list_nth_data(mozart_playlists, pos);
 
@@ -380,5 +380,5 @@ extern int mozart_remove_playlist(char *playlist)
 	node = g_list_nth(mozart_playlists, pos);
 	mozart_playlists = g_list_delete_link(mozart_playlists, node);
 
-	return 1;
+	return 0;
 }
