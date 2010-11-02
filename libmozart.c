@@ -207,13 +207,9 @@ extern int mozart_get_stream_position_sec()
 extern int mozart_get_stream_position_hms(int *hours, int *minutes, 
 								int *seconds)
 {
-	int secs;
-	int ret;
-
-	secs = mozart_get_stream_position_sec();
-	ret = mozart_convert_seconds_to_hms(secs, hours, minutes, seconds);
-
-	return ret;
+	return mozart_convert_seconds_to_hms(
+					mozart_get_stream_position_sec(),
+						hours, minutes, seconds);
 }
 
 /**
@@ -272,13 +268,9 @@ extern int mozart_get_stream_duration_sec()
 extern int mozart_get_stream_duration_hms(int *hours, int *minutes,
 								int *seconds)
 {
-	int secs;
-	int ret;
-
-	secs = mozart_get_stream_duration_sec();
-	ret = mozart_convert_seconds_to_hms(secs, hours, minutes, seconds);
-
-	return ret;
+	return mozart_convert_seconds_to_hms(
+					mozart_get_stream_duration_sec(),
+						hours, minutes, seconds);
 }
 
 /**
