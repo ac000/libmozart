@@ -227,9 +227,9 @@ extern void mozart_add_uri_to_playlist(char *uri, char *playlist)
  */
 extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist)
 {
-	char buf[PATH_MAX + 1];
-	char path[PATH_MAX + 1];
-	char playlist_d[PATH_MAX + 1];
+	char buf[PATH_MAX + 1] = "\0";
+	char path[PATH_MAX + 1] = "\0";
+	char playlist_d[PATH_MAX + 1] = "\0";
 	static FILE *fp;
 
 	if (!playlist)
