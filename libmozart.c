@@ -301,8 +301,8 @@ extern int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes,
 	} else if (secs > 3599) {
 		*hours = secs / 3600;
 		*seconds = secs - (*hours * 3600);
-		*minutes = secs / 60;
-		*seconds = secs - (*minutes * 60);
+		*minutes = *seconds / 60;
+		*seconds = secs - (*minutes * 60) - (*hours * 3600);
 	}
 
 	return 0;
