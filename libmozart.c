@@ -286,24 +286,13 @@ extern int mozart_get_stream_duration_hms(int *hours, int *minutes,
 extern int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes, 
 								int *seconds)
 {
-	*seconds = 0;
-	*minutes = 0;
-	*hours = 0;
-
 	if (secs < 0)
 		return -1;
 
-	if (secs < 60) {
-		*seconds = secs;
-	} else if (secs > 59 && secs < 3600) {
-		*minutes = secs / 60;
-		*seconds = secs - (*minutes * 60);
-	} else if (secs > 3599) {
-		*hours = secs / 3600;
-		*seconds = secs - (*hours * 3600);
-		*minutes = *seconds / 60;
-		*seconds = secs - (*minutes * 60) - (*hours * 3600);
-	}
+	*seconds = secs % 60;
+	secs /= 60;
+	*minutes = secs % 60;
+	*hours = secs / 60;
 
 	return 0;
 }
