@@ -385,7 +385,6 @@ extern void mozart_init(int argc, char *argv[])
  * mozart_free_playlist - Free a playlist
  * @list_info: playlist to free
  */
-
 void mozart_free_playlist(struct mozart_list_info_data *list_info)
 {
 	/*
