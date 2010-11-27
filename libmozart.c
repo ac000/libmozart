@@ -1,5 +1,5 @@
 /*
- * libmozart.c - Audio player 
+ * libmozart.c - Audio player framework
  *
  * Copyright (C) 2009-2010	Andrew Clayton <andrew@digital-domain.net>
  * Released under the GNU Lesser General Public License (LGPL) version 3. 
