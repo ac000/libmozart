@@ -29,7 +29,7 @@ extern int mozart_init_playlist(char *playlist)
 {
 	struct mozart_list_info_data *list_info;
 
-	if (mozart_find_list(playlist) > -1)
+	if (!playlist || mozart_find_list(playlist) > -1)
 		return -1;
 
 	list_info = malloc(sizeof(struct mozart_list_info_data));
@@ -55,6 +55,9 @@ extern int mozart_switch_playlist(char *playlist)
 {
 	struct mozart_list_info_data *list_info;
 	int i;
+
+	if (!playlist)
+		return -1;
 
 	if ((i = mozart_find_list(playlist)) < 0)
 		return -1;
