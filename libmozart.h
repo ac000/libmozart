@@ -19,7 +19,7 @@ void mozart_cb_eos(GstBus *mozart_bus, gpointer user_data,
 void mozart_nsleep(gint64 period);
 gboolean mozart_cb_tag(GstBus *mozart_bus, GstMessage *mozart_message);
 extern void mozart_rock_and_roll();
-extern void mozart_quiesce();
+void mozart_quiesce();
 void mozart_copy_playlist();
 extern GstState mozart_get_player_state();
 extern gint64 mozart_get_stream_position_ns();

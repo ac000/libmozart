@@ -138,7 +138,7 @@ extern void mozart_rock_and_roll()
 /*
  * Reset playlist and player, ready for playing a new playlist.
  */
-extern void mozart_quiesce()
+void mozart_quiesce()
 {
 	mozart_playlists = NULL;
 	mozart_active_playlist_index = -1;
