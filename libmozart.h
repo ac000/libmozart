@@ -41,6 +41,7 @@ extern int mozart_get_playlist_size();
 extern int mozart_tags_updated();
 extern void mozart_set_got_tags();
 extern void mozart_init(int argc, char *argv[]);
+extern void mozart_dump_state();
 void mozart_free_playlist(struct mozart_list_info_data *list_info);
 extern void mozart_destroy();
 

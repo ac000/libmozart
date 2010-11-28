@@ -378,6 +378,42 @@ extern void mozart_init(int argc, char *argv[])
 	mozart_quiesce();
 }
 
+extern void mozart_dump_state()
+{
+	int l;
+	int t;
+	int n = mozart_get_number_of_playlists();
+	char shuffled[3] = "\0";
+	struct mozart_list_info_data *list_info;
+
+	if (mozart_playlist_shuffled(NULL))
+		strcpy(shuffled, "S ");
+	else
+		strcpy(shuffled, "");
+
+	fprintf(stderr, "Number of playlists : %d\n", n);
+	fprintf(stderr, "Active playlist     : %s%s\n",
+					shuffled,
+					mozart_get_active_playlist_name());
+	fprintf(stderr, "Current track       : %d / %s\n",
+					mozart_get_playlist_position(),
+					mozart_get_tag_title());
+	fprintf(stderr, "Playlists           :\n");
+	for (l = 0; l < n; l++) {
+		list_info = g_list_nth_data(mozart_playlists, l);
+		fprintf(stderr, "\t%d %s\n", list_info->nr_tracks,
+						(char *)list_info->name);
+		if (list_info->nr_tracks > 0) {
+			for (t = 0; t < list_info->nr_tracks; t++) {
+				fprintf(stderr, "\t\t%s\n",
+						(char *)g_ptr_array_index(
+						list_info->tracks, t));
+			}
+		}
+		fprintf(stderr, "\n");
+	}
+}
+
 /**
  * mozart_free_playlist - Free a playlist
  * @list_info: playlist to free
