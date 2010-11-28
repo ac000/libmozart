@@ -110,10 +110,7 @@ extern void mozart_rock_and_roll()
 
 	mozart_active_playlist_index++;
 
-	if (mozart_active_playlist == NULL)
-		list_info = g_list_nth_data(mozart_playlists, 0);
-	else
-		list_info = g_list_nth_data(mozart_playlists,
+	list_info = g_list_nth_data(mozart_playlists,
 				mozart_find_list(mozart_active_playlist));
 
 	if (mozart_repeat_single) {
