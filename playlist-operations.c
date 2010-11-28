@@ -40,6 +40,8 @@ extern int mozart_init_playlist(char *playlist)
 
 	mozart_playlists = g_list_append(mozart_playlists, list_info);
 
+	d_printf(7, "libmozart %s: Created %s playlist\n",
+							__FUNCTION__, playlist);
 	return 0;
 }
 
