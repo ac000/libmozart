@@ -5,8 +5,8 @@ libmozart is a library for the handling of playlists and playback of audio.
 
 To test this library during development, create a couple of symlinks
 
-$ ln -s libmozart.so.0.0 libmozart.so.0
-$ ln -s libmozart.so.0.0 libmozart.so
+$ ln -s libmozart.so.0.0.0 libmozart.so.0
+$ ln -s libmozart.so.0.0.0 libmozart.so
   
 Then to run your program against it.
 
@@ -19,9 +19,8 @@ Environment variables
 LIBMOZART_DEBUG		Setting this to an integer 1-7, will cause various
 			debugging information to be displayed.
 
-			Currently only 1 will do anything.
+			Currently only 1 & 7 will do anything.
 
 
 *** NOTE ***
 The interface should be considered UNSTABLE and subject to change.
-
