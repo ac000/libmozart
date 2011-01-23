@@ -1,7 +1,7 @@
 /*
  * libmozart.c - Audio player framework
  *
- * Copyright (C) 2009-2010	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (C) 2009-2011	Andrew Clayton <andrew@digital-domain.net>
  * Released under the GNU Lesser General Public License (LGPL) version 3. 
  * See COPYING
  */
@@ -352,6 +352,7 @@ extern void mozart_init(int argc, char *argv[])
 	if ((mozart_debug = getenv("LIBMOZART_DEBUG")))
 		mozart_debug_level = atoi(mozart_debug);
 
+	d_printf(1, "libmozart version %s\n", LIBMOZART_VERSION);
 	d_printf(1, "Using %s\n", gst_version_string());
 
 	/* Set PulseAudio stream tag */

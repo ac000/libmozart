@@ -1,7 +1,7 @@
 /*
  * libmozart.h - mozart API header 
  *
- * Copyright (C) 2009-2010	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (C) 2009-2011	Andrew Clayton <andrew@digital-domain.net>
  * Released under the GNU Lesser General Public License (LGPL) version 3. 
  * See COPYING
  */
@@ -12,7 +12,9 @@
 #include "player-operations.h"
 #include "playlist-operations.h"
 
-#define TAG_LENGTH	80
+#define LIBMOZART_VERSION	"0.0.0"
+
+#define TAG_LENGTH		80
 
 void mozart_cb_eos(GstBus *mozart_bus, gpointer user_data,
 						GstElement *mozart_player);
