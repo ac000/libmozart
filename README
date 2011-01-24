@@ -12,6 +12,25 @@ Then to run your program against it.
 
 $ LD_LIBRARY_PATH=/path/to/library ./program [arguments]
 
+You can compile/link against the library without installing it by adding
+something like
+
+	LM=`echo -I/path/to/libmozart -L/path/to/libmozart -lmozart`
+
+to the top of your apps Makefile and then adding a ${LM} to your compile
+statement like
+
+	gcc -O2 -Wall sap.c -o sap $(LM) $(INCS) $(LIBS)
+
+e.g
+
+LIBS=`pkg-config --libs gstreamer-0.10`
+INCS=`pkg-config --cflags gstreamer-0.10`
+LM=`echo -I/path/to/libmozart -L/path/to/libmozart -lmozart`
+
+sap:	sap.c
+	gcc -O2 -Wall sap.c -o sap $(LM) $(INCS) $(LIBS)
+
 
 Environment variables
 ---------------------
@@ -20,6 +39,17 @@ LIBMOZART_DEBUG		Setting this to an integer 1-7, will cause various
 			debugging information to be displayed.
 
 			Currently only 1 & 7 will do anything.
+
+
+Hacking
+-------
+
+Coding style - This essentially follows the Linux Kernel coding style. See
+http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob;f=Documentation/CodingStyle;hb=HEAD
+
+Submitting patches - Patches should be created with git format-patch -M and be
+signed-off. Loosely following the Linux Kernel's procedures. See section 12
+(well, the whole thing is worth a read) here http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob;f=Documentation/SubmittingPatches;hb=HEAD
 
 
 *** NOTE ***
