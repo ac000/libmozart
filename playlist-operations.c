@@ -1,7 +1,7 @@
 /*
  * playlist-operations.c - libmozart playlist operations 
  *
- * Copyright (C) 2010	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (C) 2010-2011	Andrew Clayton <andrew@digital-domain.net>
  * Released under the GNU Lesser General Public License (LGPL) version 3. 
  * See COPYING
  */
@@ -375,7 +375,8 @@ extern int mozart_playlist_shuffled(char *playlist)
 		return 1;
 }
 
-/** mozart_remove_playlist - Remove a specified playlist
+/**
+ * mozart_remove_playlist - Remove a specified playlist
  * @playlist: The playlist to remove
  *
  * Returns 0 on success or -1 on failure.
