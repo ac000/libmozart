@@ -1,7 +1,8 @@
 /*
  * libmozart.h - mozart API header 
  *
- * Copyright (C) 2009-2011	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (C) 2009-2011	OpenTech Labs
+ * Copyright (C) 2009-2011	Andrew Clayton <andrew@opentechlabs.co.uk>
  * Released under the GNU Lesser General Public License (LGPL) version 3. 
  * See COPYING
  */
@@ -18,7 +19,6 @@
 
 void mozart_cb_eos(GstBus *mozart_bus, gpointer user_data,
 						GstElement *mozart_player);
-void mozart_nsleep(gint64 period);
 gboolean mozart_cb_tag(GstBus *mozart_bus, GstMessage *mozart_message);
 extern void mozart_rock_and_roll();
 void mozart_quiesce();

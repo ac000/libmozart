@@ -1,7 +1,8 @@
 /*
  * player-operations.c - Basic Audio Player Operations
  *
- * Copyright (C) 2009-2010	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (C) 2009-2011	OpenTech Labs
+ * Copyright (C) 2009-2011	Andrew Clayton <andrew@opentechlabs.co.uk>
  * Released under the GNU Lesser General Public License (LGPL) version 3. 
  * See COPYING
  */
@@ -10,6 +11,7 @@
 #include <gst/gst.h>
 
 #include "debug.h"
+#include "utils.h"
 #include "libmozart.h"
 #include "player-operations.h"
 #include "playlist-operations.h"

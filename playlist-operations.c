@@ -1,7 +1,8 @@
 /*
  * playlist-operations.c - libmozart playlist operations 
  *
- * Copyright (C) 2010-2011	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (C) 2010-2011	OpenTech Labs
+ * Copyright (C) 2010-2011	Andrew Clayton <andrew@opentechlabs.co.uk>
  * Released under the GNU Lesser General Public License (LGPL) version 3. 
  * See COPYING
  */
@@ -14,10 +15,9 @@
 #include <gst/gst.h>
 
 #include "debug.h"
-#include "libmozart.h"
+#include "utils.h"
 #include "playlist-operations.h"
 #include "player-operations.h"
-
 
 /**
  * mozart_init_playlist - Initialise a new playlist
