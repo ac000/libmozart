@@ -1,7 +1,8 @@
 /*
  * player-operations.h - Basic Audio Player Operations API header 
  * 
- * Copyright (C) 2009-2010	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (C) 2009-2011	OpenTech Labs
+ * Copyright (C) 2009-2011	Andrew Clayton <andrew@opentechlabs.co.uk>
  * Released under the GNU Lesser General Public License (LGPL) version 3. 
  * See COPYING
  */
@@ -14,7 +15,8 @@ extern void mozart_next_track();
 extern void mozart_prev_track();
 extern void mozart_replay_track();
 extern void mozart_player_seek(char *seek);
-void mozart_fisher_yates_shuffle(char *playlist);
+extern void __attribute__((visibility("hidden"))) mozart_fisher_yates_shuffle(
+							char *playlist);
 extern void mozart_shuffle(char *playlist);
 extern void mozart_unshuffle(char *playlist);
 extern void mozart_toggle_repeat_single();
