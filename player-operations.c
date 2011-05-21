@@ -7,7 +7,9 @@
  * See COPYING
  */
 
+#include <stdio.h>
 #include <string.h>
+
 #include <gst/gst.h>
 
 #include "debug.h"
@@ -28,7 +30,6 @@ extern void mozart_play_pause()
 		gst_element_set_state(mozart_player, GST_STATE_PAUSED);
 	else 
 		gst_element_set_state(mozart_player, GST_STATE_PLAYING);
-	
 }
 
 /*
