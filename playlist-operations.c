@@ -95,7 +95,7 @@ extern int mozart_switch_playlist(char *playlist)
  *
  * Return -1 if no list of the given name is found.
  */
-int mozart_find_list(char *playlist)
+extern int mozart_find_list(char *playlist)
 {
 	struct mozart_list_info_data *list_info;
 	int list_len;
@@ -117,7 +117,7 @@ int mozart_find_list(char *playlist)
  *
  * Returns 0..nr_tracks - 1 on success or -1 on failure
  */
-int mozart_find_uri_index(char *uri)
+extern int mozart_find_uri_index(char *uri)
 {
 	struct mozart_list_info_data *list_info;
 	int list_len;
@@ -274,7 +274,7 @@ extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist)
  * mozart_copy_playlist - Make a copy of the active playlist
  * @playlist: The name of the new playlist
  */
-void mozart_copy_playlist(char *playlist)
+extern void mozart_copy_playlist(char *playlist)
 {
 	struct mozart_list_info_data *list_info;
 	int i;
