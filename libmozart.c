@@ -41,13 +41,13 @@ char mozart_tag_album[TAG_LENGTH + 1];
 char mozart_tag_title[TAG_LENGTH + 1];
 
 
-void mozart_cb_eos(GstBus *mozart_bus, gpointer user_data,
+extern void mozart_cb_eos(GstBus *mozart_bus, gpointer user_data,
 						GstElement *mozart_player)
 {
 	gst_element_set_state(mozart_player, GST_STATE_PAUSED);
 }
 
-gboolean mozart_cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
+extern gboolean mozart_cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
 {
 	GstTagList *tags;
 	GValue *tag;
@@ -115,7 +115,7 @@ extern void mozart_rock_and_roll()
 /*
  * Reset playlist and player, ready for playing a new playlist.
  */
-void mozart_quiesce()
+extern void mozart_quiesce()
 {
 	mozart_playlists = NULL;
 	mozart_active_playlist_index = -1;
@@ -399,7 +399,7 @@ extern void mozart_dump_state()
  * mozart_free_playlist - Free a playlist
  * @list_info: playlist to free
  */
-void mozart_free_playlist(struct mozart_list_info_data *list_info)
+extern void mozart_free_playlist(struct mozart_list_info_data *list_info)
 {
 	/*
 	 * Avoid a sigsev by only freeing tracks if there _are_ some.
