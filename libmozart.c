@@ -41,13 +41,13 @@ char mozart_tag_album[TAG_LENGTH + 1];
 char mozart_tag_title[TAG_LENGTH + 1];
 
 
-extern void mozart_cb_eos(GstBus *mozart_bus, gpointer user_data,
+static void mozart_cb_eos(GstBus *mozart_bus, gpointer user_data,
 						GstElement *mozart_player)
 {
 	gst_element_set_state(mozart_player, GST_STATE_PAUSED);
 }
 
-extern gboolean mozart_cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
+static gboolean mozart_cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
 {
 	GstTagList *tags;
 	GValue *tag;
@@ -84,7 +84,7 @@ extern gboolean mozart_cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
  * This gets the ball rolling and is called once at startup and then 
  * whenever the end of the current track is nearing.
  */
-extern void mozart_rock_and_roll()
+void mozart_rock_and_roll()
 {
 	struct mozart_list_info_data *list_info;
 
@@ -115,7 +115,7 @@ extern void mozart_rock_and_roll()
 /*
  * Reset playlist and player, ready for playing a new playlist.
  */
-extern void mozart_quiesce()
+static void mozart_quiesce()
 {
 	mozart_playlists = NULL;
 	mozart_active_playlist_index = -1;
@@ -130,7 +130,7 @@ extern void mozart_quiesce()
  * Returns one of; GST_STATE_VOID_PENDING, GST_STATE_NULL, GST_STATE_READY,
  * 					GST_STATE_PAUSED, GST_STATE_PLAYING
  */
-extern GstState mozart_get_player_state()
+GstState mozart_get_player_state()
 {
 	GstState state;
 
@@ -140,11 +140,35 @@ extern GstState mozart_get_player_state()
 }
 
 /**
+ * mozart_convert_seconds_to_hms - Split a number of seconds up into hours,
+ * 							minutes and seconds
+ * @secs: Number of seconds to split up
+ * @hours: Variable to hold the number of hours
+ * @minutes: Variable to hold the number of minutes
+ * @seconds: Variable to hold the number of seconds
+ *
+ * Returns 0 on success or -1 on failure
+ */
+static int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes,
+								int *seconds)
+{
+	if (secs < 0)
+		return -1;
+
+	*seconds = secs % 60;
+	secs /= 60;
+	*minutes = secs % 60;
+	*hours = secs / 60;
+
+	return 0;
+}
+
+/**
  * mozart_get_stream_position_ns - Get the position of the stream in nanoseconds
  *
  * Returns >= 0 on success or -1 on failure
  */
-extern gint64 mozart_get_stream_position_ns()
+gint64 mozart_get_stream_position_ns()
 {
 	GstFormat fmt = GST_FORMAT_TIME;
 	gint64 pos;
@@ -160,7 +184,7 @@ extern gint64 mozart_get_stream_position_ns()
  *
  * Returns >= 0 on success or -1 on failure
  */
-extern int mozart_get_stream_position_sec()
+int mozart_get_stream_position_sec()
 {
 	gint64 ns;
 
@@ -181,8 +205,7 @@ extern int mozart_get_stream_position_sec()
  *
  * Returns 0 on success or -1 on failure
  */
-extern int mozart_get_stream_position_hms(int *hours, int *minutes, 
-								int *seconds)
+int mozart_get_stream_position_hms(int *hours, int *minutes, int *seconds)
 {
 	return mozart_convert_seconds_to_hms(
 					mozart_get_stream_position_sec(),
@@ -195,7 +218,7 @@ extern int mozart_get_stream_position_hms(int *hours, int *minutes,
  *
  * Returns a value between 0.0 and 100.0
  */
-extern float mozart_get_stream_progress()
+float mozart_get_stream_progress()
 {
 	return ((float)mozart_get_stream_position_sec() /
 		(float)mozart_get_stream_duration_sec()) * 100;
@@ -206,7 +229,7 @@ extern float mozart_get_stream_progress()
  *
  * Returns >= 0 on success or -1 on failure
  */
-extern gint64 mozart_get_stream_duration_ns()
+gint64 mozart_get_stream_duration_ns()
 {
 	GstFormat fmt = GST_FORMAT_TIME;
 	gint64 duration;
@@ -222,7 +245,7 @@ extern gint64 mozart_get_stream_duration_ns()
  *
  * Returns >= 0 on success or -1 on failure
  */
-extern int mozart_get_stream_duration_sec()
+int mozart_get_stream_duration_sec()
 {
 	gint64 ns;
 
@@ -242,42 +265,17 @@ extern int mozart_get_stream_duration_sec()
  *
  * Returns 0 on success or -1 on failure
  */
-extern int mozart_get_stream_duration_hms(int *hours, int *minutes,
-								int *seconds)
+int mozart_get_stream_duration_hms(int *hours, int *minutes, int *seconds)
 {
 	return mozart_convert_seconds_to_hms(
 					mozart_get_stream_duration_sec(),
 						hours, minutes, seconds);
 }
 
-/**
- * mozart_convert_seconds_to_hms - Split a number of seconds up into hours,
- * 							minutes and seconds
- * @secs: Number of seconds to split up
- * @hours: Variable to hold the number of hours
- * @minutes: Variable to hold the number of minutes
- * @seconds: Variable to hold the number of seconds
- *
- * Returns 0 on success or -1 on failure
- */
-extern int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes, 
-								int *seconds)
-{
-	if (secs < 0)
-		return -1;
-
-	*seconds = secs % 60;
-	secs /= 60;
-	*minutes = secs % 60;
-	*hours = secs / 60;
-
-	return 0;
-}
-
 /*
  * Return the value of the artist tag
  */
-extern char *mozart_get_tag_artist()
+char *mozart_get_tag_artist()
 {
 	return mozart_tag_artist;
 }
@@ -285,7 +283,7 @@ extern char *mozart_get_tag_artist()
 /*
  * Return the value of the album tag
  */
-extern char *mozart_get_tag_album()
+char *mozart_get_tag_album()
 {
 	return mozart_tag_album;
 }
@@ -293,7 +291,7 @@ extern char *mozart_get_tag_album()
 /*
  * Return the value of the title tag
  */
-extern char *mozart_get_tag_title()
+char *mozart_get_tag_title()
 {
 	return mozart_tag_title;
 }
@@ -302,7 +300,7 @@ extern char *mozart_get_tag_title()
  * Returns the value of tags_updated to indicate if
  * the tag information has been updated
  */
-extern int mozart_tags_updated()
+int mozart_tags_updated()
 {
 	return mozart_updated_tags;
 }
@@ -315,7 +313,7 @@ extern int mozart_tags_updated()
  * This function is used by applications to indicate that
  * they have recieved the updated tags
  */
-extern void mozart_set_got_tags()
+void mozart_set_got_tags()
 {
 	mozart_updated_tags = 0;
 }
@@ -323,7 +321,7 @@ extern void mozart_set_got_tags()
 /*
  * Initialize GStreamer stuff
  */
-extern void mozart_init(int argc, char *argv[])
+void mozart_init(int argc, char *argv[])
 {
 	char *mozart_debug;
 
@@ -359,7 +357,7 @@ extern void mozart_init(int argc, char *argv[])
 	mozart_quiesce();
 }
 
-extern void mozart_dump_state()
+void mozart_dump_state()
 {
 	int l;
 	int t;
@@ -399,7 +397,7 @@ extern void mozart_dump_state()
  * mozart_free_playlist - Free a playlist
  * @list_info: playlist to free
  */
-extern void mozart_free_playlist(struct mozart_list_info_data *list_info)
+static void mozart_free_playlist(struct mozart_list_info_data *list_info)
 {
 	/*
 	 * Avoid a sigsev by only freeing tracks if there _are_ some.
@@ -417,7 +415,7 @@ extern void mozart_free_playlist(struct mozart_list_info_data *list_info)
 /*
  * Clean up GStreamer stuff
  */
-extern void mozart_destroy()
+void mozart_destroy()
 {
 	struct mozart_list_info_data *list_info;
 

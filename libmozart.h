@@ -17,40 +17,25 @@
 
 #define TAG_LENGTH		80
 
-extern void __attribute__((visibility("hidden"))) mozart_cb_eos(
-					GstBus *mozart_bus, gpointer user_data,
-					GstElement *mozart_player);
-extern gboolean __attribute__((visibility("hidden"))) mozart_cb_tag(
-					GstBus *mozart_bus,
-					GstMessage *mozart_message);
-extern void mozart_rock_and_roll();
-extern void __attribute__((visibility("hidden"))) mozart_quiesce();
-extern void __attribute__((visibility("hidden"))) mozart_copy_playlist();
-extern GstState mozart_get_player_state();
-extern gint64 mozart_get_stream_position_ns();
-extern int mozart_get_stream_position_sec();
-extern int mozart_get_stream_position_hms(int *hours, int *minutes, 
-								int *seconds);
-extern float mozart_get_stream_progress();
-extern gint64 mozart_get_stream_duration_ns();
-extern int mozart_get_stream_duration_sec();
-extern int mozart_get_stream_duration_hms(int *hours, int *minutes,
-								int *seconds);
-extern int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes,
-                                                                int *seconds);
-extern char *mozart_get_tag_artist();
-extern char *mozart_get_tag_album();
-extern char *mozart_get_tag_title();
-extern int mozart_get_playlist_position();
-extern int mozart_get_playlist_size();
-extern int mozart_tags_updated();
-extern void mozart_set_got_tags();
-extern void mozart_init(int argc, char *argv[]);
-extern void mozart_dump_state();
-extern void __attribute__((visibility("hidden"))) mozart_free_playlist(
-					struct mozart_list_info_data
-					*list_info);
-extern void mozart_destroy();
+void mozart_rock_and_roll();
+GstState mozart_get_player_state();
+gint64 mozart_get_stream_position_ns();
+int mozart_get_stream_position_sec();
+int mozart_get_stream_position_hms(int *hours, int *minutes, int *seconds);
+float mozart_get_stream_progress();
+gint64 mozart_get_stream_duration_ns();
+int mozart_get_stream_duration_sec();
+int mozart_get_stream_duration_hms(int *hours, int *minutes, int *seconds);
+char *mozart_get_tag_artist();
+char *mozart_get_tag_album();
+char *mozart_get_tag_title();
+int mozart_get_playlist_position();
+int mozart_get_playlist_size();
+int mozart_tags_updated();
+void mozart_set_got_tags();
+void mozart_init(int argc, char *argv[]);
+void mozart_dump_state();
+void mozart_destroy();
 
 extern GstBus *mozart_bus;
 

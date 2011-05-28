@@ -10,19 +10,17 @@
 #ifndef _PLAYEROPERATIONS_H_
 #define _PLAYEROPERATIONS_H_
 
-extern void mozart_play_pause();
-extern void mozart_next_track();
-extern void mozart_prev_track();
-extern void mozart_replay_track();
-extern void mozart_player_seek(char *seek);
-extern void __attribute__((visibility("hidden"))) mozart_fisher_yates_shuffle(
-							char *playlist);
-extern void mozart_shuffle(char *playlist);
-extern void mozart_unshuffle(char *playlist);
-extern void mozart_toggle_repeat_single();
-extern void mozart_toggle_repeat_all();
-extern gboolean mozart_get_repeat_single();
-extern gboolean mozart_get_repeat_all();
+void mozart_play_pause();
+void mozart_next_track();
+void mozart_prev_track();
+void mozart_replay_track();
+void mozart_player_seek(char *seek);
+void mozart_shuffle(char *playlist);
+void mozart_unshuffle(char *playlist);
+void mozart_toggle_repeat_single();
+void mozart_toggle_repeat_all();
+gboolean mozart_get_repeat_single();
+gboolean mozart_get_repeat_all();
 
 extern GstElement *mozart_player;
 extern int mozart_active_playlist_index;

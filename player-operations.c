@@ -21,7 +21,7 @@
 /* 
  * Toggle the state of the player to playing/paused
  */
-extern void mozart_play_pause()
+void mozart_play_pause()
 {
 	GstState state;
 
@@ -35,7 +35,7 @@ extern void mozart_play_pause()
 /*
  * Play next track of the playlist
  */
-extern void mozart_next_track()
+void mozart_next_track()
 {
 	if (mozart_active_playlist_index + 1 == mozart_get_playlist_size())
 		mozart_active_playlist_index = -1;
@@ -51,7 +51,7 @@ extern void mozart_next_track()
  * Move the track index to point to the previous track and signal
  * the player that the current stream is about to finish.
  */
-extern void mozart_prev_track()
+void mozart_prev_track()
 {
 	/*
 	 * We decrement the index by 2 here because
@@ -73,7 +73,7 @@ extern void mozart_prev_track()
 /*
  * Go back to the begining of the current stream
  */
-extern void mozart_replay_track()
+void mozart_replay_track()
 {
 	gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 			GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT, 0);
@@ -82,7 +82,7 @@ extern void mozart_replay_track()
 /*
  * Control forward/backward seeking
  */
-extern void mozart_player_seek(char *seek)
+void mozart_player_seek(char *seek)
 {
 	GstFormat fmt = GST_FORMAT_TIME;
 	gint64 pos;		/* position in current stream in ns */
@@ -157,7 +157,7 @@ extern void mozart_player_seek(char *seek)
  * Shuffle a list of tracks using the Fisher-Yates Algorithm
  * Keep a copy of the unshuffled list.
  */
-extern void mozart_fisher_yates_shuffle(char *playlist)
+static void mozart_fisher_yates_shuffle(char *playlist)
 {
 	struct mozart_list_info_data *list_info;
 	int n;
@@ -194,7 +194,7 @@ extern void mozart_fisher_yates_shuffle(char *playlist)
  * mozart_fisher_yates_shuffle() but could in future use
  * different shuffling algorithms.
  */
-extern void mozart_shuffle(char *playlist)
+void mozart_shuffle(char *playlist)
 {
 	char *current_uri;
 	char *uname;
@@ -219,7 +219,7 @@ extern void mozart_shuffle(char *playlist)
 /* 
  * Restore the playlist to its unshuffled state.
  */
-extern void mozart_unshuffle(char *playlist)
+void mozart_unshuffle(char *playlist)
 {
 	char *current_uri;
 	char *uname;
@@ -263,7 +263,7 @@ out:
 /*
  * Set/unset the repeat single track flag
  */
-extern void mozart_toggle_repeat_single()
+void mozart_toggle_repeat_single()
 {
 	if (!mozart_repeat_single)
 		mozart_repeat_single = TRUE;
@@ -274,7 +274,7 @@ extern void mozart_toggle_repeat_single()
 /*
  * Set/unset the repeat all track flag
  */
-extern void mozart_toggle_repeat_all()
+void mozart_toggle_repeat_all()
 {
         if (!mozart_repeat_all)
                 mozart_repeat_all = TRUE;
@@ -288,7 +288,7 @@ extern void mozart_toggle_repeat_all()
  * Return TRUE for repeat single is set
  * Return FALSE for repwat single is unset
  */
-extern gboolean mozart_get_repeat_single()
+gboolean mozart_get_repeat_single()
 {
 	return mozart_repeat_single;
 }
@@ -299,7 +299,7 @@ extern gboolean mozart_get_repeat_single()
  * Return TRUE for repeat all is set
  * Return FALSE for repwat all is unset
  */
-extern gboolean mozart_get_repeat_all()
+gboolean mozart_get_repeat_all()
 {
 	return mozart_repeat_all;
 }

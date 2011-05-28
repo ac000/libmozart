@@ -25,7 +25,7 @@
  *.
  * Returns 0 on success or -1 on failure
  */
-extern int mozart_init_playlist(char *playlist)
+int mozart_init_playlist(char *playlist)
 {
 	struct mozart_list_info_data *list_info;
 
@@ -51,7 +51,7 @@ extern int mozart_init_playlist(char *playlist)
  *
  * Returns 0 on success or -1 on failure
  */
-extern int mozart_switch_playlist(char *playlist)
+int mozart_switch_playlist(char *playlist)
 {
 	struct mozart_list_info_data *list_info;
 	int i;
@@ -95,7 +95,7 @@ extern int mozart_switch_playlist(char *playlist)
  *
  * Return -1 if no list of the given name is found.
  */
-extern int mozart_find_list(char *playlist)
+int mozart_find_list(char *playlist)
 {
 	struct mozart_list_info_data *list_info;
 	int list_len;
@@ -117,7 +117,7 @@ extern int mozart_find_list(char *playlist)
  *
  * Returns 0..nr_tracks - 1 on success or -1 on failure
  */
-extern int mozart_find_uri_index(char *uri)
+int mozart_find_uri_index(char *uri)
 {
 	struct mozart_list_info_data *list_info;
 	int list_len;
@@ -140,7 +140,7 @@ extern int mozart_find_uri_index(char *uri)
  * @index: The position of the track in the array to play
  * @pos: The position in ns to start at
  */
-extern void mozart_play_index_at_pos(int index, gint64 pos)
+void mozart_play_index_at_pos(int index, gint64 pos)
 {
 	struct mozart_list_info_data *list_info;
 
@@ -169,7 +169,7 @@ extern void mozart_play_index_at_pos(int index, gint64 pos)
 	mozart_active_playlist_index = index;
 }
 
-extern void mozart_play_uri_at_pos(char *uri, gint64 pos)
+void mozart_play_uri_at_pos(char *uri, gint64 pos)
 {
 	struct mozart_list_info_data *list_info;
 	int index;
@@ -206,7 +206,7 @@ extern void mozart_play_uri_at_pos(char *uri, gint64 pos)
  * @uri: The URI to add
  * @playlist: The name of the playlist to add it to
  */
-extern void mozart_add_uri_to_playlist(char *uri, char *playlist)
+void mozart_add_uri_to_playlist(char *uri, char *playlist)
 {
 	struct mozart_list_info_data *list_info;
 
@@ -230,7 +230,7 @@ extern void mozart_add_uri_to_playlist(char *uri, char *playlist)
  * @m3u: The m3u to add
  * @playlist: The name of the playlist to add it to
  */
-extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist)
+void mozart_add_m3u_to_playlist(char *m3u, char *playlist)
 {
 	char buf[PATH_MAX + 1] = "\0";
 	char path[PATH_MAX + 1] = "\0";
@@ -274,7 +274,7 @@ extern void mozart_add_m3u_to_playlist(char *m3u, char *playlist)
  * mozart_copy_playlist - Make a copy of the active playlist
  * @playlist: The name of the new playlist
  */
-extern void mozart_copy_playlist(char *playlist)
+void mozart_copy_playlist(char *playlist)
 {
 	struct mozart_list_info_data *list_info;
 	int i;
@@ -294,7 +294,7 @@ extern void mozart_copy_playlist(char *playlist)
  *
  * Returns 1..nr_tracks
  */
-extern int mozart_get_playlist_position()
+int mozart_get_playlist_position()
 {
 	return mozart_active_playlist_index + 1;
 }
@@ -304,7 +304,7 @@ extern int mozart_get_playlist_position()
  *
  * Returns the number of entries in the playlist
  */
-extern int mozart_get_playlist_size()
+int mozart_get_playlist_size()
 {
 	struct mozart_list_info_data *list_info;
 
@@ -319,7 +319,7 @@ extern int mozart_get_playlist_size()
  *
  * Returns the URI of the currently playing track.
  */
-extern char *mozart_get_current_uri()
+char *mozart_get_current_uri()
 {
 	struct mozart_list_info_data *list_info;
 
@@ -335,7 +335,7 @@ extern char *mozart_get_current_uri()
  *
  * Returns the name of the active playlist
  */
-extern char *mozart_get_active_playlist_name()
+char *mozart_get_active_playlist_name()
 {
 	return mozart_active_playlist;
 }
@@ -345,7 +345,7 @@ extern char *mozart_get_active_playlist_name()
  *
  * Returns the number of playlists
  */
-extern int mozart_get_number_of_playlists()
+int mozart_get_number_of_playlists()
 {
 	return g_list_length(mozart_playlists);
 }
@@ -356,7 +356,7 @@ extern int mozart_get_number_of_playlists()
  *
  * Returns 0 for unshuffled or 1 for shuffled
  */
-extern int mozart_playlist_shuffled(char *playlist)
+int mozart_playlist_shuffled(char *playlist)
 {
 	struct mozart_list_info_data *list_info;
 	char *uname;
@@ -381,7 +381,7 @@ extern int mozart_playlist_shuffled(char *playlist)
  *
  * Returns 0 on success or -1 on failure.
  */
-extern int mozart_remove_playlist(char *playlist)
+int mozart_remove_playlist(char *playlist)
 {
 	struct mozart_list_info_data *list_info;
 	GList *node;
