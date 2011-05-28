@@ -7,11 +7,14 @@
  * See COPYING
  */
 
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
 #include <libgen.h>
+
 #include <gst/gst.h>
 
 #include "debug.h"
@@ -248,11 +251,7 @@ void mozart_add_m3u_to_playlist(char *m3u, char *playlist)
 
 	d_printf(7, "libmozart %s: Adding %s to %s\n",
 						__FUNCTION__, m3u, playlist);
-	/*
-	 * dirname() modifies the string passed to it, so make
-	 * a copy of it first.
-	 */
-	strncpy(playlist_d, dirname(m3u), PATH_MAX);
+	strncpy(playlist_d, dirname(strdupa(m3u)), PATH_MAX);
 
 	while (fgets(buf, PATH_MAX - strlen(path), fp)) {
 		/*
