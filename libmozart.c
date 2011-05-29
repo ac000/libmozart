@@ -149,7 +149,7 @@ GstState mozart_get_player_state()
  *
  * Returns 0 on success or -1 on failure
  */
-static int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes,
+int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes,
 								int *seconds)
 {
 	if (secs < 0)
@@ -218,7 +218,7 @@ int mozart_get_stream_position_hms(int *hours, int *minutes, int *seconds)
  *
  * Returns a value between 0.0 and 100.0
  */
-float mozart_get_stream_progress()
+float __attribute__((deprecated)) mozart_get_stream_progress()
 {
 	return ((float)mozart_get_stream_position_sec() /
 		(float)mozart_get_stream_duration_sec()) * 100;
@@ -265,7 +265,8 @@ int mozart_get_stream_duration_sec()
  *
  * Returns 0 on success or -1 on failure
  */
-int mozart_get_stream_duration_hms(int *hours, int *minutes, int *seconds)
+int __attribute__((deprecated)) mozart_get_stream_duration_hms(int *hours,
+						int *minutes, int *seconds)
 {
 	return mozart_convert_seconds_to_hms(
 					mozart_get_stream_duration_sec(),

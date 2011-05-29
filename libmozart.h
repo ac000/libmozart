@@ -19,13 +19,16 @@
 
 void mozart_rock_and_roll();
 GstState mozart_get_player_state();
+int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes,
+								int *seconds);
 gint64 mozart_get_stream_position_ns();
 int mozart_get_stream_position_sec();
 int mozart_get_stream_position_hms(int *hours, int *minutes, int *seconds);
-float mozart_get_stream_progress();
+float __attribute__((deprecated)) mozart_get_stream_progress();
 gint64 mozart_get_stream_duration_ns();
 int mozart_get_stream_duration_sec();
-int mozart_get_stream_duration_hms(int *hours, int *minutes, int *seconds);
+int __attribute__((deprecated)) mozart_get_stream_duration_hms(int *hours,
+						int *minutes, int *seconds);
 char *mozart_get_tag_artist();
 char *mozart_get_tag_album();
 char *mozart_get_tag_title();
