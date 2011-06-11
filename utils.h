@@ -10,6 +10,6 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
-extern void mozart_nsleep(gint64 period);
+void mozart_nsleep(gint64 period);
 
 #endif /* _UTILS_H_ */

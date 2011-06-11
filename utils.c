@@ -17,7 +17,7 @@
  * mozart_nsleep - A wrapper around nanosleep()
  * @period: The number of nanoseconds to sleep for
  */
-extern void mozart_nsleep(gint64 period)
+void mozart_nsleep(gint64 period)
 {
 	struct timespec req;
 	struct timespec rem;
