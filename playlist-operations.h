@@ -19,11 +19,11 @@ void mozart_play_uri_at_pos(char *uri, gint64 pos);
 void mozart_add_uri_to_playlist(char *uri, char *playlist);
 void mozart_add_m3u_to_playlist(char *m3u, char *playlist);
 void __attribute__((visibility("hidden"))) mozart_copy_playlist();
-int mozart_get_playlist_position();
-int mozart_get_playlist_size();
-char *mozart_get_current_uri();
-int mozart_get_number_of_playlists();
-char *mozart_get_active_playlist_name();
+int mozart_get_playlist_position(void);
+int mozart_get_playlist_size(void);
+char *mozart_get_current_uri(void);
+int mozart_get_number_of_playlists(void);
+char *mozart_get_active_playlist_name(void);
 int mozart_playlist_shuffled(char *playlist);
 int mozart_remove_playlist(char *playlist);
 

@@ -10,17 +10,17 @@
 #ifndef _PLAYEROPERATIONS_H_
 #define _PLAYEROPERATIONS_H_
 
-void mozart_play_pause();
-void mozart_next_track();
-void mozart_prev_track();
-void mozart_replay_track();
+void mozart_play_pause(void);
+void mozart_next_track(void);
+void mozart_prev_track(void);
+void mozart_replay_track(void);
 void mozart_player_seek(char *seek);
 void mozart_shuffle(char *playlist);
 void mozart_unshuffle(char *playlist);
-void mozart_toggle_repeat_single();
-void mozart_toggle_repeat_all();
-gboolean mozart_get_repeat_single();
-gboolean mozart_get_repeat_all();
+void mozart_toggle_repeat_single(void);
+void mozart_toggle_repeat_all(void);
+gboolean mozart_get_repeat_single(void);
+gboolean mozart_get_repeat_all(void);
 
 extern GstElement *mozart_player;
 extern int mozart_active_playlist_index;

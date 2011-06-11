@@ -293,7 +293,7 @@ void mozart_copy_playlist(char *playlist)
  *
  * Returns 1..nr_tracks
  */
-int mozart_get_playlist_position()
+int mozart_get_playlist_position(void)
 {
 	return mozart_active_playlist_index + 1;
 }
@@ -303,7 +303,7 @@ int mozart_get_playlist_position()
  *
  * Returns the number of entries in the playlist
  */
-int mozart_get_playlist_size()
+int mozart_get_playlist_size(void)
 {
 	struct mozart_list_info_data *list_info;
 
@@ -318,7 +318,7 @@ int mozart_get_playlist_size()
  *
  * Returns the URI of the currently playing track.
  */
-char *mozart_get_current_uri()
+char *mozart_get_current_uri(void)
 {
 	struct mozart_list_info_data *list_info;
 
@@ -334,7 +334,7 @@ char *mozart_get_current_uri()
  *
  * Returns the name of the active playlist
  */
-char *mozart_get_active_playlist_name()
+char *mozart_get_active_playlist_name(void)
 {
 	return mozart_active_playlist;
 }
@@ -344,7 +344,7 @@ char *mozart_get_active_playlist_name()
  *
  * Returns the number of playlists
  */
-int mozart_get_number_of_playlists()
+int mozart_get_number_of_playlists(void)
 {
 	return g_list_length(mozart_playlists);
 }

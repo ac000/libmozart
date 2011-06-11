@@ -84,7 +84,7 @@ static gboolean mozart_cb_tag(GstBus *mozart_bus, GstMessage *mozart_message)
  * This gets the ball rolling and is called once at startup and then 
  * whenever the end of the current track is nearing.
  */
-void mozart_rock_and_roll()
+void mozart_rock_and_roll(void)
 {
 	struct mozart_list_info_data *list_info;
 
@@ -115,7 +115,7 @@ void mozart_rock_and_roll()
 /*
  * Reset playlist and player, ready for playing a new playlist.
  */
-static void mozart_quiesce()
+static void mozart_quiesce(void)
 {
 	mozart_playlists = NULL;
 	mozart_active_playlist_index = -1;
@@ -130,7 +130,7 @@ static void mozart_quiesce()
  * Returns one of; GST_STATE_VOID_PENDING, GST_STATE_NULL, GST_STATE_READY,
  * 					GST_STATE_PAUSED, GST_STATE_PLAYING
  */
-GstState mozart_get_player_state()
+GstState mozart_get_player_state(void)
 {
 	GstState state;
 
@@ -168,7 +168,7 @@ int mozart_convert_seconds_to_hms(int secs, int *hours, int *minutes,
  *
  * Returns >= 0 on success or -1 on failure
  */
-gint64 mozart_get_stream_position_ns()
+gint64 mozart_get_stream_position_ns(void)
 {
 	GstFormat fmt = GST_FORMAT_TIME;
 	gint64 pos;
@@ -184,7 +184,7 @@ gint64 mozart_get_stream_position_ns()
  *
  * Returns >= 0 on success or -1 on failure
  */
-int mozart_get_stream_position_sec()
+int mozart_get_stream_position_sec(void)
 {
 	gint64 ns;
 
@@ -218,7 +218,7 @@ int mozart_get_stream_position_hms(int *hours, int *minutes, int *seconds)
  *
  * Returns a value between 0.0 and 100.0
  */
-float __attribute__((deprecated)) mozart_get_stream_progress()
+float __attribute__((deprecated)) mozart_get_stream_progress(void)
 {
 	return ((float)mozart_get_stream_position_sec() /
 		(float)mozart_get_stream_duration_sec()) * 100;
@@ -229,7 +229,7 @@ float __attribute__((deprecated)) mozart_get_stream_progress()
  *
  * Returns >= 0 on success or -1 on failure
  */
-gint64 mozart_get_stream_duration_ns()
+gint64 mozart_get_stream_duration_ns(void)
 {
 	GstFormat fmt = GST_FORMAT_TIME;
 	gint64 duration;
@@ -245,7 +245,7 @@ gint64 mozart_get_stream_duration_ns()
  *
  * Returns >= 0 on success or -1 on failure
  */
-int mozart_get_stream_duration_sec()
+int mozart_get_stream_duration_sec(void)
 {
 	gint64 ns;
 
@@ -276,7 +276,7 @@ int __attribute__((deprecated)) mozart_get_stream_duration_hms(int *hours,
 /*
  * Return the value of the artist tag
  */
-char *mozart_get_tag_artist()
+char *mozart_get_tag_artist(void)
 {
 	return mozart_tag_artist;
 }
@@ -284,7 +284,7 @@ char *mozart_get_tag_artist()
 /*
  * Return the value of the album tag
  */
-char *mozart_get_tag_album()
+char *mozart_get_tag_album(void)
 {
 	return mozart_tag_album;
 }
@@ -292,7 +292,7 @@ char *mozart_get_tag_album()
 /*
  * Return the value of the title tag
  */
-char *mozart_get_tag_title()
+char *mozart_get_tag_title(void)
 {
 	return mozart_tag_title;
 }
@@ -301,7 +301,7 @@ char *mozart_get_tag_title()
  * Returns the value of tags_updated to indicate if
  * the tag information has been updated
  */
-int mozart_tags_updated()
+int mozart_tags_updated(void)
 {
 	return mozart_updated_tags;
 }
@@ -314,7 +314,7 @@ int mozart_tags_updated()
  * This function is used by applications to indicate that
  * they have recieved the updated tags
  */
-void mozart_set_got_tags()
+void mozart_set_got_tags(void)
 {
 	mozart_updated_tags = 0;
 }
@@ -358,7 +358,7 @@ void mozart_init(int argc, char *argv[])
 	mozart_quiesce();
 }
 
-void mozart_dump_state()
+void mozart_dump_state(void)
 {
 	int l;
 	int t;
@@ -416,7 +416,7 @@ static void mozart_free_playlist(struct mozart_list_info_data *list_info)
 /*
  * Clean up GStreamer stuff
  */
-void mozart_destroy()
+void mozart_destroy(void)
 {
 	struct mozart_list_info_data *list_info;
 

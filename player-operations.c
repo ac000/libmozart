@@ -21,7 +21,7 @@
 /* 
  * Toggle the state of the player to playing/paused
  */
-void mozart_play_pause()
+void mozart_play_pause(void)
 {
 	GstState state;
 
@@ -35,7 +35,7 @@ void mozart_play_pause()
 /*
  * Play next track of the playlist
  */
-void mozart_next_track()
+void mozart_next_track(void)
 {
 	if (mozart_active_playlist_index + 1 == mozart_get_playlist_size())
 		mozart_active_playlist_index = -1;
@@ -51,7 +51,7 @@ void mozart_next_track()
  * Move the track index to point to the previous track and signal
  * the player that the current stream is about to finish.
  */
-void mozart_prev_track()
+void mozart_prev_track(void)
 {
 	/*
 	 * We decrement the index by 2 here because
@@ -73,7 +73,7 @@ void mozart_prev_track()
 /*
  * Go back to the begining of the current stream
  */
-void mozart_replay_track()
+void mozart_replay_track(void)
 {
 	gst_element_seek_simple(mozart_player, GST_FORMAT_TIME,
 			GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT, 0);
@@ -263,7 +263,7 @@ out:
 /*
  * Set/unset the repeat single track flag
  */
-void mozart_toggle_repeat_single()
+void mozart_toggle_repeat_single(void)
 {
 	if (!mozart_repeat_single)
 		mozart_repeat_single = TRUE;
@@ -274,7 +274,7 @@ void mozart_toggle_repeat_single()
 /*
  * Set/unset the repeat all track flag
  */
-void mozart_toggle_repeat_all()
+void mozart_toggle_repeat_all(void)
 {
         if (!mozart_repeat_all)
                 mozart_repeat_all = TRUE;
@@ -288,7 +288,7 @@ void mozart_toggle_repeat_all()
  * Return TRUE for repeat single is set
  * Return FALSE for repwat single is unset
  */
-gboolean mozart_get_repeat_single()
+gboolean mozart_get_repeat_single(void)
 {
 	return mozart_repeat_single;
 }
@@ -299,7 +299,7 @@ gboolean mozart_get_repeat_single()
  * Return TRUE for repeat all is set
  * Return FALSE for repwat all is unset
  */
-gboolean mozart_get_repeat_all()
+gboolean mozart_get_repeat_all(void)
 {
 	return mozart_repeat_all;
 }
